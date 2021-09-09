@@ -139,9 +139,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		//TODO: Use this to test end of game conditions e.g.
 		//initializeFullDanceFloor(currentDanceFloorState);
 
-
-
-
  		// Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
 		// Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
 		manager = new AssetManager();
@@ -173,10 +170,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
-
-
-
-
 	private void addSprites() {
 		Array<AtlasRegion> regions = textureAtlas.getRegions();
 
@@ -187,9 +180,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
-
-
-
 	private void drawSprite(String name, float x, float y) {
 		Sprite sprite = sprites.get(name);
 
@@ -197,9 +187,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		sprite.draw(batch);
 	}
-
-
-
 
 	@Override
 	public void render () {
@@ -209,11 +196,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		//TODO: Draw all dancers from state
 		//batch.draw(greenDancerImage, 10, 10);
-
-
-
-
-
 
 		//drawSprite("redDancer", 0, 0);
 		//drawSprite("greenDancer", tileSideLength, tileSideLength);
@@ -230,23 +212,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		}
 
+		detectInput();
+
 		//TODO: Draw UI that help player play
 		batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
-
-
-
-
-			// TODO: seems weird to include inputs inside of render function. I guess render is the main loop. Perhaps get this out somehow?
-		// Inputs from mouse buttons
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
-			//TODO: check which tile was clicked
-			//TODO: find that square's coordinates
-			//TODO: selectedTile_sprite.setPosition(X, Y)
-			selectedTile_sprite.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY() );
-
-		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
-			//TODO: Undo on right click maybe?
-			selectedTile_sprite.setPosition(Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
 
 		//Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
 		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
@@ -257,6 +226,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		renderer.render();
 
 		batch.end();
+	}
+
+	public void detectInput(){
+		// TODO: seems weird to include inputs inside of render function. I guess render is the main loop. Perhaps get this out somehow?
+		// Inputs from mouse buttons
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+			//TODO: check which tile was clicked
+			//TODO: find that square's coordinates
+			//TODO: selectedTile_sprite.setPosition(X, Y)
+			selectedTile_sprite.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+
+		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+			//TODO: Undo on right click maybe?
+			selectedTile_sprite.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
 	}
 
 
