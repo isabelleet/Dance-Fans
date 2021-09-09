@@ -107,51 +107,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		return danceFloor;
 	}
 
-
-	public class DanceFloorTile  {
-		private Dancer occupant;
-
-		public String getOccupantName() {
-			//occupant = new Dancer().setSpriteName(spriteName);
-			return occupant.spriteName;
-		}
-
-		public void setOccupant(String spriteName) {
-			//occupant = new Dancer().setSpriteName(spriteName);
-			//this.occupant = this.occupant.setSpriteName(spriteName);
-		}
-
-		// Constructor
-		public DanceFloorTile(String spriteName) {
-			this.occupant = new Dancer(spriteName); // TODO: replace with empty tile or something
-		}
-
-
-	}
-
-
-	public class Dancer  {
-		private String spriteName = "";
-
-
-		public void setSpriteName(String name) {
-			this.spriteName = name;
-		}
-		// Constructor
-		public Dancer(String spriteName) {
-			this.spriteName = spriteName;
-		}
-
-
-
-
-	}
-
-
 	@Override
 	public void create () {
-
-
 
 		batch = new SpriteBatch();
 		// load images for dancers and main characters
