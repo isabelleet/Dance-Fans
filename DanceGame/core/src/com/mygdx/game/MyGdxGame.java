@@ -58,7 +58,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	int dancefloorHeight = 6;
 	int dancefloorWidth = 9;
   	DanceFloorTile currentDanceFloorState[] = new DanceFloorTile[ dancefloorWidth * dancefloorHeight ];
-  //TODO:
+    //TODO:
 //	DanceFloor currentDanceFloorState = new DanceFloor();
 
 
@@ -162,6 +162,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		//camera = new OrthographicCamera(1152.f, 768.f);
 		camera = new OrthographicCamera(1600.f, 900.f);
 		//TODO: fix bug with camera, where you click isn't the same as where things are rendered.
+		//bug is caused by the input method working in a different coordinate system from the render thing,
+		//possible solution: find a way to convert between these systems.
 		camera.position.x = mapWidthInPixels * .5f;
 		camera.position.y = mapHeightInPixels * .5f;
 
@@ -229,17 +231,28 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void detectInput(){
+		int xOffset = (128 + Gdx.graphics.getWidth() - mapWidthInPixels)/2;
+		int yOffset = (128 + Gdx.graphics.getHeight() - mapHeightInPixels)/2;
 		// TODO: seems weird to include inputs inside of render function. I guess render is the main loop. Perhaps get this out somehow?
+
+		if(Gdx.graphics.getWidth() != 1600){
+
+		}
+
 		// Inputs from mouse buttons
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 			//TODO: check which tile was clicked
 			//TODO: find that square's coordinates
 			//TODO: selectedTile_sprite.setPosition(X, Y)
-			selectedTile_sprite.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+			selectedTile_sprite.setPosition(Gdx.input.getX() - xOffset, Gdx.graphics.getHeight() - Gdx.input.getY() - yOffset);
+			//TODO: mapWidth/height are not dynamic with screensize, implement a fix for this and the camera/input/problem should be fixed
+			System.out.println(mapWidthInPixels);
+		}
 
-		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
 			//TODO: Undo on right click maybe?
 			selectedTile_sprite.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+		}
 	}
 
 
