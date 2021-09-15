@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 import com.badlogic.gdx.Input;
+import com.mygdx.game.model.DanceFloorTile;
 
 
 public class MyGdxGame extends ApplicationAdapter {

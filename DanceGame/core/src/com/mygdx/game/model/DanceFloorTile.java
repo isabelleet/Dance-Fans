@@ -1,7 +1,7 @@
-package com.mygdx.game;
+package com.mygdx.game.model;
 
 public class DanceFloorTile {
-    private Dancer occupant;
+    private ObjectOnFloor occupant;
 
     public String getOccupantName() {
         //occupant = new Dancer().setSpriteName(spriteName);
@@ -15,6 +15,6 @@ public class DanceFloorTile {
 
     // Constructor
     public DanceFloorTile(String spriteName) {
-        this.occupant = new Dancer(spriteName); // TODO: replace with empty tile or something
+        this.occupant = new DanceFan(spriteName); // TODO: replace with empty tile or something
     }
 }
