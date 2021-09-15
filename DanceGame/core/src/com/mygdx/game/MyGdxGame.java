@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.assets.AssetManager;
 //import com.badlogic.gdx.maps.Map;
@@ -23,6 +24,8 @@ import com.badlogic.gdx.Input;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
+	TextureRegion textureRegion = new TextureRegion();
+
 	Texture img;
 	Texture selectedTile;
 
@@ -37,7 +40,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Sprite greenMainDancer;
 	Sprite redMainDancer;
 	Sprite selectedTile_sprite;
-
+	Sprite openCard;
 
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
@@ -111,6 +114,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 
 		batch = new SpriteBatch();
+		textureRegion.setRegion(new Card().getImg());
+
 		// load images for dancers and main characters
 		//https://www.codeandweb.com/texturepacker/start-download?os=mac&bits=64&download=true
 		//tiled
@@ -125,6 +130,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		redDancer = textureAtlas.createSprite("redDancer");
 		greenMainDancer = textureAtlas.createSprite("greenMainDancer");
 		redMainDancer = textureAtlas.createSprite("redMainDancer");
+
 
 		//selectedTile = new Texture(Gdx.files.internal("selectionBorder.png"));
 		selectedTile_sprite = textureAtlas.createSprite("selectionBorder");
@@ -203,6 +209,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		//drawSprite("greenDancer", tileSideLength, tileSideLength);
 
 		//int rowIndex, columnIndex;
+
 		for (int rowIndex = 0; rowIndex < dancefloorWidth; rowIndex++){
 			for (int columnIndex = 0; columnIndex < dancefloorHeight; columnIndex++){
 				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * dancefloorWidth);
@@ -214,7 +221,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		}
 
-		detectInput();
+
 
 		//TODO: Draw UI that help player play
 		batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
@@ -223,11 +230,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		//TODO: Cards can be displayed without removing all other sprites
+		openCard = new Sprite(textureRegion.getTexture(), 80, 80);
+		sprites.put("openCard", openCard);
+		drawSprite("openCard", 20, 20);
+		detectInput();
+
+
 		camera.update();
 		renderer.setView(camera);
 		renderer.render();
 
 		batch.end();
+
+
 	}
 
 	public void detectInput(){
