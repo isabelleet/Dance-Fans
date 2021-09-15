@@ -12,6 +12,9 @@ public class DanceFloor {
         this.danceFloorTiles = new DanceFloorTile[x*y];
     }
 
+
+
+    //TODO: Use this to test end of game conditions e.g.
     public DanceFloorTile[] initializeFullDanceFloor(int dancefloorWidth, int dancefloorHeight) {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {

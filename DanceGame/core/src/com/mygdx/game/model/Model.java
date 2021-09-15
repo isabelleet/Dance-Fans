@@ -8,9 +8,11 @@ import com.mygdx.game.Controller;
 
 public class Model {
 
+    //TODO: DanceFans should be many
     private DanceFan redDancer = new DanceFan("redPlayer");
     private DanceFan greenDancer = new DanceFan("greenPlayer");
-    private DanceFloor danceFloor;
+    public DanceFloor danceFloor;
+    //TODO: Maybe later have multiple MainDancers per player
     private MainDancer playerOne;
     private MainDancer playerTwo;
 
@@ -21,6 +23,7 @@ public class Model {
     // Map properties
     public int tileWidth, tileHeight,
             mapWidthInTiles, mapHeightInTiles,
+            tileSideLength,
             mapWidthInPixels, mapHeightInPixels;
 
     //TODO: Add game logic and stuff
@@ -29,8 +32,7 @@ public class Model {
         this.danceFloor = danceFloor;
     }
 
-
-    public void startNewGame(Controller controller){
+    public void startNewGame(){
 
         // Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
         // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
@@ -45,6 +47,7 @@ public class Model {
         MapProperties properties = map.getProperties();
         tileWidth = properties.get("tilewidth", Integer.class);
         tileHeight        = properties.get("tileheight", Integer.class);
+        tileSideLength = tileHeight;
         mapWidthInTiles   = properties.get("width", Integer.class);
         mapHeightInTiles  = properties.get("height", Integer.class);
         mapWidthInPixels  = mapWidthInTiles  * tileWidth;

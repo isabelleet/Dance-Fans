@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new DanceFans(), config);
 
-		config.title = "Dance Game";
+		config.title = "Dance Fans";
 		config.width = 1600;
 		config.height = 900;
 		new LwjglApplication(new DanceFans(), config);
