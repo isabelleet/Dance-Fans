@@ -1,6 +1,6 @@
 package com.mygdx.game.model;
 
-public class DanceFan extends ObjectOnFloor {
+public class DanceFan extends Dancer {
     private String spriteName = "";
 
     public void setSpriteName(String name) {

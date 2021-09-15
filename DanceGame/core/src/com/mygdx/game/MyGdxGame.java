@@ -19,7 +19,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 import com.badlogic.gdx.Input;
+import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.DanceFloorTile;
+import com.mygdx.game.model.Model;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -39,17 +41,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Sprite redMainDancer;
 	Sprite selectedTile_sprite;
 
-
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
-
-	// Map
-	private TiledMap map;
-	private AssetManager manager;
-
-	// Map properties
-	private int tileWidth, tileHeight,
-			mapWidthInTiles, mapHeightInTiles,
-			mapWidthInPixels, mapHeightInPixels;
 
 	// Camera and render
 	private OrthographicCamera camera;
@@ -75,38 +67,6 @@ public class MyGdxGame extends ApplicationAdapter {
 //
 //	}
 
-	private DanceFloorTile[] initializeDanceFloor(DanceFloorTile[] danceFloor) {
-		int i;
-		for (i = 0; i < danceFloor.length; i++) {
-
-			if (i == 11)
-				danceFloor[i] = new DanceFloorTile("redMainDancer");
-			else if (i == ((dancefloorWidth*dancefloorHeight) - dancefloorWidth - 2) )
-				danceFloor[i] = new DanceFloorTile("greenMainDancer");
-
-			else
-				danceFloor[i] = new DanceFloorTile("transparent_tile");
-
-		}
-		return danceFloor;
-	}
-
-	private DanceFloorTile[] initializeFullDanceFloor(DanceFloorTile[] danceFloor) {
-		int i;
-		for (i = 0; i < danceFloor.length; i++) {
-
-			if (i == 11)
-				danceFloor[i] = new DanceFloorTile("redMainDancer");
-			else if (i == ((dancefloorWidth*dancefloorHeight) - dancefloorWidth - 2) )
-				danceFloor[i] = new DanceFloorTile("greenMainDancer");
-			else if (i % 2 == 0)
-				danceFloor[i] = new DanceFloorTile("redDancer");
-			else
-				danceFloor[i] = new DanceFloorTile("greenDancer");
-
-		}
-		return danceFloor;
-	}
 
 	@Override
 	public void create () {
@@ -136,28 +96,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		// Setup dance floor
 
-		initializeDanceFloor(currentDanceFloorState);
+
 		//TODO: Use this to test end of game conditions e.g.
 		//initializeFullDanceFloor(currentDanceFloorState);
-
- 		// Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
-		// Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
-		manager = new AssetManager();
-		manager.setLoader(TiledMap.class, new TmxMapLoader());
-		manager.load("maps/BasicDanceFloor.tmx", TiledMap.class);
-		manager.finishLoading();
-
-		map = manager.get("maps/BasicDanceFloor.tmx", TiledMap.class);
-
-		// Read properties
-		MapProperties properties = map.getProperties();
-		tileWidth = properties.get("tilewidth", Integer.class);
-		tileHeight        = properties.get("tileheight", Integer.class);
-		mapWidthInTiles   = properties.get("width", Integer.class);
-		mapHeightInTiles  = properties.get("height", Integer.class);
-		mapWidthInPixels  = mapWidthInTiles  * tileWidth;
-		mapHeightInPixels = mapHeightInTiles * tileHeight;
-
 
 		// Set up the camera
 		//camera = new OrthographicCamera(1152.f, 768.f);
@@ -165,11 +106,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		//TODO: fix bug with camera, where you click isn't the same as where things are rendered.
 		//bug is caused by the input method working in a different coordinate system from the render thing,
 		//possible solution: find a way to convert between these systems.
-		camera.position.x = mapWidthInPixels * .5f;
-		camera.position.y = mapHeightInPixels * .5f;
+		camera.position.x = Model.mapWidthInTiles * .5f;
+		camera.position.y = Model.mapHeightInTiles * .5f;
 
 		// Instantiation of the render for the map object
-		renderer = new OrthogonalTiledMapRenderer(map);
+		renderer = new OrthogonalTiledMapRenderer(Model.map);
 
 	}
 
@@ -232,8 +173,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void detectInput(){
-		int xOffset = (128 + Gdx.graphics.getWidth() - mapWidthInPixels)/2;
-		int yOffset = (128 + Gdx.graphics.getHeight() - mapHeightInPixels)/2;
+		int xOffset = (128 + Gdx.graphics.getWidth() - Model.mapWidthInPixels)/2;
+		int yOffset = (128 + Gdx.graphics.getHeight() - Model.mapHeightInPixels)/2;
 		// TODO: seems weird to include inputs inside of render function. I guess render is the main loop. Perhaps get this out somehow?
 
 
@@ -244,7 +185,6 @@ public class MyGdxGame extends ApplicationAdapter {
 			//TODO: selectedTile_sprite.setPosition(X, Y)
 			selectedTile_sprite.setPosition(Gdx.input.getX() - xOffset, Gdx.graphics.getHeight() - Gdx.input.getY() - yOffset);
 			//TODO: mapWidth/height are not dynamic with screensize, implement a fix for this and the camera/input/problem should be fixed
-			System.out.println(mapWidthInPixels);
 		}
 
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
@@ -260,7 +200,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
-		manager.dispose();
 		sprites.clear();
 		textureAtlas.dispose();
 	}

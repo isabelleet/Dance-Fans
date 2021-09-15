@@ -1,11 +1,11 @@
 package com.mygdx.game.model;
 
-public class ObjectOnFloor {
+public class Dancer {
 
     private int id;
     private String name;
 
-    public ObjectOnFloor(String name){
+    public Dancer(String name){
         this.name = name;
     }
 
