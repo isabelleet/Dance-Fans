@@ -236,9 +236,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		int yOffset = (128 + Gdx.graphics.getHeight() - mapHeightInPixels)/2;
 		// TODO: seems weird to include inputs inside of render function. I guess render is the main loop. Perhaps get this out somehow?
 
-		if(Gdx.graphics.getWidth() != 1600){
-
-		}
 
 		// Inputs from mouse buttons
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {

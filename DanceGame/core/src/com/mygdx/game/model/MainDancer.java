@@ -4,4 +4,7 @@ public class MainDancer extends ObjectOnFloor {
 
     private String team;
 
+    public MainDancer(String name) {
+        super(name);
+    }
 }

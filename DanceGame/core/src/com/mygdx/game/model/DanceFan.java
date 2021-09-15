@@ -9,7 +9,7 @@ public class DanceFan extends ObjectOnFloor {
 
     // Constructor
     public DanceFan(String spriteName) {
-        this.spriteName = spriteName;
+        super(spriteName);
     }
 
     public void move(){
