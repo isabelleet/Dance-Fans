@@ -22,7 +22,7 @@ import com.badlogic.gdx.Input;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.DanceFloorTile;
 import com.mygdx.game.model.Model;
-import com.mygdx.game.model.DanceFans;
+import com.mygdx.game.DanceFans;
 
 //public class View extends ApplicationAdapter {
 public class View {
@@ -63,7 +63,6 @@ public class View {
 
 
 
-	@Override
 	public void create () {
 
 		//# Things to draw
@@ -120,8 +119,6 @@ public class View {
 		sprite.draw(batch);
 	}
 
-
-	@Override
 	public void render () {
 		ScreenUtils.clear(1, 0, 0, 1);
 

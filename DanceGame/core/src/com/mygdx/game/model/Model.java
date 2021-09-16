@@ -28,8 +28,8 @@ public class Model {
 
     //TODO: Add game logic and stuff
 
-    public Model(DanceFloor danceFloor){
-        this.danceFloor = danceFloor;
+    public Model(){
+        this.danceFloor = new DanceFloor(mapWidthInTiles, mapHeightInTiles);
     }
 
     public void startNewGame(){

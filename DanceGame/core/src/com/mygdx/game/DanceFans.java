@@ -1,8 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
-import com.mygdx.game.model.View;
+import com.mygdx.game.View;
 
 public class DanceFans extends ApplicationAdapter {
 
@@ -25,19 +26,19 @@ public class DanceFans extends ApplicationAdapter {
         gameState = new Model();
         controller = new Controller();
         view = new View();
-        View.create();
+        view.create();
 
 
     }
 
     @Override
     public void render () {
-        View.render()
+        view.render();
     }
 
     @Override
     public void dispose(){
-        View.dispose()
+        view.dispose();
         //Model.dispose() // ??? Kanske ska vara så med?
     }
 }
