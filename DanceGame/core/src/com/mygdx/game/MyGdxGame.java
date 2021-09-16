@@ -25,6 +25,7 @@ import com.badlogic.gdx.Input;
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	TextureRegion textureRegion = new TextureRegion();
+	Card openCard1;
 
 	Texture img;
 	Texture selectedTile;
@@ -114,7 +115,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 
 		batch = new SpriteBatch();
-		textureRegion.setRegion(new Card().getImg());
+		openCard1 = new Card();
+		textureRegion.setRegion(openCard1.getImg());
 
 		// load images for dancers and main characters
 		//https://www.codeandweb.com/texturepacker/start-download?os=mac&bits=64&download=true
@@ -136,7 +138,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		selectedTile_sprite = textureAtlas.createSprite("selectionBorder");
 		selectedTile_sprite.setPosition(0, 0);
 
+		//----------------------------------------------------------------------------------------------
+		openCard = new Sprite(new Texture("original_images/dancePattern1.png"), 258,350);
+		sprites.put("openCard", openCard);
+
 		addSprites();
+
 
 
 		// Setup dance floor
@@ -201,9 +208,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(1, 0, 0, 1);
 
 		batch.begin();
+		detectInput();
 
 		//TODO: Draw all dancers from state
 		//batch.draw(greenDancerImage, 10, 10);
+
 
 		//drawSprite("redDancer", 0, 0);
 		//drawSprite("greenDancer", tileSideLength, tileSideLength);
@@ -222,19 +231,21 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 
-
 		//TODO: Draw UI that help player play
 		batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
+
 
 		//Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
 		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		//TODO: Cards can be displayed without removing all other sprites
-		openCard = new Sprite(textureRegion.getTexture(), 80, 80);
-		sprites.put("openCard", openCard);
-		drawSprite("openCard", 20, 20);
-		detectInput();
+		openCard.setPosition(-50,-50);
+		openCard.draw(batch);
+		//batch.draw(openCard.getTexture(), 50,50);
+		//drawSprite("openCard", 0, 50);
+
+
 
 
 		camera.update();
@@ -262,13 +273,21 @@ public class MyGdxGame extends ApplicationAdapter {
 			//TODO: selectedTile_sprite.setPosition(X, Y)
 			selectedTile_sprite.setPosition(Gdx.input.getX() - xOffset, Gdx.graphics.getHeight() - Gdx.input.getY() - yOffset);
 			//TODO: mapWidth/height are not dynamic with screensize, implement a fix for this and the camera/input/problem should be fixed
-			System.out.println(mapWidthInPixels);
+			//System.out.println(mapWidthInPixels);
+
+
+			// card detection
+			if(openCard.getBoundingRectangle().contains(Gdx.input.getX()-xOffset,Gdx.graphics.getHeight() - Gdx.input.getY()-yOffset)){
+				openCard1.cardClicked();
+			}
 		}
 
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
 			//TODO: Undo on right click maybe?
 			selectedTile_sprite.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
 		}
+
+
 	}
 
 
