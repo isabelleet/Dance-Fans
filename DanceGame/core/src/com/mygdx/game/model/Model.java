@@ -1,10 +1,13 @@
 package com.mygdx.game.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.mygdx.game.Controller;
+import com.mygdx.game.View;
 
 public class Model {
 
@@ -16,46 +19,19 @@ public class Model {
     private MainDancer playerOne;
     private MainDancer playerTwo;
 
-    // Map
-    public TiledMap map;
-    private AssetManager manager;
-
-    // Map properties
-    public int tileWidth, tileHeight,
-            mapWidthInTiles, mapHeightInTiles,
-            tileSideLength,
-            mapWidthInPixels, mapHeightInPixels;
-
     //TODO: Add game logic and stuff
 
     public Model(){
-        this.danceFloor = new DanceFloor(mapWidthInTiles, mapHeightInTiles);
+        this.danceFloor = new DanceFloor();
+
+
     }
 
     public void startNewGame(){
-
         // Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
         // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
-        manager = new AssetManager();
-        manager.setLoader(TiledMap .class, new TmxMapLoader());
-        manager.load("maps/BasicDanceFloor.tmx", TiledMap.class);
-        manager.finishLoading();
-
-        map = manager.get("maps/BasicDanceFloor.tmx", TiledMap.class);
-
-        // Read properties
-        MapProperties properties = map.getProperties();
-        tileWidth = properties.get("tilewidth", Integer.class);
-        tileHeight        = properties.get("tileheight", Integer.class);
-        tileSideLength = tileHeight;
-        mapWidthInTiles   = properties.get("width", Integer.class);
-        mapHeightInTiles  = properties.get("height", Integer.class);
-        mapWidthInPixels  = mapWidthInTiles  * tileWidth;
-        mapHeightInPixels = mapHeightInTiles * tileHeight;
-
-        this.danceFloor = new DanceFloor(mapWidthInTiles, mapHeightInTiles);
-        danceFloor.initializeDanceFloor(mapWidthInTiles, mapHeightInTiles);
-
+        this.danceFloor = new DanceFloor();
+        danceFloor.initializeDanceFloor();
 
     }
 

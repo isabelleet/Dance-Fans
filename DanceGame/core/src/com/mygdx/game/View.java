@@ -36,7 +36,7 @@ public class View {
 	Sprite redDancer;
 	Sprite greenMainDancer;
 	Sprite redMainDancer;
-	Sprite selectedTile_sprite;
+	public Sprite selectedTile_sprite;
 
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
@@ -44,10 +44,6 @@ public class View {
 	// Camera and render
 	private OrthographicCamera camera;
 	private OrthogonalTiledMapRenderer renderer;
-
-
-
-
 
 
 //	public class DanceFloor  {
@@ -61,9 +57,21 @@ public class View {
 //
 //	}
 
+    public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
+        // Set up the camera
+        camera = new OrthographicCamera(1600.f, 900.f);
+        camera.position.x = mapWidthInTiles * .5f;
+        camera.position.y = mapHeightInTiles * .5f;
+
+    }
+
+    public void initRenderer(TiledMap map){
+        renderer = new OrthogonalTiledMapRenderer(map);
+    }
 
 
-	public void create () {
+
+	public void create() {
 
 		//# Things to draw
 		batch = new SpriteBatch();
@@ -79,8 +87,6 @@ public class View {
 		greenMainDancer = textureAtlas.createSprite("greenMainDancer");
 		redMainDancer = textureAtlas.createSprite("redMainDancer");
 
-
-
 		// load images for helper UI
 		//selectedTile = new Texture(Gdx.files.internal("selectionBorder.png"));
 		selectedTile_sprite = textureAtlas.createSprite("selectionBorder");
@@ -90,13 +96,8 @@ public class View {
 
 
 		//# Which things to draw Where
-		// Set up the camera
-		camera = new OrthographicCamera(1600.f, 900.f);
-		camera.position.x = Model.mapWidthInTiles * .5f;
-		camera.position.y = Model.mapHeightInTiles * .5f;
 
 		// Instantiation of the render for the map object
-		renderer = new OrthogonalTiledMapRenderer(Model.map);
 
 	}
 
@@ -119,27 +120,23 @@ public class View {
 		sprite.draw(batch);
 	}
 
-	public void render () {
+	public void render (DanceFloor danceFloor) {
 		ScreenUtils.clear(1, 0, 0, 1);
-
-		detectInput();
 
 		batch.begin();
 
 		// Draw Dance Floor and things on it
-		for (int rowIndex = 0; rowIndex < dancefloorWidth; rowIndex++){
-			for (int columnIndex = 0; columnIndex < dancefloorHeight; columnIndex++){
-				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * dancefloorWidth);
-				String spriteName = DanceFans.model.danceFloor[currentIndexInDanceFloorArray].getOccupantName();
-				drawSprite(spriteName, tileSideLength * rowIndex, tileSideLength * columnIndex );
+		for (int rowIndex = 0; rowIndex < danceFloor.mapWidthInTiles; rowIndex++){
+			for (int columnIndex = 0; columnIndex < danceFloor.mapHeightInTiles; columnIndex++){
+				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
+				String spriteName = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getOccupantName();
+			    drawSprite(spriteName, danceFloor.tileSideLength * rowIndex, danceFloor.tileSideLength * columnIndex );
 			}
 
 		}
 
-
 		//TODO: Draw UI that help player play
 		batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
-
 
 		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -151,12 +148,10 @@ public class View {
 		batch.end();
 	}
 
+	public void moveSelectorSprite(){
+    	selectedTile_sprite.translateX(3f);
+	}
 
-
-
-
-	
-	@Override
 	public void dispose () {
 		batch.dispose();
 		img.dispose();

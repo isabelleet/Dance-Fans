@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.View;
@@ -24,16 +25,22 @@ public class DanceFans extends ApplicationAdapter {
     @Override
     public void create(){
         gameState = new Model();
-        controller = new Controller();
+        gameState.startNewGame();
         view = new View();
         view.create();
-
-
+        //Possible camera fix, but MVC is more importante!
+        view.initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //Init renderer
+        view.initRenderer(gameState.danceFloor.map);
+        controller = new Controller();
+        // controller.init();
+        Gdx.input.setInputProcessor(this.controller);
     }
 
     @Override
     public void render () {
-        view.render();
+        view.render(gameState.danceFloor);
+        //System.out.println(view.selectedTile_sprite.getX());
     }
 
     @Override
