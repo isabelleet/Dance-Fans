@@ -18,7 +18,11 @@ public class DanceFloor {
             tileSideLength,
             mapWidthInPixels, mapHeightInPixels;
 
+
     public DanceFloor(){
+
+        // Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
+        // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
         manager = new AssetManager();
         manager.setLoader(TiledMap .class, new TmxMapLoader());
         manager.load("maps/BasicDanceFloor.tmx", TiledMap.class);
@@ -56,6 +60,7 @@ public class DanceFloor {
         return this.danceFloorTiles;
     }
 
+    //TODO: variables for chosen MainDancers
     public DanceFloorTile[] initializeDanceFloor() {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
@@ -71,5 +76,31 @@ public class DanceFloor {
         }
         return this.danceFloorTiles;
     }
+
+
+
+
+
+    public int getIndexOnDancefloorOfCurrentPlayerMainDancer() {
+
+
+        int index;
+        for (index = 0; index < this.danceFloorTiles.length; index++) {
+            if (this.danceFloorTiles[i].occupant.player == model.whoseTurnItIs)
+                return index;
+        }
+        //TODO: error? Each player must always have their main dancer on the dancefloor.
+        return -1;
+
+    }
+
+    public int removeDancerFromDancefloorIndex(int danceFloorIndex) {
+        this.danceFloorTiles[danceFloorIndex].setOccupant(""); //TODO: prob not just have empty string to mean no dancer...
+
+    }
+
+
+
+
 
 }

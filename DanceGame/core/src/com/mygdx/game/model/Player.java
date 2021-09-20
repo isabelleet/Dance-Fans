@@ -2,6 +2,13 @@ package com.mygdx.game.model;
 
 public class Player {
 
+    public Enum <PlayerTurnSlot> playerTurnSlot;
+    // handOfCards
     private MainDancer mainDancer;
-    private int fanCount;
+
+
+    public Player(Enum<PlayerTurnSlot> playerTurnSlot, MainDancer mainDancer){
+        this.playerTurnSlot = playerTurnSlot;
+        this.mainDancer = mainDancer;
+    }
 }

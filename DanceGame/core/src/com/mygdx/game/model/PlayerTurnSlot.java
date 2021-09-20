@@ -1,5 +1,5 @@
 package com.mygdx.game.model;
 
-public enum PlayerSlot {
+public enum PlayerTurnSlot {
     ONE, TWO
 }
