@@ -217,7 +217,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		//drawSprite("redDancer", 0, 0);
 		//drawSprite("greenDancer", tileSideLength, tileSideLength);
 
-		//int rowIndex, columnIndex;
 
 		for (int rowIndex = 0; rowIndex < dancefloorWidth; rowIndex++){
 			for (int columnIndex = 0; columnIndex < dancefloorHeight; columnIndex++){
@@ -231,6 +230,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 
+
+
 		//TODO: Draw UI that help player play
 		batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
 
@@ -238,12 +239,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		//Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
 		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		//TODO: Cards can be displayed without removing all other sprites
-		openCard.setPosition(-50,-50);
-		openCard.draw(batch);
-		//batch.draw(openCard.getTexture(), 50,50);
-		//drawSprite("openCard", 0, 50);
 
 
 
@@ -253,6 +248,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		renderer.render();
 
 		batch.end();
+
+		batch.begin();
+		//TODO: Cards can be displayed without removing all other sprites
+		openCard.setPosition(-50,-50);
+		openCard.draw(batch);
+		//batch.draw(openCard.getTexture(), 50,50);
+		//drawSprite("openCard", 0, 50);
+		//int rowIndex, columnIndex;
+		batch.end();
+
+
 
 
 	}
@@ -276,7 +282,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			//System.out.println(mapWidthInPixels);
 
 
-			// card detection
+			// TODO: card detection is a bit off
 			if(openCard.getBoundingRectangle().contains(Gdx.input.getX()-xOffset,Gdx.graphics.getHeight() - Gdx.input.getY()-yOffset)){
 				openCard1.cardClicked();
 			}
