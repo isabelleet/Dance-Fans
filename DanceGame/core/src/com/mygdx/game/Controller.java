@@ -57,7 +57,6 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        System.out.println("key up" + keycode);
         return false;
     }
 

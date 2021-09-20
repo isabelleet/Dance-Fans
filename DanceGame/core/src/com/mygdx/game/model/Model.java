@@ -42,6 +42,8 @@ public class Model {
     }
 
     public void moveP1(int keycode){
+        danceFloor.setTile(tileNumber(playerOne.getX(), playerOne.getY()));
+
         switch (keycode){
             case 19:
                 playerOne.setCoord(playerOne.getX(), playerOne.getY() + 1);
@@ -50,7 +52,7 @@ public class Model {
                 playerOne.setCoord(playerOne.getX() , playerOne.getY() -1);
                 break;
             case 21:
-                playerOne.setCoord(playerOne.getX() - 1, playerOne.getY()+1);
+                playerOne.setCoord(playerOne.getX() - 1, playerOne.getY());
                 break;
             case 22:
                 playerOne.setCoord(playerOne.getX() + 1, playerOne.getY());
@@ -58,7 +60,7 @@ public class Model {
         }
 
         danceFloor.setTile(tileNumber(playerOne.getX(), playerOne.getY()), playerOne);
-        danceFloor.setTile(tileNumber(playerOne.getX(), playerOne.getY()));
+
         System.out.println("x " + playerOne.getX() + " y " + playerOne.getY());
     }
 
