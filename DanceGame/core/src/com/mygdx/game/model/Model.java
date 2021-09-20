@@ -18,7 +18,8 @@ public class Model {
     //TODO: Maybe later have multiple MainDancers per player
     private MainDancer playerOne;
     private MainDancer playerTwo;
-
+    private Player whoseTurnItIs;
+    
     //TODO: Add game logic and stuff
 
     public Model(){
