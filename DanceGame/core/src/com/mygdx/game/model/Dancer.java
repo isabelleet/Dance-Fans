@@ -13,3 +13,9 @@ public class Dancer {
         return this.name;
     }
 }
+
+
+
+    //TODO: Add this for constructors to DanceFan class
+    //private DanceFan redDancer = new DanceFan("redPlayer");
+    //private DanceFan greenDancer = new DanceFan("greenPlayer");

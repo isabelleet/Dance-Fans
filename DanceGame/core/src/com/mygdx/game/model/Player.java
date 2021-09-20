@@ -4,5 +4,4 @@ public class Player {
 
     private MainDancer mainDancer;
     private int fanCount;
-
 }
