@@ -50,7 +50,7 @@ public class Controller implements InputProcessor {
     public boolean keyDown(int keycode) {
         System.out.println("key down" + keycode);
         if(keycode <= 22 && keycode >=19) {
-            model.moveP1(keycode);
+            model.moveSelect(keycode);
         }
         return false;
     }

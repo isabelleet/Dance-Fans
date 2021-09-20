@@ -45,6 +45,9 @@ public class View {
 	private OrthographicCamera camera;
 	private OrthogonalTiledMapRenderer renderer;
 
+	// View should also have the model, right?
+	private Model model;
+
 
     public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
         // Set up the camera
@@ -58,7 +61,9 @@ public class View {
         renderer = new OrthogonalTiledMapRenderer(map);
     }
 
-	public void create() {
+	public void create(Model model) {
+
+    	this.model = model;
 
 		//# Things to draw
 		batch = new SpriteBatch();
@@ -123,7 +128,7 @@ public class View {
 		}
 
 		//TODO: Draw UI that help player play
-		batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
+		batch.draw(selectedTile_sprite, model.select.getX(), model.select.getY());
 
 		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -135,9 +140,6 @@ public class View {
 		batch.end();
 	}
 
-	public void moveSelectorSprite(){
-    	selectedTile_sprite.translateX(3f);
-	}
 
 	public void dispose () {
 		batch.dispose();

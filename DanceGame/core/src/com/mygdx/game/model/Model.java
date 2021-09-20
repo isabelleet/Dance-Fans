@@ -19,12 +19,12 @@ public class Model {
     private MainDancer playerOne;
     private MainDancer playerTwo;
 
+    public Sprite select = new Sprite();
+
     //TODO: Add game logic and stuff
 
     public Model(){
         this.danceFloor = new DanceFloor();
-
-
     }
 
     public void startNewGame(){
@@ -32,8 +32,12 @@ public class Model {
         // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
         this.danceFloor = new DanceFloor();
         danceFloor.initializeDanceFloor();
-        this.playerOne = new MainDancer("greenMainDancer", 1, 1);
-        this.playerTwo = new MainDancer("redMainDancer", 3, 4);
+        this.playerOne = new MainDancer("greenMainDancer", 1, 0);
+        this.playerTwo = new MainDancer("redMainDancer", 2, 0);
+
+        this.select.setPosition(0,0);
+
+
 
         //just testing if it draws at all
         danceFloor.setTile(1, playerOne);
@@ -41,32 +45,33 @@ public class Model {
 
     }
 
-    public void moveP1(int keycode){
-        danceFloor.setTile(tileNumber(playerOne.getX(), playerOne.getY()));
+    public void moveSelect(int keycode){
+        int h = danceFloor.mapHeightInPixels/danceFloor.mapHeightInTiles;
+        int w = danceFloor.mapWidthInPixels/danceFloor.mapWidthInTiles;
+
 
         switch (keycode){
             case 19:
-                playerOne.setCoord(playerOne.getX(), playerOne.getY() + 1);
+                select.setPosition(select.getX(), select.getY() + h);
                 break;
             case 20:
-                playerOne.setCoord(playerOne.getX() , playerOne.getY() -1);
+                select.setPosition(select.getX() , select.getY() - h);
                 break;
             case 21:
-                playerOne.setCoord(playerOne.getX() - 1, playerOne.getY());
+                select.setPosition(select.getX() - w,select.getY());
                 break;
             case 22:
-                playerOne.setCoord(playerOne.getX() + 1, playerOne.getY());
+                select.setPosition(select.getX() + w, select.getY());
                 break;
         }
 
-        danceFloor.setTile(tileNumber(playerOne.getX(), playerOne.getY()), playerOne);
-
-        System.out.println("x " + playerOne.getX() + " y " + playerOne.getY());
+        System.out.println("x " + select.getX() + " y " + select.getY());
     }
 
     private int tileNumber(int x, int y){
         int h = danceFloor.mapHeightInTiles;
         int w = danceFloor.mapWidthInTiles;
+
         System.out.println("h " + h + " w " + w);
 
         return y*w + x;

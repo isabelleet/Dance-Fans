@@ -75,13 +75,12 @@ public class DanceFloor {
         return this.danceFloorTiles;
     }
 
-    public void setTile(int tile){
+    public void resetTile(int tile){
         this.danceFloorTiles[tile] = new DanceFloorTile("transparent_tile");
     }
 
     public void setTile(int tile, Dancer dancer){
         this.danceFloorTiles[tile] = new DanceFloorTile(dancer.getSpriteName());
-
     }
 
 }

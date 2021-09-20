@@ -27,7 +27,7 @@ public class DanceFans extends ApplicationAdapter {
         gameState = new Model();
         gameState.startNewGame();
         view = new View();
-        view.create();
+        view.create(gameState);
         //Possible camera fix, but MVC is more importante!
         view.initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //Init renderer
