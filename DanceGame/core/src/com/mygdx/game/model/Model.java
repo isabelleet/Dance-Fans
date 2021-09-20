@@ -41,10 +41,33 @@ public class Model {
 
     }
 
-    public void move(){
-        playerOne.setCoord(playerOne.getX() + 4, playerOne.getY() + 2);
-        System.out.println(playerOne.getX() + " " + playerOne.getY());
+    public void moveP1(int keycode){
+        switch (keycode){
+            case 19:
+                playerOne.setCoord(playerOne.getX(), playerOne.getY() + 1);
+                break;
+            case 20:
+                playerOne.setCoord(playerOne.getX() , playerOne.getY() -1);
+                break;
+            case 21:
+                playerOne.setCoord(playerOne.getX() - 1, playerOne.getY()+1);
+                break;
+            case 22:
+                playerOne.setCoord(playerOne.getX() + 1, playerOne.getY());
+                break;
+        }
+
+        danceFloor.setTile(tileNumber(playerOne.getX(), playerOne.getY()), playerOne);
+        danceFloor.setTile(tileNumber(playerOne.getX(), playerOne.getY()));
+        System.out.println("x " + playerOne.getX() + " y " + playerOne.getY());
     }
 
+    private int tileNumber(int x, int y){
+        int h = danceFloor.mapHeightInTiles;
+        int w = danceFloor.mapWidthInTiles;
+        System.out.println("h " + h + " w " + w);
+
+        return y*w + x;
+    }
 
 }
