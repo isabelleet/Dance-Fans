@@ -90,5 +90,38 @@ public class Model {
     }
 
 
+    public void moveSelect(int keycode){
+        int h = danceFloor.mapHeightInPixels/danceFloor.mapHeightInTiles;
+        int w = danceFloor.mapWidthInPixels/danceFloor.mapWidthInTiles;
+
+
+        switch (keycode){
+            case 19:
+                select.setPosition(select.getX(), select.getY() + h);
+                break;
+            case 20:
+                select.setPosition(select.getX() , select.getY() - h);
+                break;
+            case 21:
+                select.setPosition(select.getX() - w,select.getY());
+                break;
+            case 22:
+                select.setPosition(select.getX() + w, select.getY());
+                break;
+        }
+
+        System.out.println("x " + select.getX() + " y " + select.getY());
+    }
+
+    private int tileNumber(int x, int y){
+        int h = danceFloor.mapHeightInTiles;
+        int w = danceFloor.mapWidthInTiles;
+
+        System.out.println("h " + h + " w " + w);
+
+        return y*w + x;
+    }
+
+
 
 }
