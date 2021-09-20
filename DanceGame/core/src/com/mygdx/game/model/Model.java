@@ -12,7 +12,7 @@ import com.mygdx.game.View;
 public class Model {
 
     private List<Player> players;
-    private Enum<PlayerTurnSlot> whoseTurnItIs;
+    private Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // TODO: show UI to let player know they should click to start their turn if hasPlayerStartedTheirTurn is False.
     private Boolean hasPlayerStartedTheirTurn;
     public DanceFloor danceFloor;
@@ -24,13 +24,8 @@ public class Model {
     //private MainDancer playerTwo;
 
 
-    
-
-
     public Model(){
         this.danceFloor = new DanceFloor();
-
-
     }
 
 
@@ -38,11 +33,15 @@ public class Model {
     public void startNewGame(){
 
         this.players = new ArrayList();
+        player1 = new Player(PlayerTurnSlot.ONE);
+        player2 = new Player(PlayerTurnSlot.TWO);
+        this.players.add(player1);
+        this.players.add(player2);
 
         this.danceFloor = new DanceFloor();
         danceFloor.initializeDanceFloor();
         // Player ONE starts
-        this.whoseTurnItIs = PlayerTurnSlot.ONE;
+        this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
     }
 
 
@@ -64,10 +63,10 @@ public class Model {
 
     // No need to make this more sophisticated until potential decision to add more players.
     public void changeWhoseTurnItIs(){
-        if (whoseTurnItIs == PlayerTurnSlot.ONE)
-            this.whoseTurnItIs = PlayerTurnSlot.TWO;
+        if (whichPlayersTurnItIs == PlayerTurnSlot.ONE)
+            this.whichPlayersTurnItIs = PlayerTurnSlot.TWO;
         else
-            this.whoseTurnItIs = PlayerTurnSlot.ONE;
+            this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
     }
 
 
@@ -80,10 +79,11 @@ public class Model {
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
     public moveMainDancerUp() {
         //Check if possible to move up, e.g. not outside edge of dance floor
-        int currentMainDancer = model.previewDanceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
-        int currentMainDancerLocation = model.previewDanceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
+        int currentMainDancer = model.danceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
+        int currentMainDancerLocation = model.danceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
 
         removeDancerFromDancefloorIndex(currentMainDancerLocation);
+
 
 
 
