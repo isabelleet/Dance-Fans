@@ -65,10 +65,40 @@ public class Controller implements InputProcessor {
             System.out.println("xdxdxd");
         }
         return false;
+
+        if(keycode == Input.Keys.RIGHT) {
+            // TODO: kanske göra en mer generell, med ENUM som input för UP, DOwn, left, right
+            model.moveMainDancerPreviewRight();
+        }
+        return false;
+
+        if(keycode == Input.Keys.LEFT) {
+            model.moveMainDancerPreviewLeft();
+        }
+        return false;
+
+        if(keycode == Input.Keys.UP) {
+            model.moveMainDancerPreviewUP();
+        }
+        return false;
+
+        if(keycode == Input.Keys.DOWN) {
+            model.moveMainDancerPreviewDOWN();
+        }
+        return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
+
+        if(character == 1) {
+            model.selectCardAtPosition(1);
+        }
+        return false;
+
+        if(character == 2) {
+            model.selectCardAtPosition(2);
+        }
         return false;
     }
 
