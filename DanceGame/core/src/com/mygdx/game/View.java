@@ -46,17 +46,6 @@ public class View {
 	private OrthogonalTiledMapRenderer renderer;
 
 
-//	public class DanceFloor  {
-//		int dancefloorHeight = 6;
-//		int dancefloorWidth = 9;
-//		DanceFloorTile danceFloor[] = new DanceFloorTile[ dancefloorWidth * dancefloorHeight ];
-//
-//		void setDanceFloor(DanceFloor updatedDanceFloor) {
-//			danceFloor[] = updatedDanceFloor;
-//		}
-//
-//	}
-
     public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
         // Set up the camera
         camera = new OrthographicCamera(1600.f, 900.f);
@@ -68,8 +57,6 @@ public class View {
     public void initRenderer(TiledMap map){
         renderer = new OrthogonalTiledMapRenderer(map);
     }
-
-
 
 	public void create() {
 

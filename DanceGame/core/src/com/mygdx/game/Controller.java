@@ -10,6 +10,7 @@ import com.mygdx.game.model.Model;
 
 public class Controller implements InputProcessor {
 
+    Model model;
   /*  private EventListener listener = new EventListener() {
         @Override
         public boolean handle(Event event) {
@@ -18,15 +19,9 @@ public class Controller implements InputProcessor {
     }; */
 
 
-    public Controller(){
-
+    public Controller(Model model){
+        this.model = model;
     }
-
-   /* public void init(){
-        Gdx.input.setInputProcessor(this);
-    } */
-
-
 
     //TODO: Throw in a bunch of listeners and based on what buttons are detected call functions in model.
     // TODO: Replace stuff below with listeners
@@ -53,22 +48,22 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        System.out.println("key down" + keycode);
         if(keycode == Input.Keys.SPACE) {
-
+            model.move();
         }
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.SPACE) {
-            System.out.println("xdxdxd");
-        }
+        System.out.println("key up" + keycode);
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
+        System.out.println(character);
         return false;
     }
 

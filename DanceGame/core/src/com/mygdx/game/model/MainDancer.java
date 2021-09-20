@@ -11,4 +11,8 @@ public class MainDancer extends Dancer {
         super(name);
         //greenDancer = textureAtlas.createSprite("greenDancer");
     }
+
+    public MainDancer(String name, int x, int y){
+        super(name, x, y);
+    }
 }

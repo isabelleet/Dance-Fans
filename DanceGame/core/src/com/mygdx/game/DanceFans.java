@@ -32,7 +32,7 @@ public class DanceFans extends ApplicationAdapter {
         view.initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //Init renderer
         view.initRenderer(gameState.danceFloor.map);
-        controller = new Controller();
+        controller = new Controller(gameState);
         // controller.init();
         Gdx.input.setInputProcessor(this.controller);
     }

@@ -56,20 +56,28 @@ public class DanceFloor {
         return this.danceFloorTiles;
     }
 
+
     public DanceFloorTile[] initializeDanceFloor() {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
-
+/*
             if (i == 11)
                 this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
             else if (i == ((this.mapWidthInTiles*this.mapHeightInTiles) - this.mapWidthInTiles - 2) )
                 this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
 
             else
+
+ */
                 this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile");
 
         }
         return this.danceFloorTiles;
+    }
+
+    public void setTile(int tile, Dancer dancer){
+        this.danceFloorTiles[tile] = new DanceFloorTile(dancer.getSpriteName());
+
     }
 
 }

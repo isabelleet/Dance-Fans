@@ -32,7 +32,18 @@ public class Model {
         // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
         this.danceFloor = new DanceFloor();
         danceFloor.initializeDanceFloor();
+        this.playerOne = new MainDancer("greenMainDancer", 1, 1);
+        this.playerTwo = new MainDancer("redMainDancer", 3, 4);
 
+        //just testing if it draws at all
+        danceFloor.setTile(1, playerOne);
+        danceFloor.setTile(2, playerTwo);
+
+    }
+
+    public void move(){
+        playerOne.setCoord(playerOne.getX() + 4, playerOne.getY() + 2);
+        System.out.println(playerOne.getX() + " " + playerOne.getY());
     }
 
 
