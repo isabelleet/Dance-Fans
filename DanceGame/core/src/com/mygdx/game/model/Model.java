@@ -77,7 +77,7 @@ public class Model {
     }
 
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
-    public moveMainDancerUp() {
+    public void moveMainDancerUp() {
         //Check if possible to move up, e.g. not outside edge of dance floor
         int currentMainDancer = model.danceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
         int currentMainDancerLocation = model.danceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();

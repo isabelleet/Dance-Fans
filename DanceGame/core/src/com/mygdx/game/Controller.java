@@ -16,10 +16,11 @@ public class Controller implements InputProcessor {
             return false;
         }
     }; */
+    Model model;
 
 
-    public Controller(){
-
+    public Controller(Model model){
+        this.model = model;
     }
 
    /* public void init(){
@@ -53,16 +54,9 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode == Input.Keys.SPACE) {
 
-        }
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.SPACE) {
-            System.out.println("xdxdxd");
+            System.out.println("I'm in space!");
         }
         return false;
 
@@ -86,10 +80,20 @@ public class Controller implements InputProcessor {
             model.moveMainDancerPreviewDOWN();
         }
         return false;
+
+        System.out.println("key down" + keycode);
+        if(keycode <= 22 && keycode >=19) {
+            model.moveSelect(keycode);
+        }
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
     }
 
     @Override
     public boolean keyTyped(char character) {
+        System.out.println(character);
 
         if(character == 1) {
             model.selectCardAtPosition(1);
