@@ -104,43 +104,41 @@ public class Model {
             case Input.Keys.UP:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX(), selectionOnTileIndex.getY() + h);
 
-
                 // Move up, If selectionOnTile is not in the top row
-                if (selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 ))
+                if (selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 )){
                     selectionOnTileIndex = selectionOnTileIndex - (danceFloor.mapWidthInTiles );
-                else
-                    break;
+                }
+                break;
 
             //case 20:
             case Input.Keys.DOWN:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() , selectionOnTileIndex.getY() - h);
 
                 // Move down, If selectionOnTile is not in the bottom row
-                if (selectionOnTileIndex > (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles * (danceFloor.mapWidthInTiles -1)) ))
+                if (selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) )){
                     selectionOnTileIndex = selectionOnTileIndex + danceFloor.mapWidthInTiles;
-                else
-                    selectionOnTileIndex = selectionOnTileIndex;
-
+                }
+                break;
 
             //case 21:
             case Input.Keys.LEFT:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() - w,selectionOnTileIndex.getY());
 
                 // Move left, If selectionOnTile is not in the leftmost column
-                if (selectionOnTileIndex % danceFloor.mapWidthInTiles == 0 )
+                if ((selectionOnTileIndex) % danceFloor.mapWidthInTiles != 0 ){
                     selectionOnTileIndex = selectionOnTileIndex - 1;
-                else
-                    selectionOnTileIndex = selectionOnTileIndex;
+                }
+                break;
 
             //case 22:
             case Input.Keys.RIGHT:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() + w, selectionOnTileIndex.getY());
 
                 // Move right, If selectionOnTile is not in the rightmost column
-                if (selectionOnTileIndex % danceFloor.mapWidthInTiles ==  danceFloor.mapWidthInTiles)
+                if ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1){
                     selectionOnTileIndex = selectionOnTileIndex + 1;
-                else
-                    selectionOnTileIndex = selectionOnTileIndex;
+                }
+                break;
         }
         System.out.println(selectionOnTileIndex);
         //System.out.println("x " + selectionOnTileIndex.getX() + " y " + selectionOnTileIndex.getY());
