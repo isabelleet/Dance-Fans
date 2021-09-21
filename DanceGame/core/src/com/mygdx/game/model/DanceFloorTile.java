@@ -1,7 +1,7 @@
 package com.mygdx.game.model;
 
 public class DanceFloorTile {
-    private Dancer occupant;
+    public Dancer occupant;
 
     public String getOccupantName() {
         //occupant = new Dancer().setSpriteName(spriteName);

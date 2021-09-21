@@ -4,6 +4,7 @@ public class Dancer {
 
     private int id;
     private String name;
+    public Player fanOfPlayer;
 
     public Dancer(String name){
         this.name = name;

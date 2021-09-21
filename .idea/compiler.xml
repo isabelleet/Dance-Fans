@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="DanceGame.core" target="1.7" />
+      <module name="DanceGame.core.main" target="1.7" />
+      <module name="DanceGame.core.test" target="1.7" />
+      <module name="DanceGame.desktop" target="1.7" />
+      <module name="DanceGame.desktop.main" target="1.7" />
+      <module name="DanceGame.desktop.test" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 public class DanceFloor {
 
     public DanceFloorTile[] danceFloorTiles;
+    private Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // Map
     public TiledMap map;
     private AssetManager manager;
@@ -19,8 +20,8 @@ public class DanceFloor {
             mapWidthInPixels, mapHeightInPixels;
 
 
-    public DanceFloor(){
-
+    public DanceFloor(Enum<PlayerTurnSlot> whichPlayersTurnItIs){
+        this.whichPlayersTurnItIs = whichPlayersTurnItIs;
         // Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
         // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
         manager = new AssetManager();
@@ -86,17 +87,19 @@ public class DanceFloor {
 
         int index;
         for (index = 0; index < this.danceFloorTiles.length; index++) {
-            if (this.danceFloorTiles[i].occupant.player == model.whoseTurnItIs)
+            if (this.danceFloorTiles[index].occupant.fanOfPlayer.playerTurnSlot == this.whichPlayersTurnItIs)
                 return index;
         }
         //TODO: error? Each player must always have their main dancer on the dancefloor.
         return -1;
-
     }
 
-    public int removeDancerFromDancefloorIndex(int danceFloorIndex) {
-        this.danceFloorTiles[danceFloorIndex].setOccupant(""); //TODO: prob not just have empty string to mean no dancer...
+    public void removeDancerFromTileIndex(int tileIndex) {
+        this.danceFloorTiles[tileIndex].setOccupant("transparent_tile"); //TODO: prob not just have empty string to mean no dancer...
+    }
 
+    public void newDancerOnTile(int tileIndex, Dancer dancer){
+        this.danceFloorTiles[tileIndex].setOccupant(dancer.getSpriteName());
     }
 
 

@@ -28,7 +28,6 @@ import com.mygdx.game.DanceFans;
 public class View {
 
 	SpriteBatch batch;
-	Texture img;
 	Texture selectedTile;
 
 	TextureAtlas textureAtlas;
@@ -57,6 +56,8 @@ public class View {
 //
 //	}
 
+	private Model model;
+
     public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
         // Set up the camera
         camera = new OrthographicCamera(1600.f, 900.f);
@@ -71,8 +72,9 @@ public class View {
 
 
 
-	public void create() {
+	public void create(Model model) {
 
+		this.model = model;
 		//# Things to draw
 		batch = new SpriteBatch();
 
@@ -126,17 +128,27 @@ public class View {
 		batch.begin();
 
 		// Draw Dance Floor and things on it
+		// TODO: Make this prettier but added this to draw from top left corner so one can think about it like a matrix
+		// [STARTS DRAWING HERE] [] [] []
+		// ...
+		// [] [] [] [STARTS DRAWING HERE]
+		int distanceFromBottomToTop = (danceFloor.mapHeightInTiles - 1) * danceFloor.tileSideLength;
 		for (int rowIndex = 0; rowIndex < danceFloor.mapWidthInTiles; rowIndex++){
 			for (int columnIndex = 0; columnIndex < danceFloor.mapHeightInTiles; columnIndex++){
 				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
 				String spriteName = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getOccupantName();
-			    drawSprite(spriteName, danceFloor.tileSideLength * rowIndex, danceFloor.tileSideLength * columnIndex );
+			    drawSprite(spriteName, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
+				if (currentIndexInDanceFloorArray == model.selectionOnTileIndex)
+				batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
+
+
 			}
 
 		}
 
 		//TODO: Draw UI that help player play
-		batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
+		//batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
+
 
 		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -154,7 +166,6 @@ public class View {
 
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 		sprites.clear();
 		textureAtlas.dispose();
 	}

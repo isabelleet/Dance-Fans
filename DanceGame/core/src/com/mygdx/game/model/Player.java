@@ -3,7 +3,8 @@ package com.mygdx.game.model;
 public class Player {
 
     public Enum <PlayerTurnSlot> playerTurnSlot;
-    // handOfCards
+    // handOfCards?
+    // Timer left (if you use some clock that is saved between turns, so you sometimes can do fast turns and sometimes long.
     //private MainDancer mainDancer;
 
 

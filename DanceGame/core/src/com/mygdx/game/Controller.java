@@ -54,55 +54,66 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        System.out.println("key down" + keycode);
 
         if(keycode == Input.Keys.SPACE) {
             System.out.println("I'm in space!");
+            return false;
         }
-        return false;
-
-        if(keycode == Input.Keys.RIGHT) {
-            // TODO: kanske göra en mer generell, med ENUM som input för UP, DOwn, left, right
-            model.moveMainDancerPreviewRight();
+        if(keycode == Input.Keys.ENTER) {
+            System.out.println("Player clicked enter to confirm Dance move");
+            model.playerConfirmedDanceMove();
+            return false;
         }
-        return false;
 
-        if(keycode == Input.Keys.LEFT) {
-            model.moveMainDancerPreviewLeft();
-        }
-        return false;
 
-        if(keycode == Input.Keys.UP) {
-            model.moveMainDancerPreviewUP();
-        }
-        return false;
+//        if(keycode == Input.Keys.RIGHT) {
+//            // TODO: kanske göra en mer generell, med ENUM som input för UP, DOwn, left, right
+//            model.moveMainDancerPreviewRight();
+//        }
+//        return false;
+//
+//        if(keycode == Input.Keys.LEFT) {
+//            model.moveMainDancerPreviewLeft();
+//        }
+//        return false;
+//
+//        if(keycode == Input.Keys.UP) {
+//            model.moveMainDancerPreviewUP();
+//        }
+//        return false;
+//
+//        if(keycode == Input.Keys.DOWN) {
+//            model.moveMainDancerPreviewDOWN();
+//        }
+//        return false;
 
-        if(keycode == Input.Keys.DOWN) {
-            model.moveMainDancerPreviewDOWN();
-        }
-        return false;
 
-        System.out.println("key down" + keycode);
         if(keycode <= 22 && keycode >=19) {
-            model.moveSelect(keycode);
+            model.moveSelection(keycode);
+            return false;
         }
+        return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
         System.out.println(character);
 
-        if(character == 1) {
-            model.selectCardAtPosition(1);
-        }
-        return false;
+        //if(character == 1) {
+        //    model.selectCardAtPosition(1);
+        //}
+        //return false;
 
-        if(character == 2) {
-            model.selectCardAtPosition(2);
-        }
+        //if(character == 2) {
+        //    model.selectCardAtPosition(2);
+        //}
+        //return false;
         return false;
     }
 
