@@ -44,35 +44,37 @@ public class DanceFloor {
     }
 
     //TODO: Use this to test end of game conditions e.g.
-    public DanceFloorTile[] initializeFullDanceFloor(int dancefloorWidth, int dancefloorHeight) {
+    public DanceFloorTile[] initializeFullDanceFloor(int dancefloorWidth, int dancefloorHeight, Player player1, Player player2) {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
 
             if (i == 11)
-                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
+                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer", player1);
             else if (i == ((this.danceFloorTiles.length*dancefloorHeight) - dancefloorWidth - 2) )
-                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
+                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer", player2);
             else if (i % 2 == 0)
-                this.danceFloorTiles[i] = new DanceFloorTile("redDancer");
+                this.danceFloorTiles[i] = new DanceFloorTile("redDancer", player1);
             else
-                this.danceFloorTiles[i] = new DanceFloorTile("greenDancer");
+                this.danceFloorTiles[i] = new DanceFloorTile("greenDancer", player2);
 
         }
         return this.danceFloorTiles;
     }
 
     //TODO: variables for chosen MainDancers
-    public DanceFloorTile[] initializeDanceFloor() {
+    public DanceFloorTile[] initializeDanceFloor( Player player1, Player player2) {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
 
             if (i == 11)
-                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
+                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer", player1);
             else if (i == ((this.mapWidthInTiles*this.mapHeightInTiles) - this.mapWidthInTiles - 2) )
-                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
+                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer", player2);
 
             else
-                this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile");
+                //TODO: an empty tiles shouldn't be a dancer, fix later. Prob. dancer just one case of "object on floor"
+                // added player1 here just for the time being if it doesn't make sense
+                this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile", player1);
 
         }
         return this.danceFloorTiles;
@@ -87,17 +89,23 @@ public class DanceFloor {
 
         int index;
         for (index = 0; index < this.danceFloorTiles.length; index++) {
-            if (this.danceFloorTiles[index].occupant.fanOfPlayer.playerTurnSlot == this.whichPlayersTurnItIs)
+            //TODO: om Dancer är en MainDancer
+            //TODO: om Dancer är på samma team (dvs har samma playerTurnSlot) som den player vars tur det är nu
+            //TODO: den låter alltid gå igenom här så det blir -1, så något fel med logiken.
+            if ((this.danceFloorTiles[index].occupant.fanOfPlayer.playerTurnSlot).equals(this.whichPlayersTurnItIs) )
                 return index;
         }
         //TODO: error? Each player must always have their main dancer on the dancefloor.
-        return -1;
+        //return -1;
+        return 0;
     }
 
     public void removeDancerFromTileIndex(int tileIndex) {
         this.danceFloorTiles[tileIndex].setOccupant("transparent_tile"); //TODO: prob not just have empty string to mean no dancer...
     }
 
+    //TODO: not sure if should update Dance Fan, or just replace it.
+    // Depends on if Dance Fans have any data in them we want to keep even if they change which Main Dancer they're fan of
     public void newDancerOnTile(int tileIndex, Dancer dancer){
         this.danceFloorTiles[tileIndex].setOccupant(dancer.getSpriteName());
     }

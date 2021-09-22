@@ -160,10 +160,6 @@ public class View {
 		batch.end();
 	}
 
-	public void moveSelectorSprite(){
-    	selectedTile_sprite.translateX(3f);
-	}
-
 	public void dispose () {
 		batch.dispose();
 		sprites.clear();

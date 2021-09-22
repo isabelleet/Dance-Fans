@@ -6,8 +6,9 @@ public class Dancer {
     private String name;
     public Player fanOfPlayer;
 
-    public Dancer(String name){
+    public Dancer(String name, Player player){
         this.name = name;
+        this.fanOfPlayer = player;
     }
 
     public String getSpriteName() {

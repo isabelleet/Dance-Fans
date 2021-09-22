@@ -38,11 +38,12 @@ public class Model {
         this.players = new Player[3];
         Player player1 = new Player(PlayerTurnSlot.ONE);
         Player player2 = new Player(PlayerTurnSlot.TWO);
+        // I just left players[0] empty so player 1 matches number in array, maybe fix in better way later.
         this.players[1] = player1;
         this.players[2] = player2;
 
         this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
-        danceFloor.initializeDanceFloor();
+        danceFloor.initializeDanceFloor(players[1], players[2]);
         // Player ONE starts
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
         this.selectionOnTileIndex = danceFloor.mapWidthInTiles; //danceFloor.mapWidthInTiles + 1;
@@ -63,15 +64,20 @@ public class Model {
         changeWhichPlayersTurnItIs();
         this.hasPlayerStartedTheirTurn = false;
         // show feedback for next player that it is their turn
+        // if they press some button, then their turn begins. Not enter since that ends the last players turn, might be problem.
     }
 
 
     // No need to make this more sophisticated until potential decision to add more players.
     public void changeWhichPlayersTurnItIs(){
-        if (whichPlayersTurnItIs == PlayerTurnSlot.ONE)
+        if (whichPlayersTurnItIs == PlayerTurnSlot.ONE) {
             this.whichPlayersTurnItIs = PlayerTurnSlot.TWO;
-        else
+            System.out.println("Player 2, it's your turn!");
+        }
+        else {
             this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
+            System.out.println("Player 1, it's your turn!");
+        }
     }
 
 
@@ -82,16 +88,21 @@ public class Model {
     }
 
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
-    public void moveMainDancerUp() {
-        //Check if possible to move up, e.g. not outside edge of dance floor
-        int currentMainDancer = danceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
-        int currentMainDancerLocation = danceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
+    // TODO: the danceFloor (not previewDanceFloor) is only updated as copy of previewDanceFloor at end of turn,
+    //       so all of this is for previewDanceFloor only
+    public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) {
 
-        danceFloor.removeDancerFromTileIndex(currentMainDancerLocation);
+        //each time we try a new preview, previewDanceFloor should
+        //TODO: make sure this is not pointer, but copied value of danceFloor.
+        this.previewDanceFloor = danceFloor;
 
+        int mainDancerLocationOfPlayerWhichTurnItIs = danceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
+        Dancer mainDancerOfPlayerWhichTurnItIs = danceFloor.danceFloorTiles[mainDancerLocationOfPlayerWhichTurnItIs].occupant;
 
+        previewDanceFloor.removeDancerFromTileIndex(mainDancerLocationOfPlayerWhichTurnItIs);
+        //TODO: show ghost/grayed out dancer at first position, to help player recall where they started the dance move from?
 
-
+        previewDanceFloor.newDancerOnTile( indexMovedTo, mainDancerOfPlayerWhichTurnItIs );
     }
 
 
@@ -106,7 +117,12 @@ public class Model {
 
                 // Move up, If selectionOnTile is not in the top row
                 if (selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 )){
-                    selectionOnTileIndex = selectionOnTileIndex - (danceFloor.mapWidthInTiles );
+                    int updatedIndex = selectionOnTileIndex - (danceFloor.mapWidthInTiles );
+                    selectionOnTileIndex = updatedIndex;
+                    //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
+                    // TODO: only move if within tile is within reach based on dance move card move distance prop.
+                    moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
+
                 }
                 break;
 
@@ -116,7 +132,12 @@ public class Model {
 
                 // Move down, If selectionOnTile is not in the bottom row
                 if (selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) )){
-                    selectionOnTileIndex = selectionOnTileIndex + danceFloor.mapWidthInTiles;
+
+                    int updatedIndex = selectionOnTileIndex + danceFloor.mapWidthInTiles;
+                    selectionOnTileIndex = updatedIndex;
+                    //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
+                    // TODO: only move if within tile is within reach based on dance move card move distance prop.
+                    moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
                 }
                 break;
 
@@ -126,7 +147,12 @@ public class Model {
 
                 // Move left, If selectionOnTile is not in the leftmost column
                 if ((selectionOnTileIndex) % danceFloor.mapWidthInTiles != 0 ){
-                    selectionOnTileIndex = selectionOnTileIndex - 1;
+
+                    int updatedIndex = selectionOnTileIndex = selectionOnTileIndex - 1;
+                    selectionOnTileIndex = updatedIndex;
+                    //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
+                    // TODO: only move if within tile is within reach based on dance move card move distance prop.
+                    moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
                 }
                 break;
 
@@ -137,6 +163,7 @@ public class Model {
                 // Move right, If selectionOnTile is not in the rightmost column
                 if ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1){
                     selectionOnTileIndex = selectionOnTileIndex + 1;
+                    //TODO: add like the other above
                 }
                 break;
         }

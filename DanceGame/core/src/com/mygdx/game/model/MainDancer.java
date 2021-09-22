@@ -7,8 +7,8 @@ public class MainDancer extends Dancer {
     private String team;
     private Sprite dancerImg;
 
-    public MainDancer(String name) {
-        super(name);
+    public MainDancer(String name, Player player) {
+        super(name, player);
         //greenDancer = textureAtlas.createSprite("greenDancer");
     }
 }

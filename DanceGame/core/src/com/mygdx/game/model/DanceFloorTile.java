@@ -14,7 +14,7 @@ public class DanceFloorTile {
     }
 
     // Constructor
-    public DanceFloorTile(String spriteName) {
-        this.occupant = new DanceFan(spriteName); // TODO: replace with empty tile or something
+    public DanceFloorTile(String spriteName, Player player) {
+        this.occupant = new DanceFan(spriteName, player); // TODO: replace with empty tile or something
     }
 }

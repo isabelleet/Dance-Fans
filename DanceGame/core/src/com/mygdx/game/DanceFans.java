@@ -48,6 +48,7 @@ public class DanceFans extends ApplicationAdapter {
     @Override
     public void dispose(){
         view.dispose();
-        //Model.dispose() // ??? Kanske ska vara så med?
+        // TODO: maybe need to dispose data in model too? Not sure how
+        //gameState.dispose(); // ??? Kanske ska vara så med?
     }
 }
