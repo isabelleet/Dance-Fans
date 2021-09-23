@@ -96,8 +96,7 @@ public class DanceFloor {
                 return index;
         }
         //TODO: error? Each player must always have their main dancer on the dancefloor.
-        //return -1;
-        return 0;
+        return -1;
     }
 
     public void removeDancerFromTileIndex(int tileIndex) {

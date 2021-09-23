@@ -28,22 +28,21 @@ public class Model {
 
 
     public Model(){
-        this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
     }
 
 
 
     public void startNewGame(){
 
-        this.players = new Player[3];
+        this.players = new Player[2];
         Player player1 = new Player(PlayerTurnSlot.ONE);
         Player player2 = new Player(PlayerTurnSlot.TWO);
-        // I just left players[0] empty so player 1 matches number in array, maybe fix in better way later.
-        this.players[1] = player1;
-        this.players[2] = player2;
+        this.players[0] = player1;
+        this.players[1] = player2;
+
 
         this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
-        danceFloor.initializeDanceFloor(players[1], players[2]);
+        danceFloor.initializeDanceFloor(players[0], players[1]);
         // Player ONE starts
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
         this.selectionOnTileIndex = danceFloor.mapWidthInTiles; //danceFloor.mapWidthInTiles + 1;
@@ -88,8 +87,8 @@ public class Model {
     }
 
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
-    // TODO: the danceFloor (not previewDanceFloor) is only updated as copy of previewDanceFloor at end of turn,
-    //       so all of this is for previewDanceFloor only
+    // the danceFloor (not previewDanceFloor) is only updated as copy of previewDanceFloor at end of a turn,
+    // so all of this is for previewDanceFloor only
     public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) {
 
         //each time we try a new preview, previewDanceFloor should
@@ -103,6 +102,9 @@ public class Model {
         //TODO: show ghost/grayed out dancer at first position, to help player recall where they started the dance move from?
 
         previewDanceFloor.newDancerOnTile( indexMovedTo, mainDancerOfPlayerWhichTurnItIs );
+        System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
+        //TODO: add function of currently active Dance Move Card, to also show preview of Dance fans added by move.
+
     }
 
 
