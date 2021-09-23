@@ -31,6 +31,10 @@ public class CardDeck {
 
     // don't need to open cards outside.
     private void OpenCard(){
+        if(this.closed.size() == 0){
+            addDiscCards();
+        }
+
         this.open.add(this.closed.get(0));
         closed.remove(0);
     }
@@ -40,10 +44,10 @@ public class CardDeck {
     }
 
     //might need to be public later
-    private void AddDiscCards(){
+    private void addDiscCards(){
         int l = this.discarded.size();
         for(int i = 0; i < l; i++){
-            this.deck.add(this.discarded.remove(i));
+            this.closed.add(this.discarded.remove(0));
         }
     }
 

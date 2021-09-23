@@ -50,6 +50,10 @@ public class Controller implements InputProcessor {
     public boolean keyDown(int keycode) {
         System.out.println("key down" + keycode);
 
+        if(keycode == Input.Keys.NUM_1){
+            model.currentPlayer().getCardDeck().UseCard(0);
+        }
+
         if(keycode == Input.Keys.SPACE) {
             System.out.println("I'm in space!");
             return false;

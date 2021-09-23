@@ -169,8 +169,11 @@ public class View {
 
 		// drawing cards
 		batch.begin();
-		String card = "Property 1=Variant2, id=" + model.currentlyOpenCards().get(0).getId();
-		drawCard(card, danceFloor.tileWidth* danceFloor.mapWidthInTiles, 0);
+		for(int i = 0; i < model.currentlyOpenCards().size(); i++){
+			String card = "Property 1=Variant2, id=" + model.currentlyOpenCards().get(i).getId();
+			drawCard(card, danceFloor.tileWidth* danceFloor.mapWidthInTiles, i*350);
+		}
+
 		batch.end();
 
 	}
