@@ -35,6 +35,10 @@ public class Card {
         return id;
     }
 
+    public int[][] getDancePattern() {
+        return dancePattern;
+    }
+
     public void cardClicked() {
         System.out.println("Clicked on card");
     }
