@@ -8,8 +8,8 @@ public class DanceFan extends Dancer {
     }
 
     // Constructor
-    public DanceFan(String spriteName, Player player) {
-        super(spriteName, player);
+    public DanceFan(String spriteName) {
+        super(spriteName);
     }
 
     public void move(){

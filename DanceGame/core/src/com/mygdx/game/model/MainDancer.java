@@ -4,11 +4,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class MainDancer extends Dancer {
 
-    private String team;
     private Sprite dancerImg;
 
-    public MainDancer(String name, Player player) {
-        super(name, player);
+    public MainDancer(String name) {
+        super(name);
         //greenDancer = textureAtlas.createSprite("greenDancer");
+    }
+
+    public MainDancer(String name, int index){
+        super(name, index);
     }
 }

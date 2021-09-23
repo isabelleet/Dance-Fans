@@ -4,20 +4,29 @@ public class Dancer {
 
     private int id;
     private String name;
-    public Player fanOfPlayer;
+    private int index;
 
-    public Dancer(String name, Player player){
+    public Dancer(String name,int index){
         this.name = name;
-        this.fanOfPlayer = player;
+        this.index = index;
     }
+
+    public Dancer(String name){
+        this.name = name;
+        //Risk for bugs
+        this.index = 0;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public int getIndex(){
+        return this.index;
+    }
+
 
     public String getSpriteName() {
         return this.name;
     }
 }
-
-
-
-    //TODO: Add this for constructors to DanceFan class
-    //private DanceFan redDancer = new DanceFan("redPlayer");
-    //private DanceFan greenDancer = new DanceFan("greenPlayer");

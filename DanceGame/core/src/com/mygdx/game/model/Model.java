@@ -13,6 +13,7 @@ import com.badlogic.gdx.Input;
 public class Model {
 
     private Player[] players;
+    //Player currentPlayer = ;
     public Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // TODO: show UI to let player know they should click to start their turn if hasPlayerStartedTheirTurn is False.
     private Boolean hasPlayerStartedTheirTurn;
@@ -27,26 +28,38 @@ public class Model {
     //private MainDancer playerTwo;
 
 
+
     public Model(){
     }
 
-
+    public Player currentPlayer(){
+        if (this.whichPlayersTurnItIs == PlayerTurnSlot.ONE)
+            return this.players[0];
+        else
+            return this.players[1];
+    }
 
     public void startNewGame(){
 
         this.players = new Player[2];
-        Player player1 = new Player(PlayerTurnSlot.ONE);
-        Player player2 = new Player(PlayerTurnSlot.TWO);
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50) );
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0));
         this.players[0] = player1;
         this.players[1] = player2;
 
 
+
+
+
         this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
-        danceFloor.initializeDanceFloor(players[0], players[1]);
+        danceFloor.initializeDanceFloor();
         // Player ONE starts
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
         this.selectionOnTileIndex = danceFloor.mapWidthInTiles; //danceFloor.mapWidthInTiles + 1;
         System.out.println("selection tile on " + danceFloor.mapWidthInTiles);
+
+        danceFloor.newDancerOnTile(player1.getMainDancer().getIndex(), player1.getMainDancer());
+        danceFloor.newDancerOnTile(player2.getMainDancer().getIndex(), player2.getMainDancer());
     }
 
 
@@ -95,13 +108,12 @@ public class Model {
         //TODO: make sure this is not pointer, but copied value of danceFloor.
         this.previewDanceFloor = danceFloor;
 
-        int mainDancerLocationOfPlayerWhichTurnItIs = danceFloor.getIndexOnDancefloorOfCurrentPlayerMainDancer();
-        Dancer mainDancerOfPlayerWhichTurnItIs = danceFloor.danceFloorTiles[mainDancerLocationOfPlayerWhichTurnItIs].occupant;
+        int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
 
-        previewDanceFloor.removeDancerFromTileIndex(mainDancerLocationOfPlayerWhichTurnItIs);
+        previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
         //TODO: show ghost/grayed out dancer at first position, to help player recall where they started the dance move from?
 
-        previewDanceFloor.newDancerOnTile( indexMovedTo, mainDancerOfPlayerWhichTurnItIs );
+        previewDanceFloor.newDancerOnTile( indexMovedTo, currentPlayer().getMainDancer() );
         System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
         //TODO: add function of currently active Dance Move Card, to also show preview of Dance fans added by move.
 

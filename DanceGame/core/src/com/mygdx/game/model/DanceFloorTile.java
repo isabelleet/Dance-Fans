@@ -8,13 +8,13 @@ public class DanceFloorTile {
         return occupant.getSpriteName();
     }
 
-    public void setOccupant(String spriteName) {
-        //occupant = new Dancer().setSpriteName(spriteName);
+    public void setOccupant(Dancer dancer) {
+        this.occupant = dancer;
         //this.occupant = this.occupant.setSpriteName(spriteName);
     }
 
     // Constructor
-    public DanceFloorTile(String spriteName, Player player) {
-        this.occupant = new DanceFan(spriteName, player); // TODO: replace with empty tile or something
+    public DanceFloorTile(String spriteName) {
+        this.occupant = new DanceFan(spriteName); // TODO: replace with empty tile or something
     }
 }

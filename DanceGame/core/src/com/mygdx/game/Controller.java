@@ -23,12 +23,6 @@ public class Controller implements InputProcessor {
         this.model = model;
     }
 
-   /* public void init(){
-        Gdx.input.setInputProcessor(this);
-    } */
-
-
-
     //TODO: Throw in a bunch of listeners and based on what buttons are detected call functions in model.
     // TODO: Replace stuff below with listeners
 
@@ -104,16 +98,6 @@ public class Controller implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
         System.out.println(character);
-
-        //if(character == 1) {
-        //    model.selectCardAtPosition(1);
-        //}
-        //return false;
-
-        //if(character == 2) {
-        //    model.selectCardAtPosition(2);
-        //}
-        //return false;
         return false;
     }
 

@@ -59,11 +59,9 @@ public class View {
         renderer = new OrthogonalTiledMapRenderer(map);
     }
 
-
-
 	public void create(Model model) {
 
-		this.model = model;
+    	this.model = model;
 
 		//# Things to draw
 		batch = new SpriteBatch();
@@ -149,6 +147,7 @@ public class View {
 
 		batch.end();
 	}
+
 
 	public void dispose () {
 		batch.dispose();
