@@ -24,7 +24,6 @@ import com.mygdx.game.model.DanceFloorTile;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.DanceFans;
 
-//public class View extends ApplicationAdapter {
 public class View {
 
 	SpriteBatch batch;
@@ -45,16 +44,6 @@ public class View {
 	private OrthogonalTiledMapRenderer renderer;
 
 
-//	public class DanceFloor  {
-//		int dancefloorHeight = 6;
-//		int dancefloorWidth = 9;
-//		DanceFloorTile danceFloor[] = new DanceFloorTile[ dancefloorWidth * dancefloorHeight ];
-//
-//		void setDanceFloor(DanceFloor updatedDanceFloor) {
-//			danceFloor[] = updatedDanceFloor;
-//		}
-//
-//	}
 
 	private Model model;
 
@@ -75,6 +64,7 @@ public class View {
 	public void create(Model model) {
 
 		this.model = model;
+
 		//# Things to draw
 		batch = new SpriteBatch();
 
