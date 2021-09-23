@@ -1,21 +1,18 @@
-package com.mygdx.game;
+package com.mygdx.game.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class CardDeck {
     // thinking about using maps with enums instead, but not sure
-    private Enum<DanceType> danceType;
     private List<Card> deck;
     private List<Card> open;
     private List<Card> closed;
     private List<Card> discarded;
 
     // should decks be predefined? or have a random selection of cards of the right type?
-    public CardDeck(Enum<DanceType> danceType, List<Card> deck){
-        this.danceType = danceType;
+    public CardDeck(List<Card> deck){
         this.deck = deck;
         // if they are predefined we should probably shuffle them before playing
         ShuffleDeck(this.deck);

@@ -38,6 +38,9 @@ public class View {
 
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
+	// card atlas?
+	TextureAtlas textureAtlasCards;
+	final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
 
 	// Camera and render
 	private OrthographicCamera camera;
@@ -72,6 +75,9 @@ public class View {
 		// Guide: https://www.codeandweb.com/texturepacker/tutorials/libgdx-physics
 		textureAtlas = new TextureAtlas("sprites.txt");
 
+		// card atlas?
+		textureAtlasCards = new TextureAtlas("cardSprites.txt");
+
 		greenDancer = textureAtlas.createSprite("greenDancer");
 		redDancer = textureAtlas.createSprite("redDancer");
 		greenMainDancer = textureAtlas.createSprite("greenMainDancer");
@@ -98,6 +104,13 @@ public class View {
 			Sprite sprite = textureAtlas.createSprite(region.name);
 
 			sprites.put(region.name, sprite);
+		}
+
+		// card atlas?
+		Array<AtlasRegion> regionsCards = textureAtlasCards.getRegions();
+		for(AtlasRegion region : regionsCards){
+			Sprite sprite = textureAtlasCards.createSprite(region.name);
+			cards.put(region.name, sprite);
 		}
 	}
 
