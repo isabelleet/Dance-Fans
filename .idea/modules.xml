@@ -2,6 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DanceGame.iml" filepath="$PROJECT_DIR$/.idea/modules/DanceGame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/DanceGame.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/DanceGame.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/DanceGame.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/DanceGame.core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/DanceGame.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/DanceGame.core.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/DanceGame.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/DanceGame.desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/DanceGame.desktop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/DanceGame.desktop.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/DanceGame.desktop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/DanceGame.desktop.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/TDA367-project.iml" filepath="$PROJECT_DIR$/.idea/TDA367-project.iml" />
     </modules>
   </component>
