@@ -13,6 +13,7 @@ import com.badlogic.gdx.Input;
 public class Model {
 
     private Player[] players;
+    // HELLO
     //Player currentPlayer = ;
     public Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // TODO: show UI to let player know they should click to start their turn if hasPlayerStartedTheirTurn is False.
