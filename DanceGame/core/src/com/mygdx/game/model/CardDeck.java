@@ -7,9 +7,9 @@ import java.util.Random;
 public class CardDeck {
     // thinking about using maps with enums instead, but not sure
     private List<Card> deck;
-    private List<Card> open;
+    private List<Card> open = new ArrayList<>();
     private List<Card> closed;
-    private List<Card> discarded;
+    private List<Card> discarded = new ArrayList<>();
 
     // should decks be predefined? or have a random selection of cards of the right type?
     public CardDeck(List<Card> deck){
@@ -52,6 +52,11 @@ public class CardDeck {
         int l = deck.size();
 
         return new ArrayList<>(deck);
+    }
+
+    // want to be able to look at the opened cards
+    public List<Card> getOpen() {
+        return open;
     }
 
     // Fisher-yates shuffle https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle

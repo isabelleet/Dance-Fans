@@ -123,6 +123,14 @@ public class View {
 		sprite.draw(batch);
 	}
 
+	private void drawCard(String name, float x, float y){
+    	Sprite sprite = cards.get(name);
+
+    	sprite.setPosition(x,y);
+
+    	sprite.draw(batch);
+	}
+
 	public void render (DanceFloor danceFloor) {
 		ScreenUtils.clear(1, 0, 0, 1);
 
@@ -150,7 +158,6 @@ public class View {
 		//TODO: Draw UI that help player play
 		//batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
 
-
 		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -159,6 +166,13 @@ public class View {
 		renderer.render();
 
 		batch.end();
+
+		// drawing cards
+		batch.begin();
+		String card = "Property 1=Variant2, id=" + model.currentlyOpenCards().get(0).getId();
+		drawCard(card, danceFloor.tileWidth* danceFloor.mapWidthInTiles, 0);
+		batch.end();
+
 	}
 
 
