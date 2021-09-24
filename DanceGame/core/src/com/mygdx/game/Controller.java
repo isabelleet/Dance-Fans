@@ -23,7 +23,7 @@ public class Controller implements InputProcessor {
         this.model = model;
     }
 
-    //TODO: Throw in a bunch of listeners and based on what buttons are detected call functions in model.
+    // TODO: Throw in a bunch of listeners and based on what buttons are detected call functions in model.
     // TODO: Replace stuff below with listeners
 
     /* public void detectInput(){
@@ -52,16 +52,17 @@ public class Controller implements InputProcessor {
 
         if(keycode == Input.Keys.NUM_1){
             model.currentPlayer().getCardDeck().UseCard(0);
+            return true;
         }
 
         if(keycode == Input.Keys.SPACE) {
-            System.out.println("I'm in space!");
-            return false;
+            model.playerDrewCardsToStartTurn();
+            return true;
         }
         if(keycode == Input.Keys.ENTER) {
             System.out.println("Player clicked enter to confirm Dance move");
             model.playerConfirmedDanceMove();
-            return false;
+            return true;
         }
 
 
@@ -89,7 +90,7 @@ public class Controller implements InputProcessor {
 
         if(keycode <= 22 && keycode >=19) {
             model.moveSelection(keycode);
-            return false;
+            return true;
         }
         return false;
     }

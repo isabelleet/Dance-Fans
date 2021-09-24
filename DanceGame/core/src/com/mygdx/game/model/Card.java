@@ -11,6 +11,7 @@ public class Card {
     private int[][] dancePattern;
     private int steps;
 
+
     public Card(int id, int[][] dancePattern, int steps){
         this.id = id;
         this.dancePattern = dancePattern;

@@ -4,6 +4,7 @@ public class Dancer {
 
     private int id;
     private String name;
+    //TODO: only update this index when previewDanceFloor becomes danceFloor?
     private int index;
 
     public Dancer(String name,int index){

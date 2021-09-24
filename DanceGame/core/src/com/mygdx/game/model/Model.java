@@ -32,10 +32,10 @@ public class Model {
     //private MainDancer playerTwo;
 
 
-
     public Model(){
     }
 
+    //TODO: simplifiera som Hedy och Joar pratade om i mån om tid
     public Player currentPlayer(){
         if (this.whichPlayersTurnItIs == PlayerTurnSlot.ONE)
             return this.players[0];
@@ -64,7 +64,6 @@ public class Model {
     }
 
 
-    //TODO: Add game logic and stuff
 
     public void playerConfirmedDanceMove(){
         // check if move is allowed
@@ -77,7 +76,8 @@ public class Model {
         changeWhichPlayersTurnItIs();
         this.hasPlayerStartedTheirTurn = false;
         // show feedback for next player that it is their turn
-        // if they press some button, then their turn begins. Not enter since that ends the last players turn, might be problem.
+        // if they press button for playerDrewCardsToStartTurn(), then their turn begins.
+        // Not enter since that ends the last players turn, might be problem.
     }
 
 
@@ -91,6 +91,11 @@ public class Model {
             this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
             System.out.println("Player 1, it's your turn!");
         }
+    }
+
+
+    public void playerDrewCardsToStartTurn(){
+       this.hasPlayerStartedTheirTurn = true;
     }
 
 
@@ -108,6 +113,7 @@ public class Model {
         //each time we try a new preview, previewDanceFloor should
         //TODO: make sure this is not pointer, but copied value of danceFloor.
         this.previewDanceFloor = danceFloor;
+        //TODO: reset where mainDancerIndex is from danceFloor: currentPlayer().getMainDancer().setIndex(something);
 
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
 
@@ -121,9 +127,13 @@ public class Model {
     }
 
 
+    //TODO: Kanske skriva tester om detta
     public void moveSelection(int keycode){
         //int h = danceFloor.mapHeightInPixels/danceFloor.mapHeightInTiles;
         //int w = danceFloor.mapWidthInPixels/danceFloor.mapWidthInTiles;
+
+        //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
+        // to go there then!
 
         switch (keycode){
             //case 19:
@@ -147,6 +157,7 @@ public class Model {
 
                 // Move down, If selectionOnTile is not in the bottom row
                 if (selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) )){
+
 
                     int updatedIndex = selectionOnTileIndex + danceFloor.mapWidthInTiles;
                     selectionOnTileIndex = updatedIndex;
@@ -177,8 +188,10 @@ public class Model {
 
                 // Move right, If selectionOnTile is not in the rightmost column
                 if ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1){
-                    selectionOnTileIndex = selectionOnTileIndex + 1;
+                    int updatedIndex  = selectionOnTileIndex + 1;
+                    selectionOnTileIndex = updatedIndex;
                     //TODO: add like the other above
+                    moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
                 }
                 break;
         }
