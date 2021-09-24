@@ -10,6 +10,9 @@ import com.mygdx.game.Controller;
 import com.mygdx.game.View;
 import com.badlogic.gdx.Input;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Model {
 
     private Player[] players;
@@ -43,13 +46,10 @@ public class Model {
     public void startNewGame(){
 
         this.players = new Player[2];
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50) );
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck());
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck());
         this.players[0] = player1;
         this.players[1] = player2;
-
-
-
 
 
         this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
@@ -196,6 +196,24 @@ public class Model {
         return y * widthInTiles + x;
     }
 
+
+    // testing by creating a basic card deck
+    private CardDeck initialDeck(){
+        List<Card> cards = new ArrayList<>();
+
+        cards.add(new Card(2));
+        cards.add(new Card(3));
+        cards.add(new Card(4));
+        cards.add(new Card(6));
+
+
+        return new CardDeck(cards);
+
+    }
+
+    public List<Card> currentlyOpenCards(){
+        return currentPlayer().getCardDeck().getOpen();
+    }
 
 
 }
