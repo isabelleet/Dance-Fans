@@ -8,12 +8,14 @@ public class Player {
     private MainDancer mainDancer;
 
     private CardDeck cardDeck;
+    private DanceFan danceFan;
 
 
-    public Player(Enum<PlayerTurnSlot> playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck){
+    public Player(Enum<PlayerTurnSlot> playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck, DanceFan danceFan){
         this.playerTurnSlot = playerTurnSlot;
         this.mainDancer = mainDancer;
         this.cardDeck =  cardDeck;
+        this.danceFan = danceFan;
     }
 
     public MainDancer getMainDancer() {
@@ -22,5 +24,9 @@ public class Player {
 
     public CardDeck getCardDeck() {
         return cardDeck;
+    }
+
+    public DanceFan getDanceFan(){
+        return danceFan;
     }
 }

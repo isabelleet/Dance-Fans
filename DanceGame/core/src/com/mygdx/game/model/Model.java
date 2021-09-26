@@ -46,8 +46,8 @@ public class Model {
     public void startNewGame(){
 
         this.players = new Player[2];
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck());
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck());
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(), new DanceFan("redDanceFan"));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(), new DanceFan("greenDanceFan"));
         this.players[0] = player1;
         this.players[1] = player2;
 
@@ -117,13 +117,65 @@ public class Model {
 
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
 
-        previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
+        previewDanceFloor.removeDancerFromTileIndex(currentPlayer().getMainDancer().getIndex());
         //TODO: show ghost/grayed out dancer at first position, to help player recall where they started the dance move from?
 
         previewDanceFloor.newDancerOnTile( indexMovedTo, currentPlayer().getMainDancer() );
         System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
         //TODO: add function of currently active Dance Move Card, to also show preview of Dance fans added by move.
 
+    }
+
+    public void addDanceFansFromPattern(int[][] pattern){
+        int tileIndex = 0;
+        int r, c = 0;
+        int mainDancerIndex = currentPlayer().getMainDancer().getIndex();
+        DanceFloorTile[][] danceFloorMatrix = convertToMatrix(danceFloor.danceFloorTiles);
+        int[] mainDancerCoords = indexToCoords(mainDancerIndex);
+        for(r = 0; r <= pattern.length; r++){
+            for(c = 0; c <= pattern[r].length; c++){
+                if(pattern[r][c] == 3){
+                    break;
+                }
+            }
+        }
+        for(int i = 0; i <= pattern.length; i++){
+            for(int j = 0; j <= pattern[i].length; j++){
+                if(pattern[i][j] == 1){
+                    tileIndex = tileIndexFromCoordinatesInTiles(r - 1 + mainDancerIndex, c - 1 + mainDancerIndex);
+                    danceFloor.newDancerOnTile(tileIndex, currentPlayer().getDanceFan());
+                }
+            }
+
+        }
+
+    }
+
+    private DanceFloorTile[][] convertToMatrix(DanceFloorTile[] danceFloorArray){
+        DanceFloorTile[][] danceFloorMatrix = new DanceFloorTile[danceFloor.mapWidthInTiles][danceFloor.mapHeightInTiles];
+        for(int i = 0; i <= danceFloorArray.length; i++){
+            danceFloorMatrix[i / danceFloor.mapWidthInTiles][i % danceFloor.mapWidthInTiles] = danceFloorArray[i];
+        }
+        return danceFloorMatrix;
+    }
+
+    private DanceFloorTile[] convertToArray(DanceFloorTile[][] danceFloorMatrix){
+        DanceFloorTile[] danceFloorArray = new DanceFloorTile[danceFloor.mapHeightInTiles * danceFloor.mapWidthInTiles];
+        for(int i = 0; i <= danceFloorMatrix.length; i++){
+            for(int j = 0; j <= danceFloorMatrix[i].length; j++){
+                danceFloorArray[i * j] = danceFloorMatrix[i][j];
+            }
+        }
+        return danceFloorArray;
+    }
+
+    private int[] indexToCoords(int index){
+        int[] coords = new int[2];
+        int c = index % danceFloor.mapWidthInTiles;
+        int r = index / danceFloor.mapWidthInTiles;
+        coords[0] = c;
+        coords[1] = r;
+        return coords;
     }
 
 
