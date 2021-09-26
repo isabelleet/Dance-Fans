@@ -19,16 +19,18 @@ public class Card {
     }
 
     // example card
+
+    // 3 indicates the position of the maindancer, 1 indicates new dancefan, 0 = don't change this tile
     public Card(){
         this.id = 1;
-        this.dancePattern = new int[][]{{0, 1, 0}, {0, 0, 0}, {1, 0, 1}};
+        this.dancePattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
         this.steps = 2;
     }
 
     // example card
     public Card(int id){
         this.id = id;
-        this.dancePattern = new int[][]{{0, 1, 0}, {0, 0, 0}, {1, 0, 1}};
+        this.dancePattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
         this.steps = 2;
     }
 
