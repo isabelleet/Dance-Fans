@@ -73,7 +73,8 @@ public class Model {
         // update model based on the card, where the selection cursor on the dancefloor currently is
         //this.danceFloor = previewDanceFloor;
 
-        this.previewDanceFloor = this.danceFloor.deepCopy();
+        this.danceFloor = this.previewDanceFloor.deepCopy();
+
 
 
         // Animations or something to give the user feedback?
@@ -118,7 +119,7 @@ public class Model {
         currentPlayer().getMainDancer().setPreviewIndex(currentPlayer().getMainDancer().getIndex());
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
         //TODO: make sure this is not pointer, but copied value of danceFloor.
-        this.previewDanceFloor = danceFloor;
+        this.previewDanceFloor = this.danceFloor.deepCopy();
         //TODO: reset where mainDancerIndex is from danceFloor: currentPlayer().getMainDancer().setIndex(something);
 
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
