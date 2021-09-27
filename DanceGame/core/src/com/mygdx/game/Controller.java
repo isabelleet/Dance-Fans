@@ -110,7 +110,11 @@ public class Controller implements InputProcessor {
 
 
         if(keycode <= 22 && keycode >=19) {
-            model.moveSelection(keycode);
+            try {
+                model.moveSelection(keycode);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return true;
         }
         return false;
