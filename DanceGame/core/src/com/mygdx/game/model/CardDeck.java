@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Stores the different piles of cards which a deck can be divided into.
+ */
 public class CardDeck {
     // thinking about using maps with enums instead, but not sure
     private List<Card> deck;
@@ -30,6 +33,10 @@ public class CardDeck {
     }
 
     // don't need to open cards outside.
+
+    /**
+     * takes a card from the deck and puts it among the cards that can be chosen
+     */
     private void OpenCard(){
         if(this.closed.size() == 0){
             addDiscCards();
@@ -39,11 +46,17 @@ public class CardDeck {
         closed.remove(0);
     }
 
+    /**
+     * removes a chosen card and moves it to the discarded pile
+     * @param i which of the chosen cards to remove
+     */
     private void DiscardCard(int i){
         this.discarded.add(this.open.remove(i));
     }
 
-    //might need to be public later
+    /**
+     * after using up all cards this method puts them back in the pile
+     */
     private void addDiscCards(){
         int l = this.discarded.size();
         for(int i = 0; i < l; i++){
@@ -51,18 +64,30 @@ public class CardDeck {
         }
     }
 
-    // not sure if necessary or not
+    /**
+     * should create a copy of all the cards in a deck.
+     * @param deck to be copied
+     * @return a copy of the deck
+     */
     private List<Card> CopyCards(List<Card> deck){
         int l = deck.size();
 
         return new ArrayList<>(deck);
     }
 
-    // want to be able to look at the opened cards
+    /**
+     * used to be able to look at what cards can be chosen
+     * @return the list of cards that can be chosen
+     */
     public List<Card> getOpen() {
         return open;
     }
 
+    /**
+     * A shuffle method based on Fisher-Yates shuffle. So that the cards will be shuffled. Changes the original
+     * deck of cards.
+     * @param cards the cards to be shuffled
+     */
     // Fisher-yates shuffle https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     private void ShuffleDeck(List<Card> cards){
         Random random = new Random();

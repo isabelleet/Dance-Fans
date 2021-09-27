@@ -123,6 +123,7 @@ public class View {
 		sprite.draw(batch);
 	}
 
+	// based on the previous draw method, but for cards.
 	private void drawCard(String name, float x, float y){
     	Sprite sprite = cards.get(name);
 
