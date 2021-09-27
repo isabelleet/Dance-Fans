@@ -3,7 +3,7 @@ size: 768, 128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-greenDancer
+greenDanceFan
   rotate: false
   xy: 0, 0
   size: 128, 128
@@ -17,7 +17,7 @@ greenMainDancer
   orig: 128, 128
   offset: 0, 0
   index: -1
-redDancer
+redDanceFan
   rotate: false
   xy: 256, 0
   size: 128, 128
