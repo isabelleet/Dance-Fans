@@ -65,15 +65,20 @@ public class Model {
 
 
 
-    public void playerConfirmedDanceMove(){
+    public void playerConfirmedDanceMove() throws Exception {
         // check if move is allowed
             // E.g. can't move to location where another main Dancer already stands
             // Can only move as far away as card allows
             // etc
         // update model based on the card, where the selection cursor on the dancefloor currently is
-        this.danceFloor = previewDanceFloor;
+        //this.danceFloor = previewDanceFloor;
+
+        this.previewDanceFloor = this.danceFloor.deepCopy();
+
+
         // Animations or something to give the user feedback?
         changeWhichPlayersTurnItIs();
+        this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
         this.hasPlayerStartedTheirTurn = false;
         // show feedback for next player that it is their turn
         // if they press button for playerDrewCardsToStartTurn(), then their turn begins.
@@ -111,7 +116,7 @@ public class Model {
     public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) {
         //sets currentplayers maindancer preview index to last turns index
         currentPlayer().getMainDancer().setPreviewIndex(currentPlayer().getMainDancer().getIndex());
-        //each time we try a new preview, previewDanceFloor should
+        //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
         //TODO: make sure this is not pointer, but copied value of danceFloor.
         this.previewDanceFloor = danceFloor;
         //TODO: reset where mainDancerIndex is from danceFloor: currentPlayer().getMainDancer().setIndex(something);
@@ -130,28 +135,65 @@ public class Model {
 
     }
 
+    // visuell förklaring: https://miro.com/app/board/o9J_luo5ozI=/
+    // d = 1, M = 3, blank = 0 i bilderna.
     public void addDanceFansFromPattern(int[][] pattern){
         System.out.println("mainDancerPreviewIndex: " + currentPlayer().getMainDancer().getPreviewIndex());
-        System.out.println("mainDancerIndex: " + currentPlayer().getMainDancer().getIndex());
+        System.out.println("mainDancerDancefloorIndex: " + currentPlayer().getMainDancer().getIndex());
         int tileIndex = 0;
-        int mainDancerX, mainDancerY = 0;
-        int mainDancerIndex = currentPlayer().getMainDancer().getPreviewIndex();
+
+        int mainDancerDanceFloorIndex = currentPlayer().getMainDancer().getPreviewIndex();
         DanceFloorTile[][] danceFloorMatrix = convertToMatrix(danceFloor.danceFloorTiles);
-        int[] mainDancerCoords = indexToCoords(mainDancerIndex);
-        for(mainDancerX = 0; mainDancerX < pattern.length; mainDancerX++){
-            for(mainDancerY = 0; mainDancerY < pattern[mainDancerX].length; mainDancerY++){
-                if(pattern[mainDancerX][mainDancerY] == 3){
-                    System.out.println("maindancerx: " + mainDancerX + " maindancery: " + mainDancerY);
-                    break;
+        int[] mainDancerCoords = indexToCoords(mainDancerDanceFloorIndex);
+        System.out.println("column: " + mainDancerCoords[0]);
+        System.out.println("row: " + mainDancerCoords[1]);
+
+        // loop through the pattern to find where the main dancer is and get the offset from top left corner of pattern
+        int mainDancerOffsetInColumnIndex = 0;
+        int mainDancerOffsetInRowIndex = 0;
+
+        {
+            int rowIndex, columnIndex = 0;
+            for (rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
+                for (columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
+                    if (pattern[rowIndex][columnIndex] == 3) {
+                        System.out.println("pattern.length" + pattern.length);
+                        System.out.println("pattern[rowIndex].length" + pattern[rowIndex].length);
+                        System.out.println("maindancer column: " + columnIndex + " maindancer row: " + rowIndex);
+                        mainDancerOffsetInColumnIndex = columnIndex;
+                        mainDancerOffsetInRowIndex = rowIndex;
+                        break;
+                    }
                 }
             }
         }
+        //
 
-        for(int i = 0; i < pattern.length; i++){
-            for(int j = 0; j < pattern[i].length; j++){
-                if(pattern[i][j] == 1){
-                    tileIndex = tileIndexFromCoordinatesInTiles(mainDancerCoords[0] - mainDancerX + j, mainDancerCoords[1] - mainDancerY + i);
-                    danceFloor.newDancerOnTile(tileIndex, currentPlayer().getNewDanceFan());
+
+        // loop through pattern to read where dance fans should be placed, then write onto dance floor
+        // I just scopes instead of new names for rowIndex and columnIndex
+        {
+            for (int rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
+                for (int columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
+                    if (pattern[rowIndex][columnIndex] == 1) {
+                        int columnInDanceFloor = mainDancerCoords[0] - mainDancerOffsetInColumnIndex + columnIndex;
+                        int rowInDanceFloor = mainDancerCoords[1] - mainDancerOffsetInRowIndex + rowIndex;
+                        tileIndex = tileIndexFromCoordinatesInTiles(columnInDanceFloor, rowInDanceFloor);
+                        System.out.println("mainDancerColumn: " + mainDancerCoords[0]);
+                        System.out.println("mainDancerOffsetInColumnIndex: " + mainDancerOffsetInColumnIndex);
+                        System.out.println("rowIndex: " + rowIndex);
+
+                        // Logic to check if dancer in pattern would be outside of the dancefloor edges
+                        if (
+                                 ( columnInDanceFloor < danceFloor.mapWidthInTiles)
+                            &&   ( columnInDanceFloor >= 0)
+                            &&   ( rowInDanceFloor < danceFloor.mapHeightInTiles)
+                            &&   ( rowInDanceFloor >= 0)
+                        )
+                        {
+                            danceFloor.newDancerOnTile(tileIndex, currentPlayer().getNewDanceFan());
+                        }
+                    }
                 }
             }
         }
@@ -175,12 +217,14 @@ public class Model {
         return danceFloorArray;
     }
 
+    // since we start from top left, end at bottom right row and column is probably more fitting than x y. Since y would be upside down.
+    // rename to arrayIndexToMatrixIndexes or something?
     private int[] indexToCoords(int index){
         int[] coords = new int[2];
-        int c = index % danceFloor.mapWidthInTiles;
-        int r = index / danceFloor.mapWidthInTiles;
-        coords[0] = c;
-        coords[1] = r;
+        int column = index % danceFloor.mapWidthInTiles;
+        int row = index / danceFloor.mapWidthInTiles;
+        coords[0] = column;
+        coords[1] = row;
         return coords;
     }
 

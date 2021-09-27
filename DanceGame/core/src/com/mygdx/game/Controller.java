@@ -48,7 +48,7 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        int[][] pattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
+
 
         System.out.println("key down" + keycode);
 
@@ -63,12 +63,26 @@ public class Controller implements InputProcessor {
         }
         if(keycode == Input.Keys.ENTER) {
             System.out.println("Player clicked enter to confirm Dance move");
-            model.playerConfirmedDanceMove();
+            try {
+                // Protected code
+                model.playerConfirmedDanceMove();
+                // TODO: probably change what kind of exception, I have no Idea which is right
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Exception thrown  :" + e);
+            }
+
             return true;
         }
 
+        // patterns used to test, remove when no longer needed
+        //int[][] pattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
+        //int[][] pattern = new int[][]{{0, 1, 0, 1}, {0, 0, 0, 3}, {1, 0, 0, 1}};
         if(keycode == Input.Keys.F){
-            model.addDanceFansFromPattern(pattern);
+            //model.addDanceFansFromPattern(pattern);
+            // TODO: preview on move instead on pressing F
+            // TODO: show pattern of selected card, not the first in the list
+            model.addDanceFansFromPattern(model.currentPlayer().getCardDeck().getOpen().get(0).getDancePattern());
+
             return true;
         }
 
