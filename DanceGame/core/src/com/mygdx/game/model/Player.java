@@ -26,7 +26,7 @@ public class Player {
         return cardDeck;
     }
 
-    public DanceFan getDanceFan(){
-        return danceFan;
+    public DanceFan getNewDanceFan(){
+        return new DanceFan("greenDancer");
     }
 }

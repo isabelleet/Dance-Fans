@@ -48,6 +48,8 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        int[][] pattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
+
         System.out.println("key down" + keycode);
 
         if(keycode == Input.Keys.NUM_1){
@@ -62,6 +64,11 @@ public class Controller implements InputProcessor {
         if(keycode == Input.Keys.ENTER) {
             System.out.println("Player clicked enter to confirm Dance move");
             model.playerConfirmedDanceMove();
+            return true;
+        }
+
+        if(keycode == Input.Keys.F){
+            model.addDanceFansFromPattern(pattern);
             return true;
         }
 
