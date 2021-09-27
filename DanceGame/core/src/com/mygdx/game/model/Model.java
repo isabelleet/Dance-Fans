@@ -200,12 +200,24 @@ public class Model {
     // testing by creating a basic card deck
     private CardDeck initialDeck(){
         List<Card> cards = new ArrayList<>();
+        // not allowed to write the pattern directly, must send it the long way.
+        int[][] pattern = {{1, 0, 1},{0, 0, 0},{1, 0, 1}};
+        cards.add(new Card(2,pattern,3 ));
+        cards.add(new Card(2,pattern,3 ));
+        cards.add(new Card(2,pattern,3 ));
 
-        cards.add(new Card(2));
-        cards.add(new Card(3));
-        cards.add(new Card(4));
-        cards.add(new Card(6));
+        pattern = new int[][] {{1, 1, 1}, {1, 0, 0}, {1, 0, 1}};
+        cards.add(new Card(3, pattern, 1));
+        cards.add(new Card(3, pattern, 1));
 
+        pattern = new int[][] {{0, 1, 0}, {1, 0, 1}, {0, 1, 0}};
+        cards.add(new Card(5, pattern, 2));
+        cards.add(new Card(5, pattern, 2));
+        cards.add(new Card(5, pattern, 2));
+
+        pattern = new int[][] {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 1}, {0, 0, 0, 1, 1}, {0, 0, 0, 0, 1}, {0, 0, 0, 0, 0}};
+        cards.add(new Card(6, pattern, 3));
+        cards.add(new Card(6, pattern, 3));
 
         return new CardDeck(cards);
 
