@@ -6,23 +6,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.assets.AssetManager;
 //import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
-import com.badlogic.gdx.Input;
+
 import com.mygdx.game.model.DanceFloor;
-import com.mygdx.game.model.DanceFloorTile;
 import com.mygdx.game.model.Model;
-import com.mygdx.game.DanceFans;
 
 public class View {
 
@@ -30,8 +24,8 @@ public class View {
 	Texture selectedTile;
 
 	TextureAtlas textureAtlas;
-	Sprite greenDancer;
-	Sprite redDancer;
+	Sprite greenDanceFan;
+	Sprite redDanceFan;
 	Sprite greenMainDancer;
 	Sprite redMainDancer;
 	public Sprite selectedTile_sprite;
@@ -78,8 +72,8 @@ public class View {
 		// card atlas?
 		textureAtlasCards = new TextureAtlas("cardSprites.txt");
 
-		greenDancer = textureAtlas.createSprite("greenDancer");
-		redDancer = textureAtlas.createSprite("redDancer");
+		greenDanceFan = textureAtlas.createSprite("greenDanceFan");
+		redDanceFan = textureAtlas.createSprite("redDanceFan");
 		greenMainDancer = textureAtlas.createSprite("greenMainDancer");
 		redMainDancer = textureAtlas.createSprite("redMainDancer");
 
