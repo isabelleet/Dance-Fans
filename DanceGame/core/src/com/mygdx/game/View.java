@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,6 +21,9 @@ import com.mygdx.game.model.Model;
 
 public class View {
 
+	BitmapFont font = new BitmapFont();
+	//TODO: maybe add custom font
+	//BitmapFont font = new BitmapFont(Gdx.files.internal("Calibri.fnt"),Gdx.files.internal("Calibri.png"),false);
 	SpriteBatch batch;
 	Texture selectedTile;
 
@@ -35,6 +39,9 @@ public class View {
 	// card atlas?
 	TextureAtlas textureAtlasCards;
 	final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
+
+	TextureAtlas textureAtlasButtons;
+	final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
 
 	// Camera and render
 	private OrthographicCamera camera;
@@ -72,6 +79,8 @@ public class View {
 		// card atlas?
 		textureAtlasCards = new TextureAtlas("cardSprites.txt");
 
+		textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
+
 		greenDanceFan = textureAtlas.createSprite("greenDanceFan");
 		redDanceFan = textureAtlas.createSprite("redDanceFan");
 		greenMainDancer = textureAtlas.createSprite("greenMainDancer");
@@ -106,6 +115,14 @@ public class View {
 			Sprite sprite = textureAtlasCards.createSprite(region.name);
 			cards.put(region.name, sprite);
 		}
+
+
+		//buttons atlas?
+		Array<AtlasRegion> regionsButtons = textureAtlasButtons.getRegions();
+		for(AtlasRegion region : regionsButtons){
+			Sprite sprite = textureAtlasButtons.createSprite(region.name);
+			buttonSprites.put(region.name, sprite);
+		}
 	}
 
 
@@ -125,10 +142,20 @@ public class View {
     	sprite.draw(batch);
 	}
 
+	private void drawButton(String name, float x, float y){
+		Sprite sprite = buttonSprites.get(name);
+
+		sprite.setPosition(x,y);
+
+		sprite.draw(batch);
+	}
+
 	public void render (DanceFloor danceFloor) {
 		ScreenUtils.clear(1, 0, 0, 1);
 
 		batch.begin();
+
+
 
 		// Draw Dance Floor and things on it
 		// TODO: Make this prettier but added this to draw from top left corner so one can think about it like a matrix
@@ -163,9 +190,55 @@ public class View {
 
 		// drawing cards
 		batch.begin();
+
+		font.draw(batch, "Turns before dance ends: [TODO: get from model]", 400 , 825);
+
+
+
+		font.draw(batch, "Win by having the most dance fans", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 820);
+		font.draw(batch, "(squares in the same color as your main dancer)", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 800);
+		font.draw(batch, "when the dance floor is full, or when the song has ended.", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 780);
+
+
+		//TODO: if enter is pressed, show it as feedback?
+		//TODO: show active when it is possible to press button to get an effect
+		//TODO: show inactive when not possible to press button to get an effect
+		int tempXAdjustment = 300;
+		font.draw(batch, "Controls", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 650);
+
+		font.draw(batch, "Move your Main Dancer", danceFloor.tileWidth* danceFloor.mapWidthInTiles+ 50, 550);
+
+		drawButton("emojione-monotone_keycap-downArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 490);
+		drawButton("emojione-monotone_keycap-upArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 550);
+		drawButton("emojione-monotone_keycap-leftArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment - 60, 490);
+		drawButton("emojione-monotone_keycap-rightArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment + 60, 490);
+
+		font.draw(batch, "Confirm you planned dance move", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 375);
+		drawButton("emojione-monotone_keycap-enter", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment - 20, 325);
+
+		//int maxCardSlots = 7;
+		//for(int i = 0; i < maxCardSlots; i++){
+		//	String numberButton = "emojione-monotone_keycap-" + i;
+		//	drawButton(numberButton, 150, i*150);
+		//}
+
+		font.draw(batch, "Change what dance move to consider", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 100 , 240);
+
+		int spacing = 185;
+		int y = 80;
+
+		drawButton("emojione-monotone_keycap-1", 1*spacing , 10);
+		drawButton("emojione-monotone_keycap-2", 2*spacing , 10);
+		drawButton("emojione-monotone_keycap-3", 3*spacing , 10);
+		drawButton("emojione-monotone_keycap-4", 4*spacing , 10);
+		drawButton("emojione-monotone_keycap-5", 5*spacing , 10);
+		//drawButton("emojione-monotone_keycap-6", 6*spacing , y);
+		//drawButton("emojione-monotone_keycap-7", 7*spacing , y);
+		//TODO: have keys up to 7 but probably not needed now
+
 		for(int i = 0; i < model.currentlyOpenCards().size(); i++){
 			String card = "Property 1=Variant2, id=" + model.currentlyOpenCards().get(i).getId();
-			drawCard(card, danceFloor.tileWidth* danceFloor.mapWidthInTiles, i*350);
+			drawCard(card, i* spacing + 120, y);
 		}
 
 		batch.end();
