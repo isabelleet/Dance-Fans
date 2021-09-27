@@ -18,18 +18,18 @@ public class CardDeck {
     public CardDeck(List<Card> deck){
         this.deck = deck;
         // if they are predefined we should probably shuffle them before playing
-        ShuffleDeck(this.deck);
+        shuffleDeck(this.deck);
 
-        this.closed = CopyCards(this.deck);
+        this.closed = copyCards(this.deck);
         // Starts with two open cards
-        OpenCard();
-        OpenCard();
+        openCard(0);
+        openCard(0);
 
     }
 
-    public void UseCard(int i){
-        DiscardCard(i);
-        OpenCard();
+    public void useCard(int i){
+        discardCard(i);
+        openCard(i);
     }
 
     // don't need to open cards outside.
@@ -37,20 +37,19 @@ public class CardDeck {
     /**
      * takes a card from the deck and puts it among the cards that can be chosen
      */
-    private void OpenCard(){
+    private void openCard(int i){
         if(this.closed.size() == 0){
             addDiscCards();
         }
 
-        this.open.add(this.closed.get(0));
-        closed.remove(0);
+        this.open.add(i, closed.remove(0));
     }
 
     /**
      * removes a chosen card and moves it to the discarded pile
      * @param i which of the chosen cards to remove
      */
-    private void DiscardCard(int i){
+    private void discardCard(int i){
         this.discarded.add(this.open.remove(i));
     }
 
@@ -59,6 +58,7 @@ public class CardDeck {
      */
     private void addDiscCards(){
         int l = this.discarded.size();
+        shuffleDeck(discarded);
         for(int i = 0; i < l; i++){
             this.closed.add(this.discarded.remove(0));
         }
@@ -69,7 +69,7 @@ public class CardDeck {
      * @param deck to be copied
      * @return a copy of the deck
      */
-    private List<Card> CopyCards(List<Card> deck){
+    private List<Card> copyCards(List<Card> deck){
         int l = deck.size();
 
         return new ArrayList<>(deck);
@@ -89,7 +89,7 @@ public class CardDeck {
      * @param cards the cards to be shuffled
      */
     // Fisher-yates shuffle https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-    private void ShuffleDeck(List<Card> cards){
+    private void shuffleDeck(List<Card> cards){
         Random random = new Random();
         int l = cards.size();
 

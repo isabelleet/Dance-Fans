@@ -51,7 +51,11 @@ public class Controller implements InputProcessor {
         System.out.println("key down" + keycode);
 
         if(keycode == Input.Keys.NUM_1){
-            model.currentPlayer().getCardDeck().UseCard(0);
+            model.currentPlayer().getCardDeck().useCard(0);
+        }
+
+        if(keycode == Input.Keys.NUM_2){
+            model.currentPlayer().getCardDeck().useCard(1);
         }
 
         if(keycode == Input.Keys.SPACE) {
