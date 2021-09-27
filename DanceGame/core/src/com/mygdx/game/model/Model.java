@@ -65,25 +65,29 @@ public class Model {
 
 
 
-    public void playerConfirmedDanceMove() throws Exception {
-        // check if move is allowed
+    public void playerConfirmedDanceMove() throws ArrayIndexOutOfBoundsException {
+
+        try {
+            // check if move is allowed
             // E.g. can't move to location where another main Dancer already stands
             // Can only move as far away as card allows
             // etc
-        // update model based on the card, where the selection cursor on the dancefloor currently is
-        //this.danceFloor = previewDanceFloor;
+            // update model based on the card, where the selection cursor on the dancefloor currently is
+            //this.danceFloor = previewDanceFloor;
 
-        this.danceFloor = this.previewDanceFloor.deepCopy();
-
-
-
-        // Animations or something to give the user feedback?
-        changeWhichPlayersTurnItIs();
-        this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
-        this.hasPlayerStartedTheirTurn = false;
-        // show feedback for next player that it is their turn
-        // if they press button for playerDrewCardsToStartTurn(), then their turn begins.
-        // Not enter since that ends the last players turn, might be problem.
+          //  this.danceFloor = previewDanceFloor; //.deepCopy();
+            DanceFloor deepCopiedInstance = danceFloor.deepCopy();
+            this.previewDanceFloor = deepCopiedInstance;
+            // Animations or something to give the user feedback?
+            changeWhichPlayersTurnItIs();
+            this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
+            this.hasPlayerStartedTheirTurn = false;
+            // show feedback for next player that it is their turn
+            // if they press button for playerDrewCardsToStartTurn(), then their turn begins.
+            // Not enter since that ends the last players turn, might be problem.
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -114,21 +118,38 @@ public class Model {
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
     // the danceFloor (not previewDanceFloor) is only updated as copy of previewDanceFloor at end of a turn,
     // so all of this is for previewDanceFloor only
-    public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) {
+    public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) throws Exception {
         //sets currentplayers maindancer preview index to last turns index
         currentPlayer().getMainDancer().setPreviewIndex(currentPlayer().getMainDancer().getIndex());
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
         //TODO: make sure this is not pointer, but copied value of danceFloor.
-        this.previewDanceFloor = this.danceFloor.deepCopy();
-        //TODO: reset where mainDancerIndex is from danceFloor: currentPlayer().getMainDancer().setIndex(something);
-
+     //   this.previewDanceFloor = this.danceFloor.deepCopy();
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
 
-        previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
-        //TODO: show ghost/grayed out dancer at first position, to help player recall where they started the dance move from?
+        try {
+        //    this.previewDanceFloor = this.danceFloor;
+            DanceFloor deepCopiedInstance = danceFloor.deepCopy();
+            this.previewDanceFloor = deepCopiedInstance;
+            this.currentPlayer().getMainDancer().setIndex(indexMovedTo);
+        //    deepCopiedInstance.removeDancerFromTileIndex(mainDancerTileIndex);
+            previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
+            previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
 
-        previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
-        currentPlayer().getMainDancer().setPreviewIndex(indexMovedTo);
+        //    deepCopiedInstance.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
+            this.danceFloor = previewDanceFloor;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        //TODO: reset where mainDancerIndex is from danceFloor: currentPlayer().getMainDancer().setIndex(something);
+
+   //     int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
+
+      //  previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
+        //TODO: show ghost/grayed out dancer at first position, to help player recall where they started the dance move from?
+    //    previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
+
+       // previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
+    //    currentPlayer().getMainDancer().setPreviewIndex(indexMovedTo);
         System.out.println("mainDancerPreviewIndex: " + currentPlayer().getMainDancer().getPreviewIndex());
         System.out.println("mainDancerIndex: " + currentPlayer().getMainDancer().getIndex());
         System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
@@ -231,7 +252,7 @@ public class Model {
 
 
     //TODO: Kanske skriva tester om detta
-    public void moveSelection(int keycode){
+    public void moveSelection(int keycode) throws Exception {
         //int h = danceFloor.mapHeightInPixels/danceFloor.mapHeightInTiles;
         //int w = danceFloor.mapWidthInPixels/danceFloor.mapWidthInTiles;
 
