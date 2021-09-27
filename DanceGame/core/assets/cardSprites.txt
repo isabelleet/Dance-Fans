@@ -1,60 +1,116 @@
 cardSprites.png
-size: 1456, 276
+size: 728, 1104
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-id=1
+id=1, selected=False
   rotate: false
   xy: 0, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-id=2
+id=1, selected=True
   rotate: false
   xy: 182, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-id=3
+id=2, selected=False
   rotate: false
   xy: 364, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-id=4
+id=2, selected=True
   rotate: false
   xy: 546, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-id=5
+id=3, selected=False
   rotate: false
-  xy: 728, 0
+  xy: 0, 276
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-id=6
+id=3, selected=True
   rotate: false
-  xy: 910, 0
+  xy: 182, 276
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-id=7
+id=4, selected=False
   rotate: false
-  xy: 1092, 0
+  xy: 364, 276
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-id=8
+id=4, selected=True
   rotate: false
-  xy: 1274, 0
+  xy: 546, 276
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+id=5, selected=False
+  rotate: false
+  xy: 0, 552
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+id=5, selected=True
+  rotate: false
+  xy: 182, 552
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+id=6, selected=False
+  rotate: false
+  xy: 364, 552
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+id=6, selected=True
+  rotate: false
+  xy: 546, 552
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+id=7, selected=False
+  rotate: false
+  xy: 0, 828
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+id=7, selected=True
+  rotate: false
+  xy: 182, 828
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+id=8, selected=False
+  rotate: false
+  xy: 364, 828
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+id=8, selected=True
+  rotate: false
+  xy: 546, 828
   size: 182, 276
   orig: 182, 276
   offset: 0, 0

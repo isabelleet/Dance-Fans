@@ -14,6 +14,8 @@ public class CardDeck {
     private List<Card> closed;
     private List<Card> discarded = new ArrayList<>();
 
+    public int selected = 0;
+
     // should decks be predefined? or have a random selection of cards of the right type?
     public CardDeck(List<Card> deck){
         this.deck = deck;
@@ -27,9 +29,11 @@ public class CardDeck {
 
     }
 
-    public void useCard(int i){
-        discardCard(i);
-        openCard(i);
+    public void useCard(){
+        System.out.println("Card was used");
+        discardCard(selected);
+        openCard(selected);
+        selected = 0;
     }
 
     // don't need to open cards outside.

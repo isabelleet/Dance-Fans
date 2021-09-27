@@ -171,7 +171,12 @@ public class View {
 		// drawing cards
 		batch.begin();
 		for(int i = 0; i < model.currentlyOpenCards().size(); i++){
-			String card = "id=" + model.currentlyOpenCards().get(i).getId();
+			String card;
+			if(i == model.currentPlayer().getCardDeck().selected){
+				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=True";
+			} else{
+				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
+			}
 			drawCard(card, danceFloor.tileWidth* danceFloor.mapWidthInTiles, i*350);
 		}
 

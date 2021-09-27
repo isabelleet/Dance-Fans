@@ -46,8 +46,8 @@ public class Model {
     public void startNewGame(){
 
         this.players = new Player[2];
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck());
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck());
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(0));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(1));
         this.players[0] = player1;
         this.players[1] = player2;
 
@@ -197,27 +197,67 @@ public class Model {
     }
 
 
-    // testing by creating a basic card deck
-    private CardDeck initialDeck(){
+    /**
+     * used to set some starter decks
+     * @param i 0 for a green deck, otherwise a red deck
+     * @return either a deck with green cards or red cards
+     */
+    private CardDeck initialDeck(int i){
         List<Card> cards = new ArrayList<>();
-        // not allowed to write the pattern directly, must send it the long way.
-        int[][] pattern = {{1, 0, 1},{0, 0, 0},{1, 0, 1}};
-        cards.add(new Card(2,pattern,3 ));
-        cards.add(new Card(2,pattern,3 ));
-        cards.add(new Card(2,pattern,3 ));
+        if(i == 0) {
+            // not allowed to write the pattern directly, must send it the long way.
+            int[][] pattern = {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}};
+            cards.add(new Card(2, pattern, 3));
+            //cards.add(new Card(2,pattern,3 ));
+            //cards.add(new Card(2,pattern,3 ));
 
-        pattern = new int[][] {{1, 1, 1}, {1, 0, 0}, {1, 0, 1}};
-        cards.add(new Card(3, pattern, 1));
-        cards.add(new Card(3, pattern, 1));
+            pattern = new int[][]{{1, 1, 1}, {1, 0, 0}, {1, 0, 1}};
+            cards.add(new Card(3, pattern, 1));
+            //cards.add(new Card(3, pattern, 1));
 
-        pattern = new int[][] {{0, 1, 0}, {1, 0, 1}, {0, 1, 0}};
-        cards.add(new Card(5, pattern, 2));
-        cards.add(new Card(5, pattern, 2));
-        cards.add(new Card(5, pattern, 2));
+            pattern = new int[][]{{0, 1, 0}, {1, 0, 1}, {0, 1, 0}};
+            cards.add(new Card(5, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
 
-        pattern = new int[][] {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 1}, {0, 0, 0, 1, 1}, {0, 0, 0, 0, 1}, {0, 0, 0, 0, 0}};
-        cards.add(new Card(6, pattern, 3));
-        cards.add(new Card(6, pattern, 3));
+            pattern = new int[][]{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 1}, {0, 0, 0, 1, 1}, {0, 0, 0, 0, 1}, {0, 0, 0, 0, 0}};
+            cards.add(new Card(6, pattern, 3));
+            //cards.add(new Card(6, pattern, 3));
+
+
+        }else{
+            // not allowed to write the pattern directly, must send it the long way.
+            int[][] pattern = {{1, 0, 1}, {1, 0, 1}, {1, 0, 1}};
+            cards.add(new Card(4, pattern, 1));
+            //cards.add(new Card(2,pattern,3 ));
+            //cards.add(new Card(2,pattern,3 ));
+
+            pattern = new int[][]{{0, 1, 1}, {1, 0, 0}, {1, 0, 0}};
+            cards.add(new Card(7, pattern, 2));
+            //cards.add(new Card(3, pattern, 1));
+
+            pattern = new int[][]{
+                    {0, 0, 0, 1, 1, 0, 0},
+                    {0, 0, 0, 1, 0, 0, 0},
+                    {0, 0, 0, 1, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0}};
+            cards.add(new Card(1, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
+
+            pattern = new int[][]{
+                    {0, 0, 0, 0, 0},
+                    {1, 0, 0, 0, 0},
+                    {1, 1, 0, 0, 0},
+                    {1, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0}};
+            cards.add(new Card(8, pattern, 3));
+            //cards.add(new Card(6, pattern, 3));
+        }
+
 
         return new CardDeck(cards);
 
