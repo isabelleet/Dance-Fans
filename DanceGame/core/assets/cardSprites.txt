@@ -3,56 +3,56 @@ size: 1456, 276
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Property 1=New value, id=1
+id=1
   rotate: false
   xy: 0, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-Property 1=New value, id=5
+id=2
   rotate: false
   xy: 182, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-Property 1=New value, id=7
+id=3
   rotate: false
   xy: 364, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-Property 1=New value, id=8
+id=4
   rotate: false
   xy: 546, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-Property 1=Variant2, id=2
+id=5
   rotate: false
   xy: 728, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-Property 1=Variant2, id=3
+id=6
   rotate: false
   xy: 910, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-Property 1=Variant2, id=4
+id=7
   rotate: false
   xy: 1092, 0
   size: 182, 276
   orig: 182, 276
   offset: 0, 0
   index: -1
-Property 1=Variant2, id=6
+id=8
   rotate: false
   xy: 1274, 0
   size: 182, 276
