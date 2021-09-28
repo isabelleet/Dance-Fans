@@ -17,8 +17,8 @@ public class DanceFloor implements Serializable {
     //TODO: maybe remove if not used?
     private Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // Map
-    public TiledMap map;
-    private AssetManager manager;
+    public transient TiledMap map;
+    private transient AssetManager manager;
 
     // Map properties
     public int tileWidth, tileHeight,

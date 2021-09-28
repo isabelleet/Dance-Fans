@@ -1,6 +1,9 @@
 package com.mygdx.game.model;
 
-public class DanceFloorTile {
+import java.io.NotSerializableException;
+import java.io.Serializable;
+
+public class DanceFloorTile implements Serializable {
     public Dancer occupant;
 
     public String getOccupantName() {

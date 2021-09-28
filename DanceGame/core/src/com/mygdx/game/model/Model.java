@@ -53,6 +53,7 @@ public class Model {
 
 
         this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
+
         danceFloor.initializeDanceFloor();
         // Player ONE starts
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
@@ -122,21 +123,20 @@ public class Model {
         //sets currentplayers maindancer preview index to last turns index
         currentPlayer().getMainDancer().setPreviewIndex(currentPlayer().getMainDancer().getIndex());
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
-        //TODO: make sure this is not pointer, but copied value of danceFloor.
-     //   this.previewDanceFloor = this.danceFloor.deepCopy();
+
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
 
         try {
-        //    this.previewDanceFloor = this.danceFloor;
             DanceFloor deepCopiedInstance = danceFloor.deepCopy();
             this.previewDanceFloor = deepCopiedInstance;
             this.currentPlayer().getMainDancer().setIndex(indexMovedTo);
-        //    deepCopiedInstance.removeDancerFromTileIndex(mainDancerTileIndex);
             previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
             previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
+            deepCopiedInstance.removeDancerFromTileIndex(mainDancerTileIndex);
+            deepCopiedInstance.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
 
-        //    deepCopiedInstance.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
-            this.danceFloor = previewDanceFloor;
+            this.danceFloor = deepCopiedInstance;
+
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
