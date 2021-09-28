@@ -12,6 +12,5 @@ public class DesktopLauncher {
 		config.title = "Dance Fans";
 		config.width = 1600;
 		config.height = 900;
-		new LwjglApplication(new DanceFans(), config);
 	}
 }

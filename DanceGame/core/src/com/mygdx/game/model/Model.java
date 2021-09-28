@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.mygdx.game.Controller;
 import com.mygdx.game.View;
 import com.badlogic.gdx.Input;
+import java.lang.Math;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -230,8 +231,7 @@ public class Model {
                             &&   ( columnInDanceFloor >= 0)
                             &&   ( rowInDanceFloor < danceFloor.mapHeightInTiles)
                             &&   ( rowInDanceFloor >= 0)
-
-                             // TODO: fix if more players
+                            //TODO: Maybe not check spritenames but Id or something!
                             && !"redMainDancer".equals(previewDanceFloor.danceFloorTiles[tileIndex].getOccupantName())
                             && !"greenMainDancer".equals(previewDanceFloor.danceFloorTiles[tileIndex].getOccupantName())
 
@@ -275,23 +275,40 @@ public class Model {
         return coords;
     }
 
+    public int moveDistanceFromMainDancer(int index){
+        int[] coordsToCheck = indexToCoords(index);
+        int[] startIndexFromLastMove = indexToCoords(this.currentPlayer().getMainDancer().getIndex());
+        int distance = Math.abs(startIndexFromLastMove[0] - coordsToCheck[0]) + Math.abs(startIndexFromLastMove[1] - coordsToCheck[1]);
+        return distance;
+
+
+
+    }
+
 
     //TODO: Kanske skriva tester om detta
     public void moveSelection(int keycode) throws Exception {
         //int h = danceFloor.mapHeightInPixels/danceFloor.mapHeightInTiles;
         //int w = danceFloor.mapWidthInPixels/danceFloor.mapWidthInTiles;
 
+
+        // TODO: update this to selected card, not first card in deck
+        int selectedCardMoveDistanceLimit = currentPlayer().getCardDeck().getOpen().get(0).getSteps();
+
         //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
         // to go there then!
-
         switch (keycode){
             //case 19:
             case Input.Keys.UP:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX(), selectionOnTileIndex.getY() + h);
 
                 // Move up, If selectionOnTile is not in the top row
-                if (selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 )){
-                    int updatedIndex = selectionOnTileIndex - (danceFloor.mapWidthInTiles );
+                if ((selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 ))
+                    && (moveDistanceFromMainDancer(selectionOnTileIndex - danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
+                )
+
+                {
+                    int updatedIndex = selectionOnTileIndex - danceFloor.mapWidthInTiles;
                     selectionOnTileIndex = updatedIndex;
                     //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
                     // TODO: only move if within tile is within reach based on dance move card move distance prop.
@@ -305,7 +322,10 @@ public class Model {
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() , selectionOnTileIndex.getY() - h);
 
                 // Move down, If selectionOnTile is not in the bottom row
-                if (selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) )){
+                if ((selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) ))
+                    && (moveDistanceFromMainDancer(selectionOnTileIndex + danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
+                )
+                {
 
 
                     int updatedIndex = selectionOnTileIndex + danceFloor.mapWidthInTiles;
@@ -321,7 +341,12 @@ public class Model {
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() - w,selectionOnTileIndex.getY());
 
                 // Move left, If selectionOnTile is not in the leftmost column
-                if ((selectionOnTileIndex) % danceFloor.mapWidthInTiles != 0 ){
+                if (
+                    ((selectionOnTileIndex) % danceFloor.mapWidthInTiles != 0 )
+                    && (moveDistanceFromMainDancer(selectionOnTileIndex - 1) <= selectedCardMoveDistanceLimit)
+                )
+
+                {
 
                     int updatedIndex = selectionOnTileIndex = selectionOnTileIndex - 1;
                     selectionOnTileIndex = updatedIndex;
@@ -336,7 +361,12 @@ public class Model {
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() + w, selectionOnTileIndex.getY());
 
                 // Move right, If selectionOnTile is not in the rightmost column
-                if ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1){
+                if (
+                    ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1)
+                    && (moveDistanceFromMainDancer(selectionOnTileIndex + 1) <= selectedCardMoveDistanceLimit)
+                )
+
+                {
                     int updatedIndex  = selectionOnTileIndex + 1;
                     selectionOnTileIndex = updatedIndex;
                     //TODO: add like the other above
