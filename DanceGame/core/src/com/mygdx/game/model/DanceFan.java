@@ -1,6 +1,8 @@
 package com.mygdx.game.model;
 
-public class DanceFan extends Dancer {
+import java.io.Serializable;
+
+public class DanceFan extends Dancer implements Serializable {
     private String spriteName = "";
 
     public void setSpriteName(String name) {

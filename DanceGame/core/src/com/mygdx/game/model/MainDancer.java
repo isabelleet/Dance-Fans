@@ -2,7 +2,9 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class MainDancer extends Dancer {
+import java.io.Serializable;
+
+public class MainDancer extends Dancer implements Serializable {
 
     private Sprite dancerImg;
     private int previewIndex;

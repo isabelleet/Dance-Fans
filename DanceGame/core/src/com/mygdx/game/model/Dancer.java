@@ -1,6 +1,8 @@
 package com.mygdx.game.model;
 
-public class Dancer {
+import java.io.Serializable;
+
+public class Dancer implements Serializable {
 
     private int id;
     private String name;
