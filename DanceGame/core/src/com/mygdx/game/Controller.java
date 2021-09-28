@@ -53,6 +53,8 @@ public class Controller implements InputProcessor {
         System.out.println("key down" + keycode);
 
         if(keycode == Input.Keys.NUM_1){
+            //TODO: also update preview
+            //TODO: if maindancer stood on tile too far away, move it back when changing card
             model.currentPlayer().getCardDeck().selected = 0;
         }
 

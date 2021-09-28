@@ -118,7 +118,7 @@ public class Model {
 
 
     // Since the game might have a clock for your turn, the timer doesn't start until you draw your cards.
-    public void startPlayerTurn(){
+    public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
     }
 
@@ -162,7 +162,7 @@ public class Model {
         System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
 
 
-        this.addDanceFansFromPattern(this.currentPlayer().getCardDeck().getOpen().get(0).getDancePattern());
+        this.addDanceFansFromPattern(currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getDancePattern());
     }
 
     // visuell förklaring: https://miro.com/app/board/o9J_luo5ozI=/
@@ -283,7 +283,7 @@ public class Model {
 
 
         // TODO: update this to selected card, not first card in deck
-        int selectedCardMoveDistanceLimit = currentPlayer().getCardDeck().getOpen().get(0).getSteps();
+        int selectedCardMoveDistanceLimit = currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getSteps();
 
         //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
         // to go there then!
@@ -388,33 +388,33 @@ public class Model {
         List<Card> cards = new ArrayList<>();
         if(i == 0) {
             // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}};
+            int[][] pattern = {{1, 0, 1}, {0, 3, 0}, {1, 0, 1}};
             cards.add(new Card(2, pattern, 3));
             //cards.add(new Card(2,pattern,3 ));
             //cards.add(new Card(2,pattern,3 ));
 
-            pattern = new int[][]{{1, 1, 1}, {1, 0, 0}, {1, 0, 1}};
+            pattern = new int[][]{{1, 1, 1}, {1, 3, 0}, {1, 0, 1}};
             cards.add(new Card(3, pattern, 1));
             //cards.add(new Card(3, pattern, 1));
 
-            pattern = new int[][]{{0, 1, 0}, {1, 0, 1}, {0, 1, 0}};
+            pattern = new int[][]{{0, 1, 0}, {1, 3, 1}, {0, 1, 0}};
             cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
 
-            pattern = new int[][]{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 1}, {0, 0, 0, 1, 1}, {0, 0, 0, 0, 1}, {0, 0, 0, 0, 0}};
+            pattern = new int[][]{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 1}, {0, 0, 3, 1, 1}, {0, 0, 0, 0, 1}, {0, 0, 0, 0, 0}};
             cards.add(new Card(6, pattern, 3));
             //cards.add(new Card(6, pattern, 3));
 
 
         }else{
             // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {{1, 0, 1}, {1, 0, 1}, {1, 0, 1}};
+            int[][] pattern = {{1, 0, 1}, {1, 3, 1}, {1, 0, 1}};
             cards.add(new Card(4, pattern, 1));
             //cards.add(new Card(2,pattern,3 ));
             //cards.add(new Card(2,pattern,3 ));
 
-            pattern = new int[][]{{0, 1, 1}, {1, 0, 0}, {1, 0, 0}};
+            pattern = new int[][]{{0, 1, 1}, {1, 3, 0}, {1, 0, 0}};
             cards.add(new Card(7, pattern, 2));
             //cards.add(new Card(3, pattern, 1));
 
@@ -422,18 +422,18 @@ public class Model {
                     {0, 0, 0, 1, 1, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 3, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}};
-            cards.add(new Card(1, pattern, 2));
+            cards.add(new Card(1, pattern, 4));
             //cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
 
             pattern = new int[][]{
                     {0, 0, 0, 0, 0},
                     {1, 0, 0, 0, 0},
-                    {1, 1, 0, 0, 0},
+                    {1, 1, 3, 0, 0},
                     {1, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0}};
             cards.add(new Card(8, pattern, 3));
