@@ -23,7 +23,7 @@ public class Controller implements InputProcessor {
         this.model = model;
     }
 
-    //TODO: Throw in a bunch of listeners and based on what buttons are detected call functions in model.
+    // TODO: Throw in a bunch of listeners and based on what buttons are detected call functions in model.
     // TODO: Replace stuff below with listeners
 
     /* public void detectInput(){
@@ -48,9 +48,13 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+
+
         System.out.println("key down" + keycode);
 
         if(keycode == Input.Keys.NUM_1){
+            //TODO: also update preview
+            //TODO: if maindancer stood on tile too far away, move it back when changing card
             model.currentPlayer().getCardDeck().selected = 0;
         }
 
@@ -59,15 +63,24 @@ public class Controller implements InputProcessor {
         }
 
         if(keycode == Input.Keys.SPACE) {
-            System.out.println("I'm in space!");
-            return false;
+            model.playerDrewCardsToStartTurn();
+            return true;
         }
         if(keycode == Input.Keys.ENTER) {
             System.out.println("Player clicked enter to confirm Dance move");
-            model.playerConfirmedDanceMove();
+            try {
+                // Protected code
+                model.playerConfirmedDanceMove();
+                // TODO: probably change what kind of exception, I have no Idea which is right
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Exception thrown  :" + e);
+            }
             model.currentPlayer().getCardDeck().useCard();
-            return false;
+
+            return true;
         }
+
+
 
 
 //        if(keycode == Input.Keys.RIGHT) {
@@ -93,8 +106,12 @@ public class Controller implements InputProcessor {
 
 
         if(keycode <= 22 && keycode >=19) {
-            model.moveSelection(keycode);
-            return false;
+            try {
+                model.moveSelection(keycode);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
         }
         return false;
     }

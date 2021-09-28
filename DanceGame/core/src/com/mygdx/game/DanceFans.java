@@ -41,7 +41,7 @@ public class DanceFans extends ApplicationAdapter {
 
     @Override
     public void render () {
-        view.render(gameState.danceFloor);
+        view.render(gameState.previewDanceFloor);
         //System.out.println(view.selectedTile_sprite.getX());
     }
 
