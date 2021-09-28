@@ -42,6 +42,10 @@ public class Card {
         return dancePattern;
     }
 
+    public int getSteps() {
+        return this.steps;
+    }
+
     public void cardClicked() {
         System.out.println("Clicked on card");
     }
