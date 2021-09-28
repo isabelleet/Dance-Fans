@@ -53,8 +53,11 @@ public class Controller implements InputProcessor {
         System.out.println("key down" + keycode);
 
         if(keycode == Input.Keys.NUM_1){
-            model.currentPlayer().getCardDeck().UseCard(0);
-            return true;
+            model.currentPlayer().getCardDeck().selected = 0;
+        }
+
+        if(keycode == Input.Keys.NUM_2){
+            model.currentPlayer().getCardDeck().selected = 1;
         }
 
         if(keycode == Input.Keys.SPACE) {
@@ -70,6 +73,7 @@ public class Controller implements InputProcessor {
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("Exception thrown  :" + e);
             }
+            model.currentPlayer().getCardDeck().useCard();
 
             return true;
         }

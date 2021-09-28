@@ -11,7 +11,7 @@ public class MainDancer extends Dancer implements Serializable {
 
     public MainDancer(String name) {
         super(name);
-        //greenDancer = textureAtlas.createSprite("greenDancer");
+        //greenDancer = textureAtlas.createSprite("greenDanceFan");
     }
 
     public MainDancer(String name, int index){

@@ -181,12 +181,12 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">greenDancer.png</key>
+            <key type="filename">greenDanceFan.png</key>
             <key type="filename">greenMainDancer.png</key>
-            <key type="filename">redDancer.png</key>
+            <key type="filename">redDanceFan.png</key>
             <key type="filename">redMainDancer.png</key>
             <key type="filename">selectionBorder.png</key>
-            <key type="filename">transparent_tile2.png</key>
+            <key type="filename">transparent_tile.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -204,12 +204,12 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>greenDancer.png</filename>
             <filename>redMainDancer.png</filename>
             <filename>greenMainDancer.png</filename>
-            <filename>redDancer.png</filename>
             <filename>selectionBorder.png</filename>
-            <filename>transparent_tile2.png</filename>
+            <filename>greenDanceFan.png</filename>
+            <filename>redDanceFan.png</filename>
+            <filename>transparent_tile.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
