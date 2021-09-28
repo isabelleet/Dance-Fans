@@ -46,7 +46,7 @@ public class Model {
     public void startNewGame(){
 
         this.players = new Player[2];
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(), new DanceFan("redDanceFan"));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 10), initialDeck(), new DanceFan("redDanceFan"));
         Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(), new DanceFan("greenDanceFan"));
         this.players[0] = player1;
         this.players[1] = player2;
@@ -55,13 +55,21 @@ public class Model {
         this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
 
         danceFloor.initializeDanceFloor();
+
         // Player ONE starts
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
-        this.selectionOnTileIndex = danceFloor.mapWidthInTiles; //danceFloor.mapWidthInTiles + 1;
+        this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
         System.out.println("selection tile on " + danceFloor.mapWidthInTiles);
 
         danceFloor.newDancerOnTile(player1.getMainDancer().getIndex(), player1.getMainDancer());
         danceFloor.newDancerOnTile(player2.getMainDancer().getIndex(), player2.getMainDancer());
+
+        // Initialize previewdance floor
+        try {
+        this.previewDanceFloor = this.danceFloor.deepCopy();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -76,9 +84,10 @@ public class Model {
             // update model based on the card, where the selection cursor on the dancefloor currently is
             //this.danceFloor = previewDanceFloor;
 
-          //  this.danceFloor = previewDanceFloor; //.deepCopy();
-            DanceFloor deepCopiedInstance = danceFloor.deepCopy();
-            this.previewDanceFloor = deepCopiedInstance;
+            //DanceFloor deepCopiedInstance = previewDanceFloor.deepCopy();
+            //this.danceFloor = deepCopiedInstance;
+            this.danceFloor = previewDanceFloor.deepCopy();
+            this.currentPlayer().getMainDancer().setIndex(this.currentPlayer().getMainDancer().getPreviewIndex());
             // Animations or something to give the user feedback?
             changeWhichPlayersTurnItIs();
             this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
@@ -120,6 +129,9 @@ public class Model {
     // the danceFloor (not previewDanceFloor) is only updated as copy of previewDanceFloor at end of a turn,
     // so all of this is for previewDanceFloor only
     public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) throws Exception {
+
+        // Reset the preview to the last state of the dancefloor and maindancer positions
+
         //sets currentplayers maindancer preview index to last turns index
         currentPlayer().getMainDancer().setPreviewIndex(currentPlayer().getMainDancer().getIndex());
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
@@ -127,15 +139,19 @@ public class Model {
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
 
         try {
-            DanceFloor deepCopiedInstance = danceFloor.deepCopy();
-            this.previewDanceFloor = deepCopiedInstance;
-            this.currentPlayer().getMainDancer().setIndex(indexMovedTo);
+            //DanceFloor deepCopiedInstance = danceFloor.deepCopy();
+            //this.previewDanceFloor = deepCopiedInstance;
+            this.previewDanceFloor = danceFloor.deepCopy();
+
+
+            // Update index on dancefloor for main dancer preview, according to input
+            this.currentPlayer().getMainDancer().setPreviewIndex(indexMovedTo);
+            //Update dancefloor
             previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
             previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
-            deepCopiedInstance.removeDancerFromTileIndex(mainDancerTileIndex);
-            deepCopiedInstance.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
 
-            this.danceFloor = deepCopiedInstance;
+            //deepCopiedInstance.removeDancerFromTileIndex(mainDancerTileIndex);
+            // deepCopiedInstance.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
 
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -155,6 +171,7 @@ public class Model {
         System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
         //TODO: add function of currently active Dance Move Card, to also show preview of Dance fans added by move.
 
+        this.addDanceFansFromPattern(this.currentPlayer().getCardDeck().getOpen().get(0).getDancePattern());
     }
 
     // visuell förklaring: https://miro.com/app/board/o9J_luo5ozI=/
@@ -197,6 +214,7 @@ public class Model {
         {
             for (int rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
                 for (int columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
+
                     if (pattern[rowIndex][columnIndex] == 1) {
                         int columnInDanceFloor = mainDancerCoords[0] - mainDancerOffsetInColumnIndex + columnIndex;
                         int rowInDanceFloor = mainDancerCoords[1] - mainDancerOffsetInRowIndex + rowIndex;
@@ -205,20 +223,27 @@ public class Model {
                         System.out.println("mainDancerOffsetInColumnIndex: " + mainDancerOffsetInColumnIndex);
                         System.out.println("rowIndex: " + rowIndex);
 
+
                         // Logic to check if dancer in pattern would be outside of the dancefloor edges
                         if (
                                  ( columnInDanceFloor < danceFloor.mapWidthInTiles)
                             &&   ( columnInDanceFloor >= 0)
                             &&   ( rowInDanceFloor < danceFloor.mapHeightInTiles)
                             &&   ( rowInDanceFloor >= 0)
+
+                             // TODO: fix if more players
+                            && !"redMainDancer".equals(previewDanceFloor.danceFloorTiles[tileIndex].getOccupantName())
+                            && !"greenMainDancer".equals(previewDanceFloor.danceFloorTiles[tileIndex].getOccupantName())
+
                         )
                         {
-                            danceFloor.newDancerOnTile(tileIndex, currentPlayer().getNewDanceFan());
+                            previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getNewDanceFan());
                         }
                     }
                 }
             }
         }
+
     }
 
     private DanceFloorTile[][] convertToMatrix(DanceFloorTile[] danceFloorArray){

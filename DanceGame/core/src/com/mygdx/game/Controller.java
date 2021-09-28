@@ -74,17 +74,7 @@ public class Controller implements InputProcessor {
             return true;
         }
 
-        // patterns used to test, remove when no longer needed
-        //int[][] pattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
-        //int[][] pattern = new int[][]{{0, 1, 0, 1}, {0, 0, 0, 3}, {1, 0, 0, 1}};
-        if(keycode == Input.Keys.F){
-            //model.addDanceFansFromPattern(pattern);
-            // TODO: preview on move instead on pressing F
-            // TODO: show pattern of selected card, not the first in the list
-            model.addDanceFansFromPattern(model.currentPlayer().getCardDeck().getOpen().get(0).getDancePattern());
 
-            return true;
-        }
 
 
 //        if(keycode == Input.Keys.RIGHT) {
