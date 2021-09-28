@@ -6,7 +6,6 @@ public class Player {
     // handOfCards?
     // Timer left (if you use some clock that is saved between turns, so you sometimes can do fast turns and sometimes long.
     private MainDancer mainDancer;
-
     private CardDeck cardDeck;
 
 
@@ -22,5 +21,10 @@ public class Player {
 
     public CardDeck getCardDeck() {
         return cardDeck;
+    }
+
+    public DanceFan getNewDanceFan(){
+        //TODO: should be the appropriate dancefan for the player
+        return new DanceFan("greenDanceFan");
     }
 }

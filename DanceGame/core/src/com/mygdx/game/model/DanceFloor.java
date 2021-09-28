@@ -5,13 +5,20 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-public class DanceFloor {
+import java.io.Serializable;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class DanceFloor implements Serializable {
 
     public DanceFloorTile[] danceFloorTiles;
+    //TODO: maybe remove if not used?
     private Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // Map
-    public TiledMap map;
-    private AssetManager manager;
+    public transient TiledMap map;
+    private transient AssetManager manager;
 
     // Map properties
     public int tileWidth, tileHeight,
@@ -42,6 +49,29 @@ public class DanceFloor {
         mapHeightInPixels = mapHeightInTiles * tileHeight;
         this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles * mapWidthInTiles];
     }
+    // this is used to make a copy of a dancefloor, for our previews
+    // https://stackoverflow.com/a/9834683
+    // https://howtodoinjava.com/java/serialization/how-to-do-deep-cloning-using-in-memory-serialization-in-java/
+    public DanceFloor deepCopy() throws Exception
+    {
+        //Serialization of object
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bos);
+        out.writeObject(this);
+
+        //De-serialization of object
+        ByteArrayInputStream bis = new   ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream in = new ObjectInputStream(bis);
+        DanceFloor copied = (DanceFloor) in.readObject();
+
+        //Verify that object is not corrupt
+
+        //validateNameParts(fName);
+        //validateNameParts(lName);
+
+        return copied;
+    }
+
 
     //TODO: Use this to test end of game conditions e.g.
     public DanceFloorTile[] initializeFullDanceFloor(int dancefloorWidth, int dancefloorHeight) {
@@ -110,6 +140,8 @@ public class DanceFloor {
     public void newDancerOnTile(int tileIndex, Dancer dancer){
         this.danceFloorTiles[tileIndex].setOccupant(dancer);
     }
+
+
 
 
 

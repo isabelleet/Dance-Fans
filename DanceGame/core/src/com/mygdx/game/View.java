@@ -134,6 +134,7 @@ public class View {
 		sprite.draw(batch);
 	}
 
+	// based on the previous draw method, but for cards.
 	private void drawCard(String name, float x, float y){
     	Sprite sprite = cards.get(name);
 
@@ -237,7 +238,12 @@ public class View {
 		//TODO: have keys up to 7 but probably not needed now
 
 		for(int i = 0; i < model.currentlyOpenCards().size(); i++){
-			String card = "Property 1=Variant2, id=" + model.currentlyOpenCards().get(i).getId();
+			String card;
+			if(i == model.currentPlayer().getCardDeck().selected){
+				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=True";
+			} else{
+				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
+			}
 			drawCard(card, i* spacing + 120, y);
 		}
 
