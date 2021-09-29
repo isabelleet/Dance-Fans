@@ -1,88 +1,116 @@
 buttonSprites.png
-size: 128, 495
+size: 420, 745
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-emojione-monotone_keycap-1
+cardback_green
   rotate: false
   xy: 0, 0
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+cardback_red
+  rotate: false
+  xy: 182, 0
+  size: 182, 276
+  orig: 182, 276
+  offset: 0, 0
+  index: -1
+deck_green
+  rotate: false
+  xy: 0, 276
+  size: 182, 294
+  orig: 182, 294
+  offset: 0, 0
+  index: -1
+deck_red
+  rotate: false
+  xy: 182, 276
+  size: 182, 294
+  orig: 182, 294
+  offset: 0, 0
+  index: -1
+emojione-monotone_keycap-1
+  rotate: false
+  xy: 0, 570
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-2
   rotate: false
-  xy: 64, 0
+  xy: 64, 570
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-3
   rotate: false
-  xy: 0, 64
+  xy: 128, 570
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-4
   rotate: false
-  xy: 64, 64
+  xy: 192, 570
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-5
   rotate: false
-  xy: 0, 128
+  xy: 256, 570
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-6
   rotate: false
-  xy: 64, 128
+  xy: 320, 570
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-7
   rotate: false
-  xy: 0, 192
+  xy: 0, 634
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-downArrow
   rotate: false
-  xy: 64, 192
+  xy: 64, 634
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-enter
   rotate: false
-  xy: 0, 256
+  xy: 128, 634
   size: 100, 111
   orig: 100, 111
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-leftArrow
   rotate: false
-  xy: 0, 367
+  xy: 228, 634
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-rightArrow
   rotate: false
-  xy: 64, 367
+  xy: 292, 634
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-upArrow
   rotate: false
-  xy: 0, 431
+  xy: 356, 634
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

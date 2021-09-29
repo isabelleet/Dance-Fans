@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
+import com.mygdx.game.model.PlayerTurnSlot;
 
 public class View {
 
@@ -50,6 +51,9 @@ public class View {
 
 
 	private Model model;
+
+
+
 
     public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
         // Set up the camera
@@ -223,18 +227,19 @@ public class View {
 		//	drawButton(numberButton, 150, i*150);
 		//}
 
-		font.draw(batch, "Change what dance move to consider", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 100 , 240);
+		font.draw(batch, "Change what dance move to consider", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 100 , 50);
 
-		int spacing = 185;
-		int y = 80;
+		int spacing = 195;
+		int cardsBottomY = 80;
+		int xAdjustment = 90;
 
-		drawButton("emojione-monotone_keycap-1", 1*spacing , 10);
-		drawButton("emojione-monotone_keycap-2", 2*spacing , 10);
-		drawButton("emojione-monotone_keycap-3", 3*spacing , 10);
-		drawButton("emojione-monotone_keycap-4", 4*spacing , 10);
-		drawButton("emojione-monotone_keycap-5", 5*spacing , 10);
-		//drawButton("emojione-monotone_keycap-6", 6*spacing , y);
-		//drawButton("emojione-monotone_keycap-7", 7*spacing , y);
+		drawButton("emojione-monotone_keycap-1", 1*spacing + xAdjustment , 10);
+		drawButton("emojione-monotone_keycap-2", 2*spacing + xAdjustment, 10);
+		drawButton("emojione-monotone_keycap-3", 3*spacing + xAdjustment, 10);
+		drawButton("emojione-monotone_keycap-4", 4*spacing + xAdjustment, 10);
+		drawButton("emojione-monotone_keycap-5", 5*spacing + xAdjustment, 10);
+		//drawButton("emojione-monotone_keycap-6", 6*spacing , cardsBottomY);
+		//drawButton("emojione-monotone_keycap-7", 7*spacing , cardsBottomY);
 		//TODO: have keys up to 7 but probably not needed now
 
 		for(int i = 0; i < model.currentlyOpenCards().size(); i++){
@@ -244,8 +249,24 @@ public class View {
 			} else{
 				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
 			}
-			drawCard(card, i* spacing + 120, y);
+			drawCard(card, i* spacing + 220, cardsBottomY);
 		}
+
+		String currentPlayerDeckImageName;
+		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			currentPlayerDeckImageName = "deck_red";
+		else
+			currentPlayerDeckImageName = "deck_green";
+
+		int currentPlayerNumber;
+		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			currentPlayerNumber = 1;
+		else
+			currentPlayerNumber = 2;
+
+
+		drawButton(currentPlayerDeckImageName, 10 , cardsBottomY);
+		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", 50 , cardsBottomY - 30);
 
 		batch.end();
 

@@ -181,6 +181,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">buttons/cardback_green.png</key>
+            <key type="filename">buttons/cardback_red.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>46,69,91,138</rect>
+                <key>scale9Paddings</key>
+                <rect>46,69,91,138</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">buttons/deck_green.png</key>
+            <key type="filename">buttons/deck_red.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>46,74,91,147</rect>
+                <key>scale9Paddings</key>
+                <rect>46,74,91,147</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">buttons/emojione-monotone_keycap-1.png</key>
             <key type="filename">buttons/emojione-monotone_keycap-2.png</key>
             <key type="filename">buttons/emojione-monotone_keycap-3.png</key>
@@ -236,6 +268,10 @@
             <filename>buttons/emojione-monotone_keycap-rightArrow.png</filename>
             <filename>buttons/emojione-monotone_keycap-upArrow.png</filename>
             <filename>buttons/emojione-monotone_keycap-enter.png</filename>
+            <filename>buttons/cardback_green.png</filename>
+            <filename>buttons/cardback_red.png</filename>
+            <filename>buttons/deck_green.png</filename>
+            <filename>buttons/deck_red.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
