@@ -231,7 +231,7 @@ public class View {
 
 		int spacing = 195;
 		int cardsBottomY = 80;
-		int xAdjustment = 90;
+		int xAdjustment = 85;
 
 		drawButton("emojione-monotone_keycap-1", 1*spacing + xAdjustment , 10);
 		drawButton("emojione-monotone_keycap-2", 2*spacing + xAdjustment, 10);
@@ -242,9 +242,22 @@ public class View {
 		//drawButton("emojione-monotone_keycap-7", 7*spacing , cardsBottomY);
 		//TODO: have keys up to 7 but probably not needed now
 
+
+		// Draw current players cards
+		String cardback_spriteName_currentPlayer;
+		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			cardback_spriteName_currentPlayer = "cardback_red";
+		else
+			cardback_spriteName_currentPlayer = "cardback_green";
+
 		for(int i = 0; i < model.currentlyOpenCards().size(); i++){
 			String card;
-			if(i == model.currentPlayer().getCardDeck().selected){
+			if (model.hasPlayerStartedTheirTurn == false){
+				card = cardback_spriteName_currentPlayer;
+				drawButton(card, i* spacing + 220, cardsBottomY);
+				break;
+			}
+			else if(i == model.currentPlayer().getCardDeck().selected){
 				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=True";
 			} else{
 				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
@@ -252,18 +265,31 @@ public class View {
 			drawCard(card, i* spacing + 220, cardsBottomY);
 		}
 
+		//TODO: refactor in better way, this was quick just ot get it working
+		String startTurnUIForCurrentPlayer;
+		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			startTurnUIForCurrentPlayer = "startTurn_keyboard_redPlayer";
+		else
+			startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
+
+		if (model.hasPlayerStartedTheirTurn == false) {
+			drawButton(startTurnUIForCurrentPlayer, 10, cardsBottomY + 292);
+		}
+
+		//TODO: refactor in better way, this was quick just ot get it working
 		String currentPlayerDeckImageName;
 		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
 			currentPlayerDeckImageName = "deck_red";
 		else
 			currentPlayerDeckImageName = "deck_green";
 
+
+		//TODO: refactor in better way, this was quick just ot get it working
 		int currentPlayerNumber;
 		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
 			currentPlayerNumber = 1;
 		else
 			currentPlayerNumber = 2;
-
 
 		drawButton(currentPlayerDeckImageName, 10 , cardsBottomY);
 		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", 50 , cardsBottomY - 30);

@@ -1,5 +1,5 @@
 buttonSprites.png
-size: 420, 745
+size: 1468, 1154
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -19,99 +19,127 @@ cardback_red
   index: -1
 deck_green
   rotate: false
-  xy: 0, 276
+  xy: 364, 0
   size: 182, 294
   orig: 182, 294
   offset: 0, 0
   index: -1
 deck_red
   rotate: false
-  xy: 182, 276
+  xy: 546, 0
   size: 182, 294
   orig: 182, 294
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-1
   rotate: false
-  xy: 0, 570
+  xy: 728, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-2
   rotate: false
-  xy: 64, 570
+  xy: 792, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-3
   rotate: false
-  xy: 128, 570
+  xy: 856, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-4
   rotate: false
-  xy: 192, 570
+  xy: 920, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-5
   rotate: false
-  xy: 256, 570
+  xy: 984, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-6
   rotate: false
-  xy: 320, 570
+  xy: 1048, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-7
   rotate: false
-  xy: 0, 634
+  xy: 1112, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-downArrow
   rotate: false
-  xy: 64, 634
+  xy: 1176, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-enter
   rotate: false
-  xy: 128, 634
+  xy: 1240, 0
   size: 100, 111
   orig: 100, 111
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-leftArrow
   rotate: false
-  xy: 228, 634
+  xy: 1340, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-rightArrow
   rotate: false
-  xy: 292, 634
+  xy: 1404, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 emojione-monotone_keycap-upArrow
   rotate: false
-  xy: 356, 634
+  xy: 0, 294
   size: 64, 64
   orig: 64, 64
+  offset: 0, 0
+  index: -1
+startTurn_keyboard_greenPlayer
+  rotate: false
+  xy: 64, 294
+  size: 701, 430
+  orig: 701, 430
+  offset: 0, 0
+  index: -1
+startTurn_keyboard_redPlayer
+  rotate: false
+  xy: 765, 294
+  size: 701, 430
+  orig: 701, 430
+  offset: 0, 0
+  index: -1
+startTurn_mouse_greenPlayer
+  rotate: false
+  xy: 0, 724
+  size: 701, 430
+  orig: 701, 430
+  offset: 0, 0
+  index: -1
+startTurn_mouse_redPlayer
+  rotate: false
+  xy: 701, 724
+  size: 701, 430
+  orig: 701, 430
   offset: 0, 0
   index: -1

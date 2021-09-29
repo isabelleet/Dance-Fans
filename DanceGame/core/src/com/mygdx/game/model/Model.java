@@ -21,7 +21,7 @@ public class Model {
     //Player currentPlayer = ;
     public Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // TODO: show UI to let player know they should click to start their turn if hasPlayerStartedTheirTurn is False.
-    private Boolean hasPlayerStartedTheirTurn;
+    public Boolean hasPlayerStartedTheirTurn;
     public DanceFloor danceFloor;
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
     // When the move is confirmed, make danceFloor become previewDanceFloor.
@@ -71,6 +71,9 @@ public class Model {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //The first turn the cards are drawn right away.
+        this.hasPlayerStartedTheirTurn = true;
     }
 
 
@@ -120,6 +123,7 @@ public class Model {
     // Since the game might have a clock for your turn, the timer doesn't start until you draw your cards.
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
+        //TODO: draw new cards
     }
 
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
