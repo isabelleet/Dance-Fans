@@ -192,8 +192,9 @@ public class View {
 		// drawing cards
 		batch.begin();
 
-		font.draw(batch, "Turns before dance ends: [TODO: get from model]", 400 , 825);
 
+		String strWinner= model.isWinner();
+		font.draw(batch, strWinner, 400 , 825);
 
 
 		font.draw(batch, "Win by having the most dance fans", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 820);

@@ -103,8 +103,11 @@ public class Model {
     }
 
 
+
+    int turnNumber=0;
     // No need to make this more sophisticated until potential decision to add more players.
     public void changeWhichPlayersTurnItIs(){
+        turnNumber++;
         if (whichPlayersTurnItIs == PlayerTurnSlot.ONE) {
             this.whichPlayersTurnItIs = PlayerTurnSlot.TWO;
             System.out.println("Player 2, it's your turn!");
@@ -448,6 +451,50 @@ public class Model {
     public List<Card> currentlyOpenCards(){
         return currentPlayer().getCardDeck().getOpen();
     }
+
+    public int countRedTiles(){
+        int i = 1;
+        for(DanceFloorTile dft: danceFloor.danceFloorTiles){
+            if(dft.occupant.getSpriteName()==("redDanceFan")||dft.occupant.getSpriteName()==("redMainDancer"))i++;
+
+        }
+        return i;
+    }
+
+    public int countGreenTiles(){                       // number of green occupants
+        int i=1 ;
+        for(DanceFloorTile dft: danceFloor.danceFloorTiles){
+            if(dft.occupant.getSpriteName().equals("greenDanceFan")||dft.occupant.getSpriteName().equals("greenMainDancer")){
+                i++;
+            }
+        }
+        return i;
+    }
+
+
+    public boolean gameIsDone(){                        // return true when game is finish
+        if(countGreenTiles()+countRedTiles()==54    ||  turnNumber==10){
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+    public String isWinner(){
+        if (turnNumber==10||countRedTiles()+countGreenTiles()==54){
+            if (countGreenTiles() > countRedTiles()){
+                return " green is winner ";
+            }
+            else{
+                return " red is winner ";
+
+            }
+        } return "";
+    }
+
 
 
 }
