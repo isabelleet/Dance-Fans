@@ -47,8 +47,8 @@ public class Model {
     public void startNewGame(){
 
         this.players = new Player[2];
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(0));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(1));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(0), new DanceFan("redDanceFan"));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(1), new DanceFan("greenDanceFan"));
         this.players[0] = player1;
         this.players[1] = player2;
 
@@ -227,7 +227,7 @@ public class Model {
 
                         )
                         {
-                            previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getNewDanceFan());
+                            previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getDanceFan());
                         }
                     }
                 }
