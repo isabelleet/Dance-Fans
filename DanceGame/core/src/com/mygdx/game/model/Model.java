@@ -52,7 +52,6 @@ public class Model {
         this.players[0] = player1;
         this.players[1] = player2;
 
-
         this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
 
         danceFloor.initializeDanceFloor();
@@ -85,6 +84,11 @@ public class Model {
             // etc
             // update model based on the card, where the selection cursor on the dancefloor currently is
             //this.danceFloor = previewDanceFloor;
+
+            System.out.println(countRedTiles()+"reddddddddddd");
+            System.out.println(countGreenTiles()+"grennnnnnnnnnnnnnn");
+
+            System.out.println();
 
             //DanceFloor deepCopiedInstance = previewDanceFloor.deepCopy();
             //this.danceFloor = deepCopiedInstance;
@@ -453,17 +457,18 @@ public class Model {
     }
 
     public int countRedTiles(){
-        int i = 1;
-        for(DanceFloorTile dft: danceFloor.danceFloorTiles){
-            if(dft.occupant.getSpriteName()==("redDanceFan")||dft.occupant.getSpriteName()==("redMainDancer"))i++;
+        int i = 0;
+        for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
+            if(dft.occupant.getSpriteName().equals("redDanceFan")||dft.occupant.getSpriteName().equals("redMainDancer"))
+                i++;
 
         }
         return i;
     }
 
     public int countGreenTiles(){                       // number of green occupants
-        int i=1 ;
-        for(DanceFloorTile dft: danceFloor.danceFloorTiles){
+        int i=0 ;
+        for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
             if(dft.occupant.getSpriteName().equals("greenDanceFan")||dft.occupant.getSpriteName().equals("greenMainDancer")){
                 i++;
             }
