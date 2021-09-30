@@ -129,7 +129,8 @@ public class CardDeck {
             //cards.add(new Card(6, pattern, 3));
 
 
-        }else{
+        }else
+        {
             // not allowed to write the pattern directly, must send it the long way.
             int[][] pattern = {
                     {1, 0, 1},

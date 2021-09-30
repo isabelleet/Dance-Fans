@@ -1,25 +1,24 @@
-import com.mygdx.game.model.*;
-import org.junit.Test;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
+import com.mygdx.game.model.Card;
+import com.mygdx.game.model.CardDeck;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static java.lang.System.out;
-import static org.junit.Assert.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 
 public class CardTests {
 
-    CardDeck deck1;
-    CardDeck deck2;
+    static CardDeck deck1;
+    static CardDeck deck2;
 
     @BeforeClass
     public static void beforeClass(){
-
+        deck1 = CardDeck.initialDeck(0);
+        deck2 = CardDeck.initialDeck(1);
     }
-
-
 
     @Test
     public void gettingId(){
@@ -32,7 +31,15 @@ public class CardTests {
 
     @Test
     public void usingCards(){
+        Card firstCard = deck1.getOpen().get(0);
+        Card secondCard = deck1.getOpen().get(1);
+        //selected card is 0 by default, that means the first card should have been replaced
+        deck1.useCard();
+        Card newFirstCard = deck1.getOpen().get(0);
+        Card newSecondCard = deck1.getOpen().get(1);
 
+        assertNotEquals(firstCard, newFirstCard);
+        assertEquals(secondCard, newSecondCard);
     }
 
 }
