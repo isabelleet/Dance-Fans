@@ -196,6 +196,13 @@ public class View {
 		String strWinner= model.isWinner();
 		font.draw(batch, strWinner, 400 , 825);
 
+		int turnNumbers=model.numberTurns()+1;
+		String s = turnNumbers + "      rounds played";
+		font.draw(batch, s, 400 , 850);
+
+
+
+
 
 		font.draw(batch, "Win by having the most dance fans", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 820);
 		font.draw(batch, "(squares in the same color as your main dancer)", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 800);

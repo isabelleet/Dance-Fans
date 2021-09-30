@@ -489,7 +489,7 @@ public class Model {
 
 
     public String isWinner(){
-        if (turnNumber==10||countRedTiles()+countGreenTiles()==54){
+        if (turnNumber==20||countRedTiles()+countGreenTiles()==54){
             if (countGreenTiles() > countRedTiles()){
                 return " green is winner ";
             }
@@ -498,6 +498,11 @@ public class Model {
 
             }
         } return "";
+    }
+
+    public int numberTurns(){
+
+        return turnNumber/2;
     }
 
 
