@@ -88,6 +88,92 @@ public class CardDeck {
     }
 
     /**
+     * used to set some starter decks
+     * @param i 0 for a green deck, otherwise a red deck
+     * @return either a deck with green cards or red cards
+     */
+    public static CardDeck initialDeck(int i){
+        List<Card> cards = new ArrayList<>();
+        if(i == 0) {
+            // not allowed to write the pattern directly, must send it the long way.
+            int[][] pattern = {
+                    {1, 0, 1},
+                    {0, 3, 0},
+                    {1, 0, 1}};
+            cards.add(new Card(2, pattern, 3));
+            //cards.add(new Card(2,pattern,3 ));
+            //cards.add(new Card(2,pattern,3 ));
+
+            pattern = new int[][]{
+                    {1, 1, 1},
+                    {1, 3, 0},
+                    {1, 0, 1}};
+            cards.add(new Card(3, pattern, 1));
+            //cards.add(new Card(3, pattern, 1));
+
+            pattern = new int[][]{
+                    {0, 1, 0},
+                    {1, 3, 1},
+                    {0, 1, 0}};
+            cards.add(new Card(5, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
+
+            pattern = new int[][]{
+                    {0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 1},
+                    {0, 0, 3, 1, 1},
+                    {0, 0, 0, 0, 1},
+                    {0, 0, 0, 0, 0}};
+            cards.add(new Card(6, pattern, 3));
+            //cards.add(new Card(6, pattern, 3));
+
+
+        }else{
+            // not allowed to write the pattern directly, must send it the long way.
+            int[][] pattern = {
+                    {1, 0, 1},
+                    {1, 3, 1},
+                    {1, 0, 1}};
+            cards.add(new Card(4, pattern, 1));
+            //cards.add(new Card(2,pattern,3 ));
+            //cards.add(new Card(2,pattern,3 ));
+
+            pattern = new int[][]{
+                    {0, 1, 1},
+                    {1, 3, 0},
+                    {1, 0, 0}};
+            cards.add(new Card(7, pattern, 2));
+            //cards.add(new Card(3, pattern, 1));
+
+            pattern = new int[][]{
+                    {0, 0, 0, 1, 1, 0, 0},
+                    {0, 0, 0, 1, 0, 0, 0},
+                    {0, 0, 0, 1, 0, 0, 0},
+                    {0, 0, 0, 3, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0}};
+            cards.add(new Card(1, pattern, 4));
+            //cards.add(new Card(5, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
+
+            pattern = new int[][]{
+                    {0, 0, 0, 0, 0},
+                    {1, 0, 0, 0, 0},
+                    {1, 1, 3, 0, 0},
+                    {1, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0}};
+            cards.add(new Card(8, pattern, 3));
+            //cards.add(new Card(6, pattern, 3));
+        }
+
+
+        return new CardDeck(cards);
+
+    }
+
+    /**
      * A shuffle method based on Fisher-Yates shuffle. So that the cards will be shuffled. Changes the original
      * deck of cards.
      * @param cards the cards to be shuffled
