@@ -198,8 +198,9 @@ public class View {
 
 		int turnNumbers=model.numberTurns()+1;
 		String s = turnNumbers + "      rounds played";
-		font.draw(batch, s, 400 , 850);
-
+		if(turnNumbers<=10) {
+			font.draw(batch, s, 400, 850);
+		}
 
 
 
