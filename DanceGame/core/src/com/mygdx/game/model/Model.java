@@ -388,33 +388,53 @@ public class Model {
         List<Card> cards = new ArrayList<>();
         if(i == 0) {
             // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {{1, 0, 1}, {0, 3, 0}, {1, 0, 1}};
+            int[][] pattern = {
+                    {1, 0, 1},
+                    {0, 3, 0},
+                    {1, 0, 1}};
             cards.add(new Card(2, pattern, 3));
             //cards.add(new Card(2,pattern,3 ));
             //cards.add(new Card(2,pattern,3 ));
 
-            pattern = new int[][]{{1, 1, 1}, {1, 3, 0}, {1, 0, 1}};
+            pattern = new int[][]{
+                    {1, 1, 1},
+                    {1, 3, 0},
+                    {1, 0, 1}};
             cards.add(new Card(3, pattern, 1));
             //cards.add(new Card(3, pattern, 1));
 
-            pattern = new int[][]{{0, 1, 0}, {1, 3, 1}, {0, 1, 0}};
+            pattern = new int[][]{
+                    {0, 1, 0},
+                    {1, 3, 1},
+                    {0, 1, 0}};
             cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
 
-            pattern = new int[][]{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 1}, {0, 0, 3, 1, 1}, {0, 0, 0, 0, 1}, {0, 0, 0, 0, 0}};
+            pattern = new int[][]{
+                    {0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 1},
+                    {0, 0, 3, 1, 1},
+                    {0, 0, 0, 0, 1},
+                    {0, 0, 0, 0, 0}};
             cards.add(new Card(6, pattern, 3));
             //cards.add(new Card(6, pattern, 3));
 
 
         }else{
             // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {{1, 0, 1}, {1, 3, 1}, {1, 0, 1}};
+            int[][] pattern = {
+                    {1, 0, 1},
+                    {1, 3, 1},
+                    {1, 0, 1}};
             cards.add(new Card(4, pattern, 1));
             //cards.add(new Card(2,pattern,3 ));
             //cards.add(new Card(2,pattern,3 ));
 
-            pattern = new int[][]{{0, 1, 1}, {1, 3, 0}, {1, 0, 0}};
+            pattern = new int[][]{
+                    {0, 1, 1},
+                    {1, 3, 0},
+                    {1, 0, 0}};
             cards.add(new Card(7, pattern, 2));
             //cards.add(new Card(3, pattern, 1));
 
