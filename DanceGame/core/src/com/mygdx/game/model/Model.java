@@ -21,7 +21,7 @@ public class Model {
     //Player currentPlayer = ;
     public Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // TODO: show UI to let player know they should click to start their turn if hasPlayerStartedTheirTurn is False.
-    private Boolean hasPlayerStartedTheirTurn;
+    public Boolean hasPlayerStartedTheirTurn;
     public DanceFloor danceFloor;
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
     // When the move is confirmed, make danceFloor become previewDanceFloor.
@@ -47,8 +47,9 @@ public class Model {
     public void startNewGame(){
 
         this.players = new Player[2];
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(0), new DanceFan("redDanceFan"));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(1), new DanceFan("greenDanceFan"));
+
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(1), new DanceFan("redDanceFan"));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(0), new DanceFan("greenDanceFan"));
         this.players[0] = player1;
         this.players[1] = player2;
 
@@ -70,6 +71,9 @@ public class Model {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //The first turn the cards are drawn right away.
+        this.hasPlayerStartedTheirTurn = true;
     }
 
 
@@ -127,6 +131,7 @@ public class Model {
     // Since the game might have a clock for your turn, the timer doesn't start until you draw your cards.
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
+        //TODO: draw new cards
     }
 
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
@@ -383,73 +388,6 @@ public class Model {
         System.out.println("height " + heightInTiles + " width " + widthInTiles);
 
         return y * widthInTiles + x;
-    }
-
-
-    /**
-     * used to set some starter decks
-     * @param i 0 for a green deck, otherwise a red deck
-     * @return either a deck with green cards or red cards
-     */
-    private CardDeck initialDeck(int i){
-        List<Card> cards = new ArrayList<>();
-        if(i == 0) {
-            // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {{1, 0, 1}, {0, 3, 0}, {1, 0, 1}};
-            cards.add(new Card(2, pattern, 3));
-            //cards.add(new Card(2,pattern,3 ));
-            //cards.add(new Card(2,pattern,3 ));
-
-            pattern = new int[][]{{1, 1, 1}, {1, 3, 0}, {1, 0, 1}};
-            cards.add(new Card(3, pattern, 1));
-            //cards.add(new Card(3, pattern, 1));
-
-            pattern = new int[][]{{0, 1, 0}, {1, 3, 1}, {0, 1, 0}};
-            cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
-
-            pattern = new int[][]{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 1}, {0, 0, 3, 1, 1}, {0, 0, 0, 0, 1}, {0, 0, 0, 0, 0}};
-            cards.add(new Card(6, pattern, 3));
-            //cards.add(new Card(6, pattern, 3));
-
-
-        }else{
-            // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {{1, 0, 1}, {1, 3, 1}, {1, 0, 1}};
-            cards.add(new Card(4, pattern, 1));
-            //cards.add(new Card(2,pattern,3 ));
-            //cards.add(new Card(2,pattern,3 ));
-
-            pattern = new int[][]{{0, 1, 1}, {1, 3, 0}, {1, 0, 0}};
-            cards.add(new Card(7, pattern, 2));
-            //cards.add(new Card(3, pattern, 1));
-
-            pattern = new int[][]{
-                    {0, 0, 0, 1, 1, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 3, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0}};
-            cards.add(new Card(1, pattern, 4));
-            //cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
-
-            pattern = new int[][]{
-                    {0, 0, 0, 0, 0},
-                    {1, 0, 0, 0, 0},
-                    {1, 1, 3, 0, 0},
-                    {1, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0}};
-            cards.add(new Card(8, pattern, 3));
-            //cards.add(new Card(6, pattern, 3));
-        }
-
-
-        return new CardDeck(cards);
-
     }
 
     public List<Card> currentlyOpenCards(){
