@@ -62,20 +62,22 @@ public class Controller implements InputProcessor {
             model.currentPlayer().getCardDeck().selected = 1;
         }
 
-        if(keycode == Input.Keys.SPACE) {
+        if(keycode == Input.Keys.D) {
             model.playerDrewCardsToStartTurn();
             return true;
         }
         if(keycode == Input.Keys.ENTER) {
             System.out.println("Player clicked enter to confirm Dance move");
-            try {
-                // Protected code
-                model.playerConfirmedDanceMove();
-                // TODO: probably change what kind of exception, I have no Idea which is right
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Exception thrown  :" + e);
+            if (model.hasPlayerStartedTheirTurn == true) {
+                try {
+                    // Protected code
+                    model.playerConfirmedDanceMove();
+                    // TODO: probably change what kind of exception, I have no Idea which is right
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Exception thrown  :" + e);
+                }
             }
-            model.currentPlayer().getCardDeck().useCard();
+
 
             return true;
         }
@@ -106,12 +108,14 @@ public class Controller implements InputProcessor {
 
 
         if(keycode <= 22 && keycode >=19) {
-            try {
-                model.moveSelection(keycode);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (model.hasPlayerStartedTheirTurn == true) {
+                try {
+                    model.moveSelection(keycode);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }
