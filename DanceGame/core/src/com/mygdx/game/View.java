@@ -196,7 +196,16 @@ public class View {
 		// drawing cards
 		batch.begin();
 
-		font.draw(batch, "Turns before dance ends: [TODO: get from model]", 400 , 825);
+
+		String strWinner= model.isWinner();
+		font.draw(batch, strWinner, 400 , 825);
+
+		int turnNumbers=model.numberTurns()+1;
+		String s = turnNumbers + "      rounds played";
+		if(turnNumbers<=10) {
+			font.draw(batch, s, 400, 850);
+		}
+
 
 
 

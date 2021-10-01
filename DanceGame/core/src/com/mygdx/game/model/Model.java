@@ -53,7 +53,6 @@ public class Model {
         this.players[0] = player1;
         this.players[1] = player2;
 
-
         this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
 
         danceFloor.initializeDanceFloor();
@@ -90,6 +89,11 @@ public class Model {
             // update model based on the card, where the selection cursor on the dancefloor currently is
             //this.danceFloor = previewDanceFloor;
 
+            System.out.println(countRedTiles()+"reddddddddddd");
+            System.out.println(countGreenTiles()+"grennnnnnnnnnnnnnn");
+
+            System.out.println();
+
             //DanceFloor deepCopiedInstance = previewDanceFloor.deepCopy();
             //this.danceFloor = deepCopiedInstance;
             this.danceFloor = previewDanceFloor.deepCopy();
@@ -107,8 +111,11 @@ public class Model {
     }
 
 
+
+    int turnNumber=0;
     // No need to make this more sophisticated until potential decision to add more players.
     public void changeWhichPlayersTurnItIs(){
+        turnNumber++;
         if (whichPlayersTurnItIs == PlayerTurnSlot.ONE) {
             this.whichPlayersTurnItIs = PlayerTurnSlot.TWO;
             System.out.println("Player 2, it's your turn!");
@@ -386,6 +393,56 @@ public class Model {
     public List<Card> currentlyOpenCards(){
         return currentPlayer().getCardDeck().getOpen();
     }
+
+    public int countRedTiles(){
+        int i = 0;
+        for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
+            if(dft.occupant.getSpriteName().equals("redDanceFan")||dft.occupant.getSpriteName().equals("redMainDancer"))
+                i++;
+
+        }
+        return i;
+    }
+
+    public int countGreenTiles(){                       // number of green occupants
+        int i=0 ;
+        for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
+            if(dft.occupant.getSpriteName().equals("greenDanceFan")||dft.occupant.getSpriteName().equals("greenMainDancer")){
+                i++;
+            }
+        }
+        return i;
+    }
+
+
+    public boolean gameIsDone(){                        // return true when game is finish
+        if(countGreenTiles()+countRedTiles()==54    ||  turnNumber==10){
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+    public String isWinner(){
+        if (turnNumber==20||countRedTiles()+countGreenTiles()==54){
+            if (countGreenTiles() > countRedTiles()){
+                return " green is winner ";
+            }
+            else{
+                return " red is winner ";
+
+            }
+        } return "";
+    }
+
+    public int numberTurns(){
+
+        return turnNumber/2;
+    }
+
 
 
 }
