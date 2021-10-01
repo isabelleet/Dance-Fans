@@ -137,8 +137,6 @@ public class View {
 		if (name.contains("DanceFanTransparent")) {
 			sprite.setAlpha(0.5f);
 		}
-		System.out.println("name" + name);
-	//	System.out.println("sprite:" + sprite);
 		sprite.draw(batch);
 	}
 
