@@ -31,8 +31,7 @@ public class Model {
     public int selectionOnTileIndex;
     //private MainDancer playerOne;
     //private MainDancer playerTwo;
-
-
+    List<Integer> tileIndexes = new ArrayList();
     public Model(){
     }
 
@@ -47,8 +46,8 @@ public class Model {
     public void startNewGame(){
 
         this.players = new Player[2];
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(0), new DanceFan("redDanceFan"));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(1), new DanceFan("greenDanceFan"));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(0), new DanceFan("redDanceFan"), new DanceFan("redDanceFanTransparent"));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(1), new DanceFan("greenDanceFan"), new DanceFan("greenDanceFanTransparent"));
         this.players[0] = player1;
         this.players[1] = player2;
 
@@ -105,6 +104,10 @@ public class Model {
 
     // No need to make this more sophisticated until potential decision to add more players.
     public void changeWhichPlayersTurnItIs(){
+        for (int i = 0; i < tileIndexes.size(); i++) {
+            previewDanceFloor.newDancerOnTile(tileIndexes.get(i), currentPlayer().getDanceFan());
+        }
+        tileIndexes.clear();
         if (whichPlayersTurnItIs == PlayerTurnSlot.ONE) {
             this.whichPlayersTurnItIs = PlayerTurnSlot.TWO;
             System.out.println("Player 2, it's your turn!");
@@ -227,7 +230,10 @@ public class Model {
 
                         )
                         {
-                            previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getDanceFan());
+                            tileIndexes.add(tileIndex);
+                            previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getTransparentDanceFan());
+                          //  previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getDanceFan());
+
                         }
                     }
                 }

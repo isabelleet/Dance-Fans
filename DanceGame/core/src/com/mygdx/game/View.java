@@ -32,6 +32,8 @@ public class View {
 	Sprite redDanceFan;
 	Sprite greenMainDancer;
 	Sprite redMainDancer;
+	Sprite greenDanceFanTransparent;
+	Sprite redDanceFanTransparent;
 	public Sprite selectedTile_sprite;
 
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
@@ -85,6 +87,9 @@ public class View {
 		redDanceFan = textureAtlas.createSprite("redDanceFan");
 		greenMainDancer = textureAtlas.createSprite("greenMainDancer");
 		redMainDancer = textureAtlas.createSprite("redMainDancer");
+		greenDanceFanTransparent = textureAtlas.createSprite("greenDanceFanTransparent");
+		redDanceFanTransparent = textureAtlas.createSprite("redDanceFanTransparent");
+
 
 		// load images for helper UI
 		//selectedTile = new Texture(Gdx.files.internal("selectionBorder.png"));
@@ -128,9 +133,12 @@ public class View {
 
 	private void drawSprite(String name, float x, float y) {
 		Sprite sprite = sprites.get(name);
-
 		sprite.setPosition(x, y);
-
+		if (name.contains("DanceFanTransparent")) {
+			sprite.setAlpha(0.5f);
+		}
+		System.out.println("name" + name);
+	//	System.out.println("sprite:" + sprite);
 		sprite.draw(batch);
 	}
 
@@ -168,7 +176,7 @@ public class View {
 			for (int columnIndex = 0; columnIndex < danceFloor.mapHeightInTiles; columnIndex++){
 				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
 				String spriteName = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getOccupantName();
-			    drawSprite(spriteName, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
+			    drawSprite(spriteName, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex));
 				if (currentIndexInDanceFloorArray == model.selectionOnTileIndex)
 				batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
 
