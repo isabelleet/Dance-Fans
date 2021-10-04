@@ -45,3 +45,17 @@ transparent_tile
   orig: 128, 128
   offset: 0, 0
   index: -1
+greenDanceFanTransparent
+  rotate: false
+  xy: 0, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+redDanceFanTransparent
+  rotate: false
+  xy: 256, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1

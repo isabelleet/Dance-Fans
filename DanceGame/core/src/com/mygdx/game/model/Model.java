@@ -31,8 +31,7 @@ public class Model {
     public int selectionOnTileIndex;
     //private MainDancer playerOne;
     //private MainDancer playerTwo;
-
-
+    List<Integer> tileIndexes = new ArrayList();
     public Model(){
     }
 
@@ -48,8 +47,9 @@ public class Model {
 
         this.players = new Player[2];
 
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(1), new DanceFan("redDanceFan"));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(0), new DanceFan("greenDanceFan"));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), CardDeck.initialDeck(1), new DanceFan("redDanceFan"), new DanceFan("redDanceFanTransparent"));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), CardDeck.initialDeck(0), new DanceFan("greenDanceFan"), new DanceFan("greenDanceFanTransparent"));
+
         this.players[0] = player1;
         this.players[1] = player2;
 
@@ -96,6 +96,9 @@ public class Model {
 
             //DanceFloor deepCopiedInstance = previewDanceFloor.deepCopy();
             //this.danceFloor = deepCopiedInstance;
+            for (int i = 0; i < tileIndexes.size(); i++) {
+                this.previewDanceFloor.newDancerOnTile(tileIndexes.get(i), currentPlayer().getDanceFan());
+            }
             this.danceFloor = previewDanceFloor.deepCopy();
             this.currentPlayer().getMainDancer().setIndex(this.currentPlayer().getMainDancer().getPreviewIndex());
             // Animations or something to give the user feedback?
@@ -115,7 +118,9 @@ public class Model {
     int turnNumber=0;
     // No need to make this more sophisticated until potential decision to add more players.
     public void changeWhichPlayersTurnItIs(){
+
         turnNumber++;
+
         if (whichPlayersTurnItIs == PlayerTurnSlot.ONE) {
             this.whichPlayersTurnItIs = PlayerTurnSlot.TWO;
             System.out.println("Player 2, it's your turn!");
@@ -146,6 +151,7 @@ public class Model {
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
 
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
+        tileIndexes.clear();
 
         try {
             //DanceFloor deepCopiedInstance = danceFloor.deepCopy();
@@ -239,7 +245,10 @@ public class Model {
 
                         )
                         {
-                            previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getDanceFan());
+                            tileIndexes.add(tileIndex);
+                            previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getTransparentDanceFan());
+                          //  previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getDanceFan());
+
                         }
                     }
                 }
