@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.PlayerTurnSlot;
@@ -45,8 +48,9 @@ public class View {
 	final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
 
 	// Camera and render
-	private OrthographicCamera camera;
+	private PerspectiveCamera camera;
 	private OrthogonalTiledMapRenderer renderer;
+	public Viewport viewport;
 
 
 
@@ -57,9 +61,11 @@ public class View {
 
     public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
         // Set up the camera
-        camera = new OrthographicCamera(1600.f, 900.f);
+        camera = new PerspectiveCamera();
         camera.position.x = mapWidthInTiles * .5f;
         camera.position.y = mapHeightInTiles * .5f;
+
+		viewport = new FitViewport(1600.f, 900.f, camera);
 
     }
 
@@ -144,6 +150,8 @@ public class View {
 
     	sprite.setPosition(x,y);
 
+		sprite.setScale(0.5f);
+
     	sprite.draw(batch);
 	}
 
@@ -151,6 +159,8 @@ public class View {
 		Sprite sprite = buttonSprites.get(name);
 
 		sprite.setPosition(x,y);
+
+		sprite.setScale(0.5f);
 
 		sprite.draw(batch);
 	}
@@ -188,7 +198,7 @@ public class View {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		camera.update();
-		renderer.setView(camera);
+		//renderer.setView(camera);
 		renderer.render();
 
 		batch.end();
@@ -208,27 +218,28 @@ public class View {
 
 
 
+		int tempXAdjustment = 50;
+		int buttonAdjustment= 300;
 
-		font.draw(batch, "Win by having the most dance fans", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 820);
-		font.draw(batch, "(squares in the same color as your main dancer)", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 800);
-		font.draw(batch, "when the dance floor is full, or when the song has ended.", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 780);
+		font.draw(batch, "Win by having the most dance fans", danceFloor.mapWidthInPixels + tempXAdjustment, 820);
+		font.draw(batch, "(squares in the same color as your main dancer)", danceFloor.mapWidthInPixels + tempXAdjustment, 800);
+		font.draw(batch, "when the dance floor is full, or when the song has ended.", danceFloor.mapWidthInPixels + tempXAdjustment, 780);
 
 
 		//TODO: if enter is pressed, show it as feedback?
 		//TODO: show active when it is possible to press button to get an effect
 		//TODO: show inactive when not possible to press button to get an effect
-		int tempXAdjustment = 300;
-		font.draw(batch, "Controls", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 650);
+		font.draw(batch, "Controls", danceFloor.mapWidthInPixels + buttonAdjustment + 32, 650);
 
-		font.draw(batch, "Move your Main Dancer", danceFloor.tileWidth* danceFloor.mapWidthInTiles+ 50, 550);
+		font.draw(batch, "Move your Main Dancer",  danceFloor.mapWidthInPixels + tempXAdjustment, 550);
 
-		drawButton("emojione-monotone_keycap-downArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 490);
-		drawButton("emojione-monotone_keycap-upArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 550);
-		drawButton("emojione-monotone_keycap-leftArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment - 60, 490);
-		drawButton("emojione-monotone_keycap-rightArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment + 60, 490);
+		drawButton("emojione-monotone_keycap-downArrow", danceFloor.mapWidthInPixels + buttonAdjustment + 32, 490);
+		drawButton("emojione-monotone_keycap-upArrow", danceFloor.mapWidthInPixels + buttonAdjustment +32, 522);
+		drawButton("emojione-monotone_keycap-leftArrow", danceFloor.mapWidthInPixels + buttonAdjustment  , 490);
+		drawButton("emojione-monotone_keycap-rightArrow", danceFloor.mapWidthInPixels + buttonAdjustment + 64, 490);
 
-		font.draw(batch, "Confirm you planned dance move", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 375);
-		drawButton("emojione-monotone_keycap-enter", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment - 20, 325);
+		font.draw(batch, "Confirm you planned dance move", danceFloor.mapWidthInPixels + tempXAdjustment, 375);
+		drawButton("emojione-monotone_keycap-enter", danceFloor.mapWidthInPixels + buttonAdjustment +16, 325);
 
 		//int maxCardSlots = 7;
 		//for(int i = 0; i < maxCardSlots; i++){
@@ -236,17 +247,17 @@ public class View {
 		//	drawButton(numberButton, 150, i*150);
 		//}
 
-		font.draw(batch, "Change what dance move to consider", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 100 , 50);
+		font.draw(batch, "Change what dance move to consider", danceFloor.mapWidthInPixels + tempXAdjustment , 50);
 
 		int spacing = 195;
-		int cardsBottomY = 80;
+		int cardsBottomY = 0;
 		int xAdjustment = 85;
 
 		drawButton("emojione-monotone_keycap-1", 1*spacing + xAdjustment , 10);
 		drawButton("emojione-monotone_keycap-2", 2*spacing + xAdjustment, 10);
-		drawButton("emojione-monotone_keycap-3", 3*spacing + xAdjustment, 10);
-		drawButton("emojione-monotone_keycap-4", 4*spacing + xAdjustment, 10);
-		drawButton("emojione-monotone_keycap-5", 5*spacing + xAdjustment, 10);
+		//drawButton("emojione-monotone_keycap-3", 3*spacing + xAdjustment, 10);
+		//drawButton("emojione-monotone_keycap-4", 4*spacing + xAdjustment, 10);
+		//drawButton("emojione-monotone_keycap-5", 5*spacing + xAdjustment, 10);
 		//drawButton("emojione-monotone_keycap-6", 6*spacing , cardsBottomY);
 		//drawButton("emojione-monotone_keycap-7", 7*spacing , cardsBottomY);
 		//TODO: have keys up to 7 but probably not needed now
@@ -282,7 +293,7 @@ public class View {
 			startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
 
 		if (model.hasPlayerStartedTheirTurn == false) {
-			drawButton(startTurnUIForCurrentPlayer, 10, cardsBottomY + 292);
+			drawButton(startTurnUIForCurrentPlayer,  xAdjustment, cardsBottomY +110 );
 		}
 
 		//TODO: refactor in better way, this was quick just ot get it working

@@ -45,8 +45,8 @@ public class DanceFloor implements Serializable {
         tileSideLength = tileHeight;
         mapWidthInTiles   = properties.get("width", Integer.class);
         mapHeightInTiles  = properties.get("height", Integer.class);
-        mapWidthInPixels  = mapWidthInTiles  * tileWidth;
-        mapHeightInPixels = mapHeightInTiles * tileHeight;
+        mapWidthInPixels  = (mapWidthInTiles  * tileWidth)/2;
+        mapHeightInPixels = (mapHeightInTiles * tileHeight)/2;
         this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles * mapWidthInTiles];
     }
     // this is used to make a copy of a dancefloor, for our previews

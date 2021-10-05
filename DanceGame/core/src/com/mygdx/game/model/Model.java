@@ -48,8 +48,8 @@ public class Model {
 
         this.players = new Player[2];
 
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), initialDeck(1), new DanceFan("redDanceFan"));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), initialDeck(0), new DanceFan("greenDanceFan"));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), CardDeck.initialDeck(1), new DanceFan("redDanceFan"));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), CardDeck.initialDeck(0), new DanceFan("greenDanceFan"));
         this.players[0] = player1;
         this.players[1] = player2;
 
