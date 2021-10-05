@@ -28,6 +28,7 @@ public class DanceFloor implements Serializable {
 
 
     public DanceFloor(Enum<PlayerTurnSlot> whichPlayersTurnItIs){
+        //Kanske flytta en del av detta till View, då det har med View att göra?
         this.whichPlayersTurnItIs = whichPlayersTurnItIs;
         // Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
         // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
@@ -45,8 +46,8 @@ public class DanceFloor implements Serializable {
         tileSideLength = tileHeight;
         mapWidthInTiles   = properties.get("width", Integer.class);
         mapHeightInTiles  = properties.get("height", Integer.class);
-        mapWidthInPixels  = (mapWidthInTiles  * tileWidth)/2;
-        mapHeightInPixels = (mapHeightInTiles * tileHeight)/2;
+        mapWidthInPixels  = (mapWidthInTiles  * tileWidth);
+        mapHeightInPixels = (mapHeightInTiles * tileHeight);
         this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles * mapWidthInTiles];
     }
     // this is used to make a copy of a dancefloor, for our previews

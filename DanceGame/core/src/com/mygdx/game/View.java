@@ -48,8 +48,9 @@ public class View {
 	final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
 
 	// Camera and render
-	private PerspectiveCamera camera;
-	private OrthogonalTiledMapRenderer renderer;
+	//private PerspectiveCamera camera;
+	private OrthographicCamera camera;
+	private OrthogonalTiledMapRenderer mapRenderer;
 	public Viewport viewport;
 
 
@@ -61,16 +62,17 @@ public class View {
 
     public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
         // Set up the camera
-        camera = new PerspectiveCamera();
-        camera.position.x = mapWidthInTiles * .5f;
-        camera.position.y = mapHeightInTiles * .5f;
+        camera = new OrthographicCamera(1600.f, 900.f);
+        camera.position.x = mapWidthInTiles * .65f;
+        camera.position.y = mapHeightInTiles * .2f;
+		camera.zoom = 1.3f;
 
 		viewport = new FitViewport(1600.f, 900.f, camera);
 
     }
 
     public void initRenderer(TiledMap map){
-        renderer = new OrthogonalTiledMapRenderer(map);
+		mapRenderer = new OrthogonalTiledMapRenderer(map);
     }
 
 	public void create(Model model) {
@@ -150,7 +152,7 @@ public class View {
 
     	sprite.setPosition(x,y);
 
-		sprite.setScale(0.5f);
+		sprite.setScale(0.75f);
 
     	sprite.draw(batch);
 	}
@@ -160,7 +162,7 @@ public class View {
 
 		sprite.setPosition(x,y);
 
-		sprite.setScale(0.5f);
+		sprite.setScale(0.75f);
 
 		sprite.draw(batch);
 	}
@@ -198,8 +200,8 @@ public class View {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		camera.update();
-		//renderer.setView(camera);
-		renderer.render();
+		mapRenderer.setView(camera);
+		mapRenderer.render();
 
 		batch.end();
 
@@ -211,9 +213,10 @@ public class View {
 		font.draw(batch, strWinner, 400 , 825);
 
 		int turnNumbers=model.numberTurns()+1;
-		String s = turnNumbers + "      rounds played";
+		String s = turnNumbers + "    rounds played";
 		if(turnNumbers<=10) {
-			font.draw(batch, s, 400, 850);
+			//font.draw(batch, s, 400, 850);
+			font.draw(batch, s, 1000, 850);
 		}
 
 
@@ -250,7 +253,7 @@ public class View {
 		font.draw(batch, "Change what dance move to consider", danceFloor.mapWidthInPixels + tempXAdjustment , 50);
 
 		int spacing = 195;
-		int cardsBottomY = 0;
+		int cardsBottomY = 40;
 		int xAdjustment = 85;
 
 		drawButton("emojione-monotone_keycap-1", 1*spacing + xAdjustment , 10);
