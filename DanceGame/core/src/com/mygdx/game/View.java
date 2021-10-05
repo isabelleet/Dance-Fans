@@ -57,17 +57,22 @@ public class View {
 
 	private Model model;
 
+	final float GAME_WORLD_WIDTH = 1600; //1600f before
+	final float GAME_WORLD_HEIGHT = 900; //900f before
+
 
 
 
     public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
         // Set up the camera
-        camera = new OrthographicCamera(1600.f, 900.f);
-        camera.position.x = mapWidthInTiles * .65f;
-        camera.position.y = mapHeightInTiles * .2f;
-		camera.zoom = 1.3f;
+		float aspectRatio = (float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
+        camera = new OrthographicCamera();
 
-		viewport = new FitViewport(1600.f, 900.f, camera);
+
+		viewport = new FitViewport(GAME_WORLD_WIDTH * aspectRatio, GAME_WORLD_HEIGHT * aspectRatio,  camera);
+		viewport.apply();
+		camera.position.set(GAME_WORLD_WIDTH/2 + 150, GAME_WORLD_HEIGHT/2 - 250, 0);
+		camera.zoom = 2.3f;
 
     }
 
@@ -216,7 +221,7 @@ public class View {
 		String s = turnNumbers + "    rounds played";
 		if(turnNumbers<=10) {
 			//font.draw(batch, s, 400, 850);
-			font.draw(batch, s, 1000, 850);
+			font.draw(batch, s, 0, 500);
 		}
 
 
