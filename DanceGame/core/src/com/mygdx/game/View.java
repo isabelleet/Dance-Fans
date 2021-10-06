@@ -53,7 +53,8 @@ public class View {
 	private OrthogonalTiledMapRenderer mapRenderer;
 	public Viewport viewport;
 
-
+	float width=(Gdx.graphics.getWidth()/2);
+	float height=(Gdx.graphics.getHeight());
 
 	private Model model;
 
@@ -72,7 +73,7 @@ public class View {
 		viewport = new FitViewport(1600, 800,  camera);
 		viewport.apply();
 		camera.position.set(width, 0, 0);
-		camera.zoom = 2.0f;
+		camera.zoom = 2;
 
     }
 
@@ -213,8 +214,6 @@ public class View {
 		// drawing cards
 		batch.begin();
 
-		float width=(Gdx.graphics.getWidth());
-		float height=(Gdx.graphics.getHeight());
 
 
 		String strWinner= model.isWinner();
@@ -224,7 +223,7 @@ public class View {
 		String s = turnNumbers + "    rounds played";
 		if(turnNumbers<=10) {
 			//font.draw(batch, s, 400, 850);
-			font.draw(batch, s, width/2, height-40);
+			font.draw(batch, s, width, height-40);
 		}
 
 
@@ -232,25 +231,25 @@ public class View {
 		int tempXAdjustment = 50;
 		int buttonAdjustment= 300;
 
-		font.draw(batch, "Win by having the most dance fans", (width/2), height-100) ;
-		font.draw(batch, "(squares in the same color as your main dancer)", (width/2), height-120);
-		font.draw(batch, "when the dance floor is full, or when the song has ended.", (width/2), height-140) ;
+		font.draw(batch, "Win by having the most dance fans", width, height-100) ;
+		font.draw(batch, "(squares in the same color as your main dancer)", width, height-120);
+		font.draw(batch, "when the dance floor is full, or when the song has ended.", width, height-140) ;
 
 
 		//TODO: if enter is pressed, show it as feedback?
 		//TODO: show active when it is possible to press button to get an effect
 		//TODO: show inactive when not possible to press button to get an effect
-		font.draw(batch, "Controls", (width/2+210), height-180);
+		font.draw(batch, "Controls", width+210, height-180);
 
-		font.draw(batch, "Move your Main Dancer",  (width/2), height-270);
+		font.draw(batch, "Move your Main Dancer",  (width), height-270);
 
-		drawButton("emojione-monotone_keycap-downArrow", (width/2)+210, height-308);
-		drawButton("emojione-monotone_keycap-upArrow", (width/2)+210 , height-260);
-		drawButton("emojione-monotone_keycap-leftArrow", (width/2)+162 , height-308);
-		drawButton("emojione-monotone_keycap-rightArrow", (width/2+258) , height-308);
+		drawButton("emojione-monotone_keycap-downArrow", width+210, height-308);
+		drawButton("emojione-monotone_keycap-upArrow", width+210 , height-260);
+		drawButton("emojione-monotone_keycap-leftArrow", width+162 , height-308);
+		drawButton("emojione-monotone_keycap-rightArrow", width+258 , height-308);
 
-		font.draw(batch, "Confirm you planned dance move", (width/2), height-370);
-		drawButton("emojione-monotone_keycap-enter", (width/2)+210, height-420);
+		font.draw(batch, "Confirm you planned dance move", width, height-370);
+		drawButton("emojione-monotone_keycap-enter", width+210, height-420);
 
 		//int maxCardSlots = 7;
 		//for(int i = 0; i < maxCardSlots; i++){
@@ -258,7 +257,7 @@ public class View {
 		//	drawButton(numberButton, 150, i*150);
 		//}
 
-		font.draw(batch, "Change what dance move to consider", (width/2), height-480);
+		font.draw(batch, "Change what dance move to consider", width, height-480);
 
 		int spacing = 195;
 		int cardsBottomY = 40;
@@ -323,7 +322,7 @@ public class View {
 			currentPlayerNumber = 2;
 
 		drawButton(currentPlayerDeckImageName, 10 , cardsBottomY);
-		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width/2 , height-20);
+		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width , height-20);
 
 
 

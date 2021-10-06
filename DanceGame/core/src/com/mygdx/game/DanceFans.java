@@ -37,8 +37,10 @@ public class DanceFans extends ApplicationAdapter {
         Gdx.input.setInputProcessor(this.controller);
     }
 
-
-
+    @Override
+    public void resize(int width, int height) {
+        view.viewport.update(width, height);
+    }
     @Override
     public void render () {
         view.render(gameState.previewDanceFloor);
