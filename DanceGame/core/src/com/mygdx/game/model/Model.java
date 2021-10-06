@@ -92,27 +92,17 @@ public class Model {
             // Can only move as far away as card allows
             // etc
             // update model based on the card, where the selection cursor on the dancefloor currently is
-            //this.danceFloor = previewDanceFloor;
 
-            System.out.println(countRedTiles()+"reddddddddddd");
-            System.out.println(countGreenTiles()+"grennnnnnnnnnnnnnn");
-
-            System.out.println();
-
-            //DanceFloor deepCopiedInstance = previewDanceFloor.deepCopy();
-            //this.danceFloor = deepCopiedInstance;
+            // Update tiles of the previewed transparent dancefans to dancefans when the player ends the turn
             for (int i = 0; i < tileIndexes.size(); i++) {
                 this.previewDanceFloor.newDancerOnTile(tileIndexes.get(i), currentPlayer().getDanceFan());
             }
+
             this.danceFloor = previewDanceFloor.deepCopy();
             this.currentPlayer().getMainDancer().setIndex(this.currentPlayer().getMainDancer().getPreviewIndex());
-            // Animations or something to give the user feedback?
             changeWhichPlayersTurnItIs();
             this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
             this.hasPlayerStartedTheirTurn = false;
-            // show feedback for next player that it is their turn
-            // if they press button for playerDrewCardsToStartTurn(), then their turn begins.
-            // Not enter since that ends the last players turn, might be problem.
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,29 +153,27 @@ public class Model {
      */
     public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) throws Exception {
 
-        // Reset the preview to the last state of the dancefloor and maindancer positions
-
-        //sets currentplayers maindancer preview index to last turns index
-        currentPlayer().getMainDancer().setPreviewIndex(currentPlayer().getMainDancer().getIndex());
-        //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
-
-        int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
+        // Clear list before the player moves so only the last preview indexes are stored in the list
         tileIndexes.clear();
 
+        // Reset the preview to the last state of the dancefloor and maindancer positions
+
+        // Sets currentplayers maindancer preview index to last turns index
+        currentPlayer().getMainDancer().setPreviewIndex(currentPlayer().getMainDancer().getIndex());
+
+        int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
+
         try {
-            //DanceFloor deepCopiedInstance = danceFloor.deepCopy();
-            //this.previewDanceFloor = deepCopiedInstance;
             this.previewDanceFloor = danceFloor.deepCopy();
-
-
             // Update index on dancefloor for main dancer preview, according to input
-            this.currentPlayer().getMainDancer().setPreviewIndex(indexMovedTo);
-            //Update dancefloor
-            previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
-            previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
-
-            //deepCopiedInstance.removeDancerFromTileIndex(mainDancerTileIndex);
-            // deepCopiedInstance.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
+              if (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexMovedTo)
+              || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexMovedTo))) {
+                // Update index on dancefloor for main dancer preview, according to input
+                  this.currentPlayer().getMainDancer().setPreviewIndex(indexMovedTo);
+                // Update dancefloor
+                previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
+                previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
+            }
 
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -215,7 +203,6 @@ public class Model {
         int tileIndex = 0;
 
         int mainDancerDanceFloorIndex = currentPlayer().getMainDancer().getPreviewIndex();
-        DanceFloorTile[][] danceFloorMatrix = convertToMatrix(danceFloor.danceFloorTiles);
         int[] mainDancerCoords = indexToCoords(mainDancerDanceFloorIndex);
         System.out.println("column: " + mainDancerCoords[0]);
         System.out.println("row: " + mainDancerCoords[1]);
@@ -269,9 +256,10 @@ public class Model {
 
                         )
                         {
+                            // Store indexes in a list to use them when the player ends their turn
                             tileIndexes.add(tileIndex);
+                            // Show transparent DanceFans based on the card before the turn ends
                             previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getTransparentDanceFan());
-                          //  previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getDanceFan());
 
                         }
                     }
@@ -281,6 +269,8 @@ public class Model {
     }
 
 
+
+
     private DanceFloorTile[][] convertToMatrix(DanceFloorTile[] danceFloorArray){
         DanceFloorTile[][] danceFloorMatrix = new DanceFloorTile[danceFloor.mapWidthInTiles][danceFloor.mapHeightInTiles];
         for(int i = 0; i < danceFloorArray.length; i++){
@@ -288,6 +278,7 @@ public class Model {
         }
         return danceFloorMatrix;
     }
+
 
     // since we start from top left, end at bottom right row and column is probably more fitting than x y. Since y would be upside down.
     // rename to arrayIndexToMatrixIndexes or something?
@@ -311,6 +302,7 @@ public class Model {
 
     //TODO: Kanske skriva tester om detta
 
+
     /**
      * Selects which direction the MainDancer should move in depending on the parameter. Makes sure the MainDancer can't move outside of the DanceFloor.
      * @param keycode Supplied from Controller, tells which button has been pressed.
@@ -321,16 +313,17 @@ public class Model {
         // TODO: update this to selected card, not first card in deck
         int selectedCardMoveDistanceLimit = currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getSteps();
 
-        //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
-        // to go there then!
         switch (keycode){
             //case 19:
             case Input.Keys.UP:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX(), selectionOnTileIndex.getY() + h);
+                int indexUp = selectionOnTileIndex - danceFloor.mapWidthInTiles;
 
                 // Move up, If selectionOnTile is not in the top row
                 if ((selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 ))
                     && (moveDistanceFromMainDancer(selectionOnTileIndex - danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
+                        && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexUp)
+                        || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexUp)))
                 )
 
                 {
@@ -346,14 +339,15 @@ public class Model {
             //case 20:
             case Input.Keys.DOWN:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() , selectionOnTileIndex.getY() - h);
+                int indexDown = selectionOnTileIndex + danceFloor.mapWidthInTiles;
 
                 // Move down, If selectionOnTile is not in the bottom row
                 if ((selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) ))
                     && (moveDistanceFromMainDancer(selectionOnTileIndex + danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
+                        && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexDown)
+                        || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexDown)))
                 )
                 {
-
-
                     int updatedIndex = selectionOnTileIndex + danceFloor.mapWidthInTiles;
                     selectionOnTileIndex = updatedIndex;
                     //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
@@ -365,16 +359,19 @@ public class Model {
             //case 21:
             case Input.Keys.LEFT:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() - w,selectionOnTileIndex.getY());
+                int indexLeft = selectionOnTileIndex - 1;
 
                 // Move left, If selectionOnTile is not in the leftmost column
                 if (
                     ((selectionOnTileIndex) % danceFloor.mapWidthInTiles != 0 )
                     && (moveDistanceFromMainDancer(selectionOnTileIndex - 1) <= selectedCardMoveDistanceLimit)
+                        && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexLeft)
+                        || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexLeft)))
                 )
 
                 {
 
-                    int updatedIndex = selectionOnTileIndex = selectionOnTileIndex - 1;
+                    int updatedIndex = selectionOnTileIndex - 1;
                     selectionOnTileIndex = updatedIndex;
                     //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
                     // TODO: only move if within tile is within reach based on dance move card move distance prop.
@@ -385,11 +382,14 @@ public class Model {
             //case 22:
             case Input.Keys.RIGHT:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() + w, selectionOnTileIndex.getY());
+                int indexRight = selectionOnTileIndex + 1;
 
                 // Move right, If selectionOnTile is not in the rightmost column
                 if (
                     ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1)
                     && (moveDistanceFromMainDancer(selectionOnTileIndex + 1) <= selectedCardMoveDistanceLimit)
+                        && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexRight)
+                        || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexRight)))
                 )
 
                 {
@@ -469,7 +469,4 @@ public class Model {
     public int numberTurns(){
         return turnNumber/2;
     }
-
-
-
 }
