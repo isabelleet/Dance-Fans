@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-//import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -55,8 +54,11 @@ public class View {
 	private Model model;
 
 
-
-
+	/**
+	 * Initializes the LibGDX camera for rendering.
+	 * @param mapWidthInTiles An int containing the width of the DanceFloor in tiles.
+	 * @param mapHeightInTiles An int containing the height of the DanceFloor in tiles.
+	 */
     public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
         // Set up the camera
         camera = new OrthographicCamera(1600.f, 900.f);
@@ -65,10 +67,18 @@ public class View {
 
     }
 
+	/**
+	 * Initializes the LibGDX renderer for the map.
+	 * @param map TiledMap map to render.
+	 */
     public void initRenderer(TiledMap map){
         renderer = new OrthogonalTiledMapRenderer(map);
     }
 
+	/**
+	 * Initializes TextureAtlases for buttons, cards and dancers, creates a sprite for each object that should be displayed. Also gives view a Model to draw things from.
+	 * @param model The model object created on startup.
+	 */
 	public void create(Model model) {
 
     	this.model = model;
@@ -161,6 +171,10 @@ public class View {
 		sprite.draw(batch);
 	}
 
+	/**
+	 * "The game loop", this method is responsible for drawing all the sprites visible on the screen.
+	 * @param danceFloor the DanceFloor the model is using.
+	 */
 	public void render (DanceFloor danceFloor) {
 		ScreenUtils.clear(1, 0, 0, 1);
 
@@ -313,7 +327,9 @@ public class View {
 
 	}
 
-
+	/**
+	 * Releases all resources (batches, sprites and textureatlases) of this object.
+	 */
 	public void dispose () {
 		batch.dispose();
 		sprites.clear();

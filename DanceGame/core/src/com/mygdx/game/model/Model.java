@@ -43,6 +43,9 @@ public class Model {
             return this.players[1];
     }
 
+    /**
+     * Initializes everything needed to start a new game, sets up Players, the DanceFloor and sets player 1's turn.
+     */
     public void startNewGame(){
 
         this.players = new Player[2];
@@ -77,8 +80,10 @@ public class Model {
     }
 
 
-
-
+    /**
+     *
+     * @throws ArrayIndexOutOfBoundsException
+     */
     public void playerConfirmedDanceMove() throws ArrayIndexOutOfBoundsException {
 
         try {
@@ -107,6 +112,10 @@ public class Model {
 
     int turnNumber=0;
     // No need to make this more sophisticated until potential decision to add more players.
+
+    /**
+     * Changes whose turn it is.
+     */
     public void changeWhichPlayersTurnItIs(){
 
         turnNumber++;
@@ -124,6 +133,10 @@ public class Model {
 
 
     // Since the game might have a clock for your turn, the timer doesn't start until you draw your cards.
+
+    /**
+     *
+     */
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
         //TODO: draw new cards
@@ -132,6 +145,12 @@ public class Model {
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
     // the danceFloor (not previewDanceFloor) is only updated as copy of previewDanceFloor at end of a turn,
     // so all of this is for previewDanceFloor only
+
+    /**
+     * Moves the MainDancer of the player whose turn it is currently to the specified index supplied to the method.
+     * @param indexMovedTo - Which index the MainDancer should be moved to.
+     * @throws Exception
+     */
     public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) throws Exception {
 
         // Clear list before the player moves so only the last preview indexes are stored in the list
@@ -173,6 +192,11 @@ public class Model {
 
     // visuell förklaring: https://miro.com/app/board/o9J_luo5ozI=/
     // d = 1, M = 3, blank = 0 i bilderna.
+
+    /**
+     * Displays previews of the DanceFans around the MainDancer from the card supplied as a parameter.
+     * @param pattern A matrix that represents the 8 tiles around a MainDancer and contains which tiles should have DanceFans added and which are unmodified.
+     */
     public void addDanceFansFromPattern(int[][] pattern){
         System.out.println("mainDancerPreviewIndex: " + currentPlayer().getMainDancer().getPreviewIndex());
         System.out.println("mainDancerDancefloorIndex: " + currentPlayer().getMainDancer().getIndex());
@@ -188,7 +212,7 @@ public class Model {
         int mainDancerOffsetInRowIndex = 0;
 
         {
-            int rowIndex, columnIndex = 0;
+            int rowIndex, columnIndex = 0; 
             for (rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
                 for (columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
                     if (pattern[rowIndex][columnIndex] == 3) {
@@ -242,8 +266,19 @@ public class Model {
                 }
             }
         }
-
     }
+
+
+
+
+    private DanceFloorTile[][] convertToMatrix(DanceFloorTile[] danceFloorArray){
+        DanceFloorTile[][] danceFloorMatrix = new DanceFloorTile[danceFloor.mapWidthInTiles][danceFloor.mapHeightInTiles];
+        for(int i = 0; i < danceFloorArray.length; i++){
+            danceFloorMatrix[i % danceFloor.mapWidthInTiles][i / danceFloor.mapWidthInTiles] = danceFloorArray[i];
+        }
+        return danceFloorMatrix;
+    }
+
 
     // since we start from top left, end at bottom right row and column is probably more fitting than x y. Since y would be upside down.
     // rename to arrayIndexToMatrixIndexes or something?
@@ -256,25 +291,28 @@ public class Model {
         return coords;
     }
 
-    public int moveDistanceFromMainDancer(int index){
+    private int moveDistanceFromMainDancer(int index){
         int[] coordsToCheck = indexToCoords(index);
         int[] startIndexFromLastMove = indexToCoords(this.currentPlayer().getMainDancer().getIndex());
         int distance = Math.abs(startIndexFromLastMove[0] - coordsToCheck[0]) + Math.abs(startIndexFromLastMove[1] - coordsToCheck[1]);
         return distance;
+
     }
 
 
     //TODO: Kanske skriva tester om detta
+
+
+    /**
+     * Selects which direction the MainDancer should move in depending on the parameter. Makes sure the MainDancer can't move outside of the DanceFloor.
+     * @param keycode Supplied from Controller, tells which button has been pressed.
+     * @throws Exception
+     */
     public void moveSelection(int keycode) throws Exception {
-        //int h = danceFloor.mapHeightInPixels/danceFloor.mapHeightInTiles;
-        //int w = danceFloor.mapWidthInPixels/danceFloor.mapWidthInTiles;
-        int startIndex = selectionOnTileIndex;
 
         // TODO: update this to selected card, not first card in deck
         int selectedCardMoveDistanceLimit = currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getSteps();
 
-        //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
-        // to go there then!
         switch (keycode){
             //case 19:
             case Input.Keys.UP:
@@ -376,11 +414,15 @@ public class Model {
         return y * widthInTiles + x;
     }
 
+    /**
+     * Fetches the cards that the current player can choose between.
+     * @return A List of Card that contains the cards the player can see.
+     */
     public List<Card> currentlyOpenCards(){
         return currentPlayer().getCardDeck().getOpen();
     }
 
-    public int countRedTiles(){
+    private int countRedTiles(){
         int i = 0;
         for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
             if(dft.occupant.getSpriteName().equals("redDanceFan")||dft.occupant.getSpriteName().equals("redMainDancer"))
@@ -390,7 +432,7 @@ public class Model {
         return i;
     }
 
-    public int countGreenTiles(){                       // number of green occupants
+    private int countGreenTiles(){                       // number of green occupants
         int i=0 ;
         for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
             if(dft.occupant.getSpriteName().equals("greenDanceFan")||dft.occupant.getSpriteName().equals("greenMainDancer")){
@@ -401,7 +443,7 @@ public class Model {
     }
 
 
-    public boolean gameIsDone(){                        // return true when game is finish
+    private boolean isGameDone(){                        // return true when game is finish
         if(countGreenTiles()+countRedTiles()==54    ||  turnNumber==10){
             return true;
         }
@@ -425,7 +467,6 @@ public class Model {
     }
 
     public int numberTurns(){
-
         return turnNumber/2;
     }
 }
