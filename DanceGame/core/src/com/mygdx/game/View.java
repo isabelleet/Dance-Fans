@@ -63,16 +63,16 @@ public class View {
 
 
 
-    public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
+    public void initCamera(int width, int height){
         // Set up the camera
 		float aspectRatio = (float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(1600, 800);
 
 
-		viewport = new FitViewport(GAME_WORLD_WIDTH * aspectRatio, GAME_WORLD_HEIGHT * aspectRatio,  camera);
+		viewport = new FitViewport(1600, 800,  camera);
 		viewport.apply();
-		camera.position.set(GAME_WORLD_WIDTH/2 + 150, GAME_WORLD_HEIGHT/2 - 250, 0);
-		camera.zoom = 2.3f;
+		camera.position.set(width, 0, 0);
+		camera.zoom = 2.0f;
 
     }
 
@@ -213,6 +213,9 @@ public class View {
 		// drawing cards
 		batch.begin();
 
+		float width=(Gdx.graphics.getWidth());
+		float height=(Gdx.graphics.getHeight());
+
 
 		String strWinner= model.isWinner();
 		font.draw(batch, strWinner, 400 , 825);
@@ -221,7 +224,7 @@ public class View {
 		String s = turnNumbers + "    rounds played";
 		if(turnNumbers<=10) {
 			//font.draw(batch, s, 400, 850);
-			font.draw(batch, s, 0, 500);
+			font.draw(batch, s, width/2, height-40);
 		}
 
 
@@ -229,25 +232,25 @@ public class View {
 		int tempXAdjustment = 50;
 		int buttonAdjustment= 300;
 
-		font.draw(batch, "Win by having the most dance fans", danceFloor.mapWidthInPixels + tempXAdjustment, 820);
-		font.draw(batch, "(squares in the same color as your main dancer)", danceFloor.mapWidthInPixels + tempXAdjustment, 800);
-		font.draw(batch, "when the dance floor is full, or when the song has ended.", danceFloor.mapWidthInPixels + tempXAdjustment, 780);
+		font.draw(batch, "Win by having the most dance fans", (width/2), height-100) ;
+		font.draw(batch, "(squares in the same color as your main dancer)", (width/2), height-120);
+		font.draw(batch, "when the dance floor is full, or when the song has ended.", (width/2), height-140) ;
 
 
 		//TODO: if enter is pressed, show it as feedback?
 		//TODO: show active when it is possible to press button to get an effect
 		//TODO: show inactive when not possible to press button to get an effect
-		font.draw(batch, "Controls", danceFloor.mapWidthInPixels + buttonAdjustment + 32, 650);
+		font.draw(batch, "Controls", (width/2+210), height-180);
 
-		font.draw(batch, "Move your Main Dancer",  danceFloor.mapWidthInPixels + tempXAdjustment, 550);
+		font.draw(batch, "Move your Main Dancer",  (width/2), height-270);
 
-		drawButton("emojione-monotone_keycap-downArrow", danceFloor.mapWidthInPixels + buttonAdjustment + 32, 490);
-		drawButton("emojione-monotone_keycap-upArrow", danceFloor.mapWidthInPixels + buttonAdjustment +32, 522);
-		drawButton("emojione-monotone_keycap-leftArrow", danceFloor.mapWidthInPixels + buttonAdjustment  , 490);
-		drawButton("emojione-monotone_keycap-rightArrow", danceFloor.mapWidthInPixels + buttonAdjustment + 64, 490);
+		drawButton("emojione-monotone_keycap-downArrow", (width/2)+210, height-308);
+		drawButton("emojione-monotone_keycap-upArrow", (width/2)+210 , height-260);
+		drawButton("emojione-monotone_keycap-leftArrow", (width/2)+162 , height-308);
+		drawButton("emojione-monotone_keycap-rightArrow", (width/2+258) , height-308);
 
-		font.draw(batch, "Confirm you planned dance move", danceFloor.mapWidthInPixels + tempXAdjustment, 375);
-		drawButton("emojione-monotone_keycap-enter", danceFloor.mapWidthInPixels + buttonAdjustment +16, 325);
+		font.draw(batch, "Confirm you planned dance move", (width/2), height-370);
+		drawButton("emojione-monotone_keycap-enter", (width/2)+210, height-420);
 
 		//int maxCardSlots = 7;
 		//for(int i = 0; i < maxCardSlots; i++){
@@ -255,7 +258,7 @@ public class View {
 		//	drawButton(numberButton, 150, i*150);
 		//}
 
-		font.draw(batch, "Change what dance move to consider", danceFloor.mapWidthInPixels + tempXAdjustment , 50);
+		font.draw(batch, "Change what dance move to consider", (width/2), height-480);
 
 		int spacing = 195;
 		int cardsBottomY = 40;
@@ -320,7 +323,9 @@ public class View {
 			currentPlayerNumber = 2;
 
 		drawButton(currentPlayerDeckImageName, 10 , cardsBottomY);
-		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", 50 , cardsBottomY - 30);
+		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width/2 , height-20);
+
+
 
 		batch.end();
 
