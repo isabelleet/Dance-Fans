@@ -37,8 +37,6 @@ public class DanceFans extends ApplicationAdapter {
         Gdx.input.setInputProcessor(this.controller);
     }
 
-
-
     @Override
     public void render () {
         view.render(gameState.previewDanceFloor);
