@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -15,6 +16,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.PlayerTurnSlot;
@@ -47,23 +50,28 @@ public class View {
 
 	// Camera and render
 	private OrthographicCamera camera;
-	private OrthogonalTiledMapRenderer renderer;
+	private OrthogonalTiledMapRenderer mapRenderer;
+	public Viewport viewport;
 
-
+	float width=(Gdx.graphics.getWidth()/2);
+	float height=(Gdx.graphics.getHeight());
 
 	private Model model;
 
 
-	/**
-	 * Initializes the LibGDX camera for rendering.
-	 * @param mapWidthInTiles An int containing the width of the DanceFloor in tiles.
-	 * @param mapHeightInTiles An int containing the height of the DanceFloor in tiles.
-	 */
-    public void initCamera(int mapWidthInTiles, int mapHeightInTiles){
+
+
+
+    public void initCamera(int width, int height){
         // Set up the camera
-        camera = new OrthographicCamera(1600.f, 900.f);
-        camera.position.x = mapWidthInTiles * .5f;
-        camera.position.y = mapHeightInTiles * .5f;
+		float aspectRatio = (float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
+        camera = new OrthographicCamera(1600, 800);
+		camera.position.set(width, 0, 0);
+		camera.zoom = 2;
+
+
+		viewport = new FitViewport(1600, 800,  camera);
+		viewport.apply();
 
     }
 
@@ -72,7 +80,7 @@ public class View {
 	 * @param map TiledMap map to render.
 	 */
     public void initRenderer(TiledMap map){
-        renderer = new OrthogonalTiledMapRenderer(map);
+		mapRenderer = new OrthogonalTiledMapRenderer(map);
     }
 
 	/**
@@ -160,6 +168,8 @@ public class View {
 
     	sprite.setPosition(x,y);
 
+		sprite.setScale(0.75f);
+
     	sprite.draw(batch);
 	}
 
@@ -167,6 +177,8 @@ public class View {
 		Sprite sprite = buttonSprites.get(name);
 
 		sprite.setPosition(x,y);
+
+		sprite.setScale(0.75f);
 
 		sprite.draw(batch);
 	}
@@ -204,12 +216,12 @@ public class View {
 		//TODO: Draw UI that help player play
 		//batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
 
-		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.7f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		camera.update();
-		renderer.setView(camera);
-		renderer.render();
+		mapRenderer.setView(camera);
+		mapRenderer.render();
 
 		batch.end();
 
@@ -221,34 +233,33 @@ public class View {
 		font.draw(batch, strWinner, 400 , 825);
 
 		int turnNumbers=model.numberTurns()+1;
-		String s = turnNumbers + "      rounds played";
+		String s = turnNumbers + "    rounds played";
 		if(turnNumbers<=10) {
-			font.draw(batch, s, 400, 850);
+			font.draw(batch, s, width, height-40);
 		}
 
 
 
 
-		font.draw(batch, "Win by having the most dance fans", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 820);
-		font.draw(batch, "(squares in the same color as your main dancer)", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 800);
-		font.draw(batch, "when the dance floor is full, or when the song has ended.", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 780);
+		font.draw(batch, "Win by having the most dance fans", width, height-100) ;
+		font.draw(batch, "(squares in the same color as your main dancer)", width, height-120);
+		font.draw(batch, "when the dance floor is full, or when the song has ended.", width, height-140) ;
 
 
 		//TODO: if enter is pressed, show it as feedback?
 		//TODO: show active when it is possible to press button to get an effect
 		//TODO: show inactive when not possible to press button to get an effect
-		int tempXAdjustment = 300;
-		font.draw(batch, "Controls", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 650);
+		font.draw(batch, "Controls", width+210, height-180);
 
-		font.draw(batch, "Move your Main Dancer", danceFloor.tileWidth* danceFloor.mapWidthInTiles+ 50, 550);
+		font.draw(batch, "Move your Main Dancer",  (width), height-270);
 
-		drawButton("emojione-monotone_keycap-downArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 490);
-		drawButton("emojione-monotone_keycap-upArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment, 550);
-		drawButton("emojione-monotone_keycap-leftArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment - 60, 490);
-		drawButton("emojione-monotone_keycap-rightArrow", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment + 60, 490);
+		drawButton("emojione-monotone_keycap-downArrow", width+210, height-308);
+		drawButton("emojione-monotone_keycap-upArrow", width+210 , height-260);
+		drawButton("emojione-monotone_keycap-leftArrow", width+162 , height-308);
+		drawButton("emojione-monotone_keycap-rightArrow", width+258 , height-308);
 
-		font.draw(batch, "Confirm you planned dance move", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 50, 375);
-		drawButton("emojione-monotone_keycap-enter", danceFloor.tileWidth* danceFloor.mapWidthInTiles + tempXAdjustment - 20, 325);
+		font.draw(batch, "Confirm you planned dance move", width, height-370);
+		drawButton("emojione-monotone_keycap-enter", width+210, height-420);
 
 		//int maxCardSlots = 7;
 		//for(int i = 0; i < maxCardSlots; i++){
@@ -256,17 +267,17 @@ public class View {
 		//	drawButton(numberButton, 150, i*150);
 		//}
 
-		font.draw(batch, "Change what dance move to consider", danceFloor.tileWidth* danceFloor.mapWidthInTiles + 100 , 50);
+		font.draw(batch, "Change what dance move to consider", width, height-480);
 
 		int spacing = 195;
-		int cardsBottomY = 80;
+		int cardsBottomY = 40;
 		int xAdjustment = 85;
 
 		drawButton("emojione-monotone_keycap-1", 1*spacing + xAdjustment , 10);
 		drawButton("emojione-monotone_keycap-2", 2*spacing + xAdjustment, 10);
-		drawButton("emojione-monotone_keycap-3", 3*spacing + xAdjustment, 10);
-		drawButton("emojione-monotone_keycap-4", 4*spacing + xAdjustment, 10);
-		drawButton("emojione-monotone_keycap-5", 5*spacing + xAdjustment, 10);
+		//drawButton("emojione-monotone_keycap-3", 3*spacing + xAdjustment, 10);
+		//drawButton("emojione-monotone_keycap-4", 4*spacing + xAdjustment, 10);
+		//drawButton("emojione-monotone_keycap-5", 5*spacing + xAdjustment, 10);
 		//drawButton("emojione-monotone_keycap-6", 6*spacing , cardsBottomY);
 		//drawButton("emojione-monotone_keycap-7", 7*spacing , cardsBottomY);
 		//TODO: have keys up to 7 but probably not needed now
@@ -302,7 +313,7 @@ public class View {
 			startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
 
 		if (model.hasPlayerStartedTheirTurn == false) {
-			drawButton(startTurnUIForCurrentPlayer, 10, cardsBottomY + 292);
+			drawButton(startTurnUIForCurrentPlayer,  xAdjustment, cardsBottomY +110 );
 		}
 
 		//TODO: refactor in better way, this was quick just ot get it working
@@ -321,7 +332,9 @@ public class View {
 			currentPlayerNumber = 2;
 
 		drawButton(currentPlayerDeckImageName, 10 , cardsBottomY);
-		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", 50 , cardsBottomY - 30);
+		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width , height-20);
+
+
 
 		batch.end();
 

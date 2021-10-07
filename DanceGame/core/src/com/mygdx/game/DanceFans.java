@@ -38,6 +38,10 @@ public class DanceFans extends ApplicationAdapter {
     }
 
     @Override
+    public void resize(int width, int height) {
+        view.viewport.update(width, height);
+    }
+    @Override
     public void render () {
         view.render(gameState.previewDanceFloor);
         //System.out.println(view.selectedTile_sprite.getX());
