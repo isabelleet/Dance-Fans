@@ -438,7 +438,8 @@ public class Model {
         return i;
     }
 
-    public boolean gameIsDone(){                        // return true when game is finish
+    public boolean gameIsDone(){
+        // return true when game is finish
         if(countGreenTiles()+countRedTiles()==54    ||  turnNumber==10){
             return true;
         }
