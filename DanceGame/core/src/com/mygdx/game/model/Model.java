@@ -403,11 +403,14 @@ public class Model {
             //case 22:
             case Input.Keys.RIGHT:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() + w, selectionOnTileIndex.getY());
+                int indexRight = selectionOnTileIndex + 1;
 
                 // Move right, If selectionOnTile is not in the rightmost column
                 if (
                     ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1)
                     && (moveDistanceFromMainDancer(selectionOnTileIndex + 1) <= selectedCardMoveDistanceLimit)
+                            && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexRight)
+                            || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexRight)))
                 )
 
                 {
