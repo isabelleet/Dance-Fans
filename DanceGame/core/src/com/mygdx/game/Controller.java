@@ -11,27 +11,21 @@ public class Controller implements InputProcessor {
     public Controller(Model model){
         this.model = model;
     }
+
     @Override
     public boolean keyDown(int keycode) {
 
 
         System.out.println("key down" + keycode);
 
-        if(keycode == Input.Keys.NUM_1) {
+        if(keycode == Input.Keys.NUM_1){
+            //TODO: also update preview
+            //TODO: if maindancer stood on tile too far away, move it back when changing card
             model.currentPlayer().getCardDeck().selected = 0;
-            try {
-                model.moveMainDancerOfCurrentPlayerToIndex(model.currentPlayer().getMainDancer().getIndex());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
-        if(keycode == Input.Keys.NUM_2) {
+
+        if(keycode == Input.Keys.NUM_2){
             model.currentPlayer().getCardDeck().selected = 1;
-            try {
-                model.moveMainDancerOfCurrentPlayerToIndex(model.currentPlayer().getMainDancer().getIndex());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         if(keycode == Input.Keys.D) {
