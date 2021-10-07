@@ -68,12 +68,12 @@ public class View {
         // Set up the camera
 		float aspectRatio = (float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
         camera = new OrthographicCamera(1600, 800);
+		camera.position.set(width, 0, 0);
+		camera.zoom = 2;
 
 
 		viewport = new FitViewport(1600, 800,  camera);
 		viewport.apply();
-		camera.position.set(width, 0, 0);
-		camera.zoom = 2;
 
     }
 
@@ -202,7 +202,7 @@ public class View {
 		//TODO: Draw UI that help player play
 		//batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
 
-		Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.7f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		camera.update();
