@@ -17,10 +17,7 @@ import java.util.List;
 public class Model {
 
     private Player[] players;
-    // HELLO
-    //Player currentPlayer = ;
     public Enum<PlayerTurnSlot> whichPlayersTurnItIs;
-    // TODO: show UI to let player know they should click to start their turn if hasPlayerStartedTheirTurn is False.
     public Boolean hasPlayerStartedTheirTurn;
     public DanceFloor danceFloor;
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
@@ -35,7 +32,7 @@ public class Model {
     public Model(){
     }
 
-    //TODO: simplifiera som Hedy och Joar pratade om i mån om tid
+
     public Player currentPlayer(){
         if (this.whichPlayersTurnItIs == PlayerTurnSlot.ONE)
             return this.players[0];
@@ -101,23 +98,17 @@ public class Model {
 
             System.out.println();
 
-            //DanceFloor deepCopiedInstance = previewDanceFloor.deepCopy();
-            //this.danceFloor = deepCopiedInstance;
             this.danceFloor = previewDanceFloor.deepCopy();
             this.currentPlayer().getMainDancer().setIndex(this.currentPlayer().getMainDancer().getPreviewIndex());
-            // Animations or something to give the user feedback?
+
             changeWhichPlayersTurnItIs();
             this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
             this.hasPlayerStartedTheirTurn = false;
-            // show feedback for next player that it is their turn
-            // if they press button for playerDrewCardsToStartTurn(), then their turn begins.
-            // Not enter since that ends the last players turn, might be problem.
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 
     int turnNumber=0;
     // No need to make this more sophisticated until potential decision to add more players.
@@ -148,7 +139,7 @@ public class Model {
      */
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
-        //TODO: draw new cards
+        currentPlayer().getCardDeck().useCard();
     }
 
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
@@ -174,8 +165,7 @@ public class Model {
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
 
         try {
-            //DanceFloor deepCopiedInstance = danceFloor.deepCopy();
-            //this.previewDanceFloor = deepCopiedInstance;
+
             this.previewDanceFloor = danceFloor.deepCopy();
             // Update index on dancefloor for main dancer preview, according to input
               if (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexMovedTo)
@@ -308,14 +298,7 @@ public class Model {
         int[] startIndexFromLastMove = indexToCoords(this.currentPlayer().getMainDancer().getIndex());
         int distance = Math.abs(startIndexFromLastMove[0] - coordsToCheck[0]) + Math.abs(startIndexFromLastMove[1] - coordsToCheck[1]);
         return distance;
-
-
-
     }
-
-
-    //TODO: Kanske skriva tester om detta
-
 
     /**
      * Selects which direction the MainDancer should move in depending on the parameter. Makes sure the MainDancer can't move outside of the DanceFloor.
@@ -323,9 +306,6 @@ public class Model {
      * @throws Exception
      */
     public void moveSelection(int keycode) throws Exception {
-        //int h = danceFloor.mapHeightInPixels/danceFloor.mapHeightInTiles;
-        //int w = danceFloor.mapWidthInPixels/danceFloor.mapWidthInTiles;
-
 
         // TODO: update this to selected card, not first card in deck
         int selectedCardMoveDistanceLimit = currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getSteps();
@@ -422,7 +402,6 @@ public class Model {
                 break;
         }
         System.out.println(selectionOnTileIndex);
-        //System.out.println("x " + selectionOnTileIndex.getX() + " y " + selectionOnTileIndex.getY());
     }
 
     // E.g. get column 4 from row 2 to get the index in the array.
@@ -459,17 +438,12 @@ public class Model {
         return i;
     }
 
-
     public boolean gameIsDone(){                        // return true when game is finish
         if(countGreenTiles()+countRedTiles()==54    ||  turnNumber==10){
             return true;
         }
         return false;
     }
-
-
-
-
 
     public String isWinner(){
         if (turnNumber==20||countRedTiles()+countGreenTiles()==54){
