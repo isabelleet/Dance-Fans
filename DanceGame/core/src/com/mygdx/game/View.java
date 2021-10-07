@@ -79,8 +79,8 @@ public class View {
 	 * Initializes the LibGDX renderer for the map.
 	 * @param map TiledMap map to render.
 	 */
-    public void initRenderer(TiledMap map){
-		mapRenderer = new OrthogonalTiledMapRenderer(map);
+    public void initRenderer(){
+		mapRenderer = new OrthogonalTiledMapRenderer(model.danceFloor.map);
     }
 
 	/**
