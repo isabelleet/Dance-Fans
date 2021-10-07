@@ -230,7 +230,7 @@ public class View {
 
 
 		String strWinner= model.isWinner();
-		font.draw(batch, strWinner, 400 , 825);
+		font.draw(batch, strWinner, width , height-40);
 
 		int turnNumbers=model.numberTurns()+1;
 		String s = turnNumbers + "    rounds played";
