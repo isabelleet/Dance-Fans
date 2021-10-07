@@ -160,6 +160,11 @@ public class Model {
      * @param indexMovedTo - Which index the MainDancer should be moved to.
      * @throws Exception
      */
+    int previewChangeCards;
+    public int previewCardF(){
+        return previewChangeCards;
+    }
+
     public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) throws Exception {
 
         // Clear list before the player moves so only the last preview indexes are stored in the list
@@ -172,6 +177,7 @@ public class Model {
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
 
         int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
+        previewChangeCards = mainDancerTileIndex;
 
         try {
             //DanceFloor deepCopiedInstance = danceFloor.deepCopy();
