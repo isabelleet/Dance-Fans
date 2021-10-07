@@ -213,6 +213,7 @@ public class View {
 
 		}
 
+
 		//TODO: Draw UI that help player play
 		//batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
 

@@ -22,7 +22,12 @@ public class Controller implements InputProcessor {
             //TODO: also update preview
             //TODO: if maindancer stood on tile too far away, move it back when changing card
             model.currentPlayer().getCardDeck().selected = 0;
+            int i= model.currentPlayer().getMainDancer().getPreviewIndex();
+            model.currentPlayer().getMainDancer().setPreviewIndex(i);
+
+
             try {
+
                 model.moveMainDancerOfCurrentPlayerToIndex(model.previewCardF());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -31,6 +36,8 @@ public class Controller implements InputProcessor {
 
         if(keycode == Input.Keys.NUM_2){
             model.currentPlayer().getCardDeck().selected = 1;
+            int i= model.currentPlayer().getMainDancer().getPreviewIndex();
+            model.currentPlayer().getMainDancer().setPreviewIndex(i);
             try {
                 model.moveMainDancerOfCurrentPlayerToIndex(model.previewCardF());
             } catch (Exception e) {
