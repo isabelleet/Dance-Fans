@@ -1,12 +1,10 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.io.Serializable;
 
 public class MainDancer extends Dancer implements Serializable {
 
-    private Sprite dancerImg;
     private int previewIndex;
 
     public MainDancer(String name) {

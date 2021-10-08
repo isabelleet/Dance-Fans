@@ -1,13 +1,5 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.mygdx.game.Controller;
-import com.mygdx.game.View;
 import com.badlogic.gdx.Input;
 import java.lang.Math;
 
@@ -167,7 +159,7 @@ public class Model {
         try {
 
             this.previewDanceFloor = danceFloor.deepCopy();
-            // Update index on dancefloor for main dancer preview, according to input
+               // Check for player collision
               if (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexMovedTo)
               || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexMovedTo))) {
                 // Update index on dancefloor for main dancer preview, according to input
@@ -319,6 +311,7 @@ public class Model {
                 int indexUp = selectionOnTileIndex - danceFloor.mapWidthInTiles;
 
                 // Move up, If selectionOnTile is not in the top row
+                // also checks for player collision
                 if ((selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 ))
                     && (moveDistanceFromMainDancer(selectionOnTileIndex - danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
                         && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexUp)
@@ -341,6 +334,7 @@ public class Model {
                 int indexDown = selectionOnTileIndex + danceFloor.mapWidthInTiles;
 
                 // Move down, If selectionOnTile is not in the bottom row
+                // also checks for player collision
                 if ((selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) ))
                     && (moveDistanceFromMainDancer(selectionOnTileIndex + danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
                         && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexDown)
@@ -363,6 +357,7 @@ public class Model {
                 int indexLeft = selectionOnTileIndex - 1;
 
                 // Move left, If selectionOnTile is not in the leftmost column
+                // also checks for player collision
                 if (
                     ((selectionOnTileIndex) % danceFloor.mapWidthInTiles != 0 )
                     && (moveDistanceFromMainDancer(selectionOnTileIndex - 1) <= selectedCardMoveDistanceLimit)
@@ -386,6 +381,7 @@ public class Model {
                 int indexRight = selectionOnTileIndex + 1;
 
                 // Move right, If selectionOnTile is not in the rightmost column
+                // also checks for player collision
                 if (
                     ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1)
                     && (moveDistanceFromMainDancer(selectionOnTileIndex + 1) <= selectedCardMoveDistanceLimit)
