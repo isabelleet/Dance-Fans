@@ -7,7 +7,6 @@ import com.mygdx.game.model.Model;
 public class Controller implements InputProcessor {
 
     Model model;
-
     public Controller(Model model){
         this.model = model;
     }
@@ -15,6 +14,7 @@ public class Controller implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
+        int playerIndex = model.currentPlayer().getMainDancer().getIndex();
 
         System.out.println("key down" + keycode);
 
@@ -22,22 +22,34 @@ public class Controller implements InputProcessor {
             model.startNewGame();
             return true;
         }
-
+      
         if(keycode == Input.Keys.NUM_1){
-            //TODO: also update preview
-            //TODO: if maindancer stood on tile too far away, move it back when changing card
             model.currentPlayer().getCardDeck().selected = 0;
+            try {
+                model.moveMainDancerOfCurrentPlayerToIndex(playerIndex);
+                model.selectionOnTileIndex = playerIndex;
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
         if(keycode == Input.Keys.NUM_2){
             model.currentPlayer().getCardDeck().selected = 1;
+
+            try {
+                model.moveMainDancerOfCurrentPlayerToIndex(playerIndex);
+                model.selectionOnTileIndex = playerIndex;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             return true;
         }
 
         if(keycode == Input.Keys.D) {
             model.playerDrewCardsToStartTurn();
             return true;
+          
         }
         if(keycode == Input.Keys.ENTER) {
             System.out.println("Player clicked enter to confirm Dance move");
@@ -50,8 +62,6 @@ public class Controller implements InputProcessor {
                     System.out.println("Exception thrown  :" + e);
                 }
             }
-
-
             return true;
         }
 

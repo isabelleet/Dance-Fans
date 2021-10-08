@@ -208,6 +208,7 @@ public class View {
 
 		}
 
+
 		//TODO: Draw UI that help player play
 
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.7f);
