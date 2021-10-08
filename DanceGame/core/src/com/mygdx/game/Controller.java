@@ -18,6 +18,11 @@ public class Controller implements InputProcessor {
 
         System.out.println("key down" + keycode);
 
+        if(keycode == Input.Keys.NUM_0){
+            model.startNewGame();
+            return true;
+        }
+      
         if(keycode == Input.Keys.NUM_1){
             model.currentPlayer().getCardDeck().selected = 0;
             try {
@@ -31,6 +36,7 @@ public class Controller implements InputProcessor {
 
         if(keycode == Input.Keys.NUM_2){
             model.currentPlayer().getCardDeck().selected = 1;
+
             try {
                 model.moveMainDancerOfCurrentPlayerToIndex(playerIndex);
                 model.selectionOnTileIndex = playerIndex;
@@ -43,6 +49,7 @@ public class Controller implements InputProcessor {
         if(keycode == Input.Keys.D) {
             model.playerDrewCardsToStartTurn();
             return true;
+          
         }
         if(keycode == Input.Keys.ENTER) {
             System.out.println("Player clicked enter to confirm Dance move");
@@ -55,8 +62,6 @@ public class Controller implements InputProcessor {
                     System.out.println("Exception thrown  :" + e);
                 }
             }
-
-
             return true;
         }
 

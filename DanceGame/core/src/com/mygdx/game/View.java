@@ -77,10 +77,10 @@ public class View {
 
 	/**
 	 * Initializes the LibGDX renderer for the map.
-	 * @param map TiledMap map to render.
+	 *
 	 */
-    public void initRenderer(TiledMap map){
-		mapRenderer = new OrthogonalTiledMapRenderer(map);
+    public void initRenderer(){
+		mapRenderer = new OrthogonalTiledMapRenderer(model.danceFloor.map);
     }
 
 	/**
@@ -99,10 +99,7 @@ public class View {
 		//tiled
 		// Guide: https://www.codeandweb.com/texturepacker/tutorials/libgdx-physics
 		textureAtlas = new TextureAtlas("sprites.txt");
-
-		// card atlas?
 		textureAtlasCards = new TextureAtlas("cardSprites.txt");
-
 		textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
 
 		greenDanceFan = textureAtlas.createSprite("greenDanceFan");
@@ -128,15 +125,14 @@ public class View {
 	}
 
 	private void addSprites() {
-		Array<AtlasRegion> regions = textureAtlas.getRegions();
 
+		Array<AtlasRegion> regions = textureAtlas.getRegions();
 		for (AtlasRegion region : regions) {
 			Sprite sprite = textureAtlas.createSprite(region.name);
-
 			sprites.put(region.name, sprite);
 		}
 
-		// card atlas?
+
 		Array<AtlasRegion> regionsCards = textureAtlasCards.getRegions();
 		for(AtlasRegion region : regionsCards){
 			Sprite sprite = textureAtlasCards.createSprite(region.name);
@@ -144,7 +140,6 @@ public class View {
 		}
 
 
-		//buttons atlas?
 		Array<AtlasRegion> regionsButtons = textureAtlasButtons.getRegions();
 		for(AtlasRegion region : regionsButtons){
 			Sprite sprite = textureAtlasButtons.createSprite(region.name);
@@ -215,7 +210,6 @@ public class View {
 
 
 		//TODO: Draw UI that help player play
-		//batch.draw(selectedTile_sprite, selectedTile_sprite.getX(), selectedTile_sprite.getY());
 
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.7f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -226,12 +220,12 @@ public class View {
 
 		batch.end();
 
-		// drawing cards
+		// batch for drawing cards
 		batch.begin();
 
 
 		String strWinner= model.isWinner();
-		font.draw(batch, strWinner, 400 , 825);
+		font.draw(batch, strWinner, width , height-40);
 
 		int turnNumbers=model.numberTurns()+1;
 		String s = turnNumbers + "    rounds played";
