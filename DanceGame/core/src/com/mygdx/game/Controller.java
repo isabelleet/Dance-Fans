@@ -18,14 +18,21 @@ public class Controller implements InputProcessor {
 
         System.out.println("key down" + keycode);
 
+        if(keycode == Input.Keys.NUM_0){
+            model.startNewGame();
+            return true;
+        }
+
         if(keycode == Input.Keys.NUM_1){
             //TODO: also update preview
             //TODO: if maindancer stood on tile too far away, move it back when changing card
             model.currentPlayer().getCardDeck().selected = 0;
+            return true;
         }
 
         if(keycode == Input.Keys.NUM_2){
             model.currentPlayer().getCardDeck().selected = 1;
+            return true;
         }
 
         if(keycode == Input.Keys.D) {
