@@ -28,9 +28,11 @@ public class View {
 	//TODO: maybe add custom font
 	//BitmapFont font = new BitmapFont(Gdx.files.internal("Calibri.fnt"),Gdx.files.internal("Calibri.png"),false);
 	SpriteBatch batch;
+
 	Texture selectedTile;
 
 	TextureAtlas textureAtlas;
+	TextureAtlas textureAtlasWinner;
 	Sprite greenDanceFan;
 	Sprite redDanceFan;
 	Sprite greenMainDancer;
@@ -38,6 +40,8 @@ public class View {
 	Sprite greenDanceFanTransparent;
 	Sprite redDanceFanTransparent;
 	public Sprite selectedTile_sprite;
+	Sprite greenWinner;
+	Sprite redWinner;
 
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
@@ -101,6 +105,8 @@ public class View {
 		textureAtlas = new TextureAtlas("sprites.txt");
 		textureAtlasCards = new TextureAtlas("cardSprites.txt");
 		textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
+
+
 
 		greenDanceFan = textureAtlas.createSprite("greenDanceFan");
 		redDanceFan = textureAtlas.createSprite("redDanceFan");
@@ -226,6 +232,21 @@ public class View {
 
 		String strWinner= model.isWinner();
 		font.draw(batch, strWinner, width , height-40);
+		textureAtlasWinner = new TextureAtlas("winners.txt");
+
+
+		 if(model.isWinner().equals(" green is winner ")){
+			 greenWinner = textureAtlasWinner.createSprite("greenWinner");
+			 greenWinner.setPosition( 225,300);
+			 greenWinner.draw(batch);}
+
+		 if(model.isWinner().equals(" red is winner ")){
+			 redWinner = textureAtlasWinner.createSprite("redWinner");
+			 redWinner.setPosition(  225,  300);
+			 redWinner.draw(batch);
+		 }
+
+
 
 		int turnNumbers=model.numberTurns()+1;
 		String s = turnNumbers + "    rounds played";
