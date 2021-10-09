@@ -1,12 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -58,9 +60,18 @@ public class View {
 
 	private Model model;
 
+	private AssetManager manager;
+	private TiledMap map;
 
+	public void initManagers(){
+		manager = new AssetManager();
+		map = new TiledMap();
+		manager.setLoader(TiledMap.class, new TmxMapLoader());
+		manager.load("maps/BasicDanceFloor.tmx", TiledMap.class);
+		manager.finishLoading();
 
-
+		map = manager.get("maps/BasicDanceFloor.tmx", TiledMap.class);
+	}
 
     public void initCamera(int width, int height){
         // Set up the camera
@@ -80,7 +91,7 @@ public class View {
 	 *
 	 */
     public void initRenderer(){
-		mapRenderer = new OrthogonalTiledMapRenderer(model.danceFloor.map);
+		mapRenderer = new OrthogonalTiledMapRenderer(map);
     }
 
 	/**
@@ -90,6 +101,7 @@ public class View {
 	public void create(Model model) {
 
     	this.model = model;
+    	initManagers();
 
 		//# Things to draw
 		batch = new SpriteBatch();

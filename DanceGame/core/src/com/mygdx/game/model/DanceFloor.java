@@ -1,9 +1,5 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import java.io.*;
 
@@ -13,37 +9,28 @@ public class DanceFloor implements Serializable {
     //TODO: maybe remove if not used?
     private Enum<PlayerTurnSlot> whichPlayersTurnItIs;
     // Map
-    public transient TiledMap map;
-    private transient AssetManager manager;
 
     // Map properties
     public int tileWidth, tileHeight,
             mapWidthInTiles, mapHeightInTiles,
-            tileSideLength,
-            mapWidthInPixels, mapHeightInPixels;
-
+            tileSideLength;
 
     public DanceFloor(Enum<PlayerTurnSlot> whichPlayersTurnItIs) {
         //Kanske flytta en del av detta till View, då det har med View att göra?
         this.whichPlayersTurnItIs = whichPlayersTurnItIs;
         // Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
         // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
-        manager = new AssetManager();
-        manager.setLoader(TiledMap.class, new TmxMapLoader());
-        manager.load("maps/BasicDanceFloor.tmx", TiledMap.class);
-        manager.finishLoading();
-
-        map = manager.get("maps/BasicDanceFloor.tmx", TiledMap.class);
 
         // Read properties
-        MapProperties properties = map.getProperties();
-        tileWidth = properties.get("tilewidth", Integer.class);
-        tileHeight = properties.get("tileheight", Integer.class);
+
+
+
+        tileWidth = 128;
+        tileHeight = 128;
+
         tileSideLength = tileHeight;
-        mapWidthInTiles = properties.get("width", Integer.class);
-        mapHeightInTiles = properties.get("height", Integer.class);
-        mapWidthInPixels = (mapWidthInTiles * tileWidth);
-        mapHeightInPixels = (mapHeightInTiles * tileHeight);
+        mapWidthInTiles = 9;
+        mapHeightInTiles = 6;
         this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles * mapWidthInTiles];
     }
 
@@ -71,7 +58,7 @@ public class DanceFloor implements Serializable {
 
 
     //TODO: Use this to test end of game conditions e.g.
-    public DanceFloorTile[] initializeFullDanceFloor(int dancefloorWidth, int dancefloorHeight) {
+   /* public DanceFloorTile[] initializeFullDanceFloor(int dancefloorWidth, int dancefloorHeight) {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
 
@@ -86,9 +73,9 @@ public class DanceFloor implements Serializable {
 
         }
         return this.danceFloorTiles;
-    }
+    } */
 
-    public DanceFloorTile[] initializeDanceFloorWithStartPositions() {
+   /* public DanceFloorTile[] initializeDanceFloorWithStartPositions() {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
 
@@ -102,7 +89,7 @@ public class DanceFloor implements Serializable {
 
         }
         return this.danceFloorTiles;
-    }
+    } */
 
     public DanceFloorTile[] initializeDanceFloor() {
         int i;
@@ -115,7 +102,6 @@ public class DanceFloor implements Serializable {
 
             else
 */
-
 
             //TODO: an empty tiles shouldn't be a dancer, fix later. Prob. dancer just one case of "object on floor"
             // added player1 here just for the time being if it doesn't make sense
