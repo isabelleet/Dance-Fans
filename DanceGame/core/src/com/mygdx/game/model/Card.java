@@ -1,9 +1,5 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-
-
 public class Card {
     private Enum<DanceType> danceType;
     private int id;
@@ -12,7 +8,7 @@ public class Card {
     private int steps;
 
 
-    public Card(int id, int[][] dancePattern, int steps){
+    public Card(int id, int[][] dancePattern, int steps) {
         this.id = id;
         this.dancePattern = dancePattern;
         this.steps = steps;
@@ -21,20 +17,20 @@ public class Card {
     // example card
 
     // 3 indicates the position of the maindancer, 1 indicates new dancefan, 0 = don't change this tile
-    public Card(){
+    public Card() {
         this.id = 1;
         this.dancePattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
         this.steps = 2;
     }
 
     // example card
-    public Card(int id){
+    public Card(int id) {
         this.id = id;
         this.dancePattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
         this.steps = 2;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 

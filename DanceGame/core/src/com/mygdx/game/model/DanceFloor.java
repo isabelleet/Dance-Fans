@@ -5,11 +5,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import java.io.Serializable;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class DanceFloor implements Serializable {
 
@@ -27,13 +23,13 @@ public class DanceFloor implements Serializable {
             mapWidthInPixels, mapHeightInPixels;
 
 
-    public DanceFloor(Enum<PlayerTurnSlot> whichPlayersTurnItIs){
+    public DanceFloor(Enum<PlayerTurnSlot> whichPlayersTurnItIs) {
         //Kanske flytta en del av detta till View, då det har med View att göra?
         this.whichPlayersTurnItIs = whichPlayersTurnItIs;
         // Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
         // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
         manager = new AssetManager();
-        manager.setLoader(TiledMap .class, new TmxMapLoader());
+        manager.setLoader(TiledMap.class, new TmxMapLoader());
         manager.load("maps/BasicDanceFloor.tmx", TiledMap.class);
         manager.finishLoading();
 
@@ -42,26 +38,26 @@ public class DanceFloor implements Serializable {
         // Read properties
         MapProperties properties = map.getProperties();
         tileWidth = properties.get("tilewidth", Integer.class);
-        tileHeight        = properties.get("tileheight", Integer.class);
+        tileHeight = properties.get("tileheight", Integer.class);
         tileSideLength = tileHeight;
-        mapWidthInTiles   = properties.get("width", Integer.class);
-        mapHeightInTiles  = properties.get("height", Integer.class);
-        mapWidthInPixels  = (mapWidthInTiles  * tileWidth);
+        mapWidthInTiles = properties.get("width", Integer.class);
+        mapHeightInTiles = properties.get("height", Integer.class);
+        mapWidthInPixels = (mapWidthInTiles * tileWidth);
         mapHeightInPixels = (mapHeightInTiles * tileHeight);
         this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles * mapWidthInTiles];
     }
+
     // this is used to make a copy of a dancefloor, for our previews
     // https://stackoverflow.com/a/9834683
     // https://howtodoinjava.com/java/serialization/how-to-do-deep-cloning-using-in-memory-serialization-in-java/
-    public DanceFloor deepCopy() throws Exception
-    {
+    public DanceFloor deepCopy() throws Exception {
         //Serialization of object
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(bos);
         out.writeObject(this);
 
         //De-serialization of object
-        ByteArrayInputStream bis = new   ByteArrayInputStream(bos.toByteArray());
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream in = new ObjectInputStream(bis);
         DanceFloor copied = (DanceFloor) in.readObject();
 
@@ -81,7 +77,7 @@ public class DanceFloor implements Serializable {
 
             if (i == 11)
                 this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
-            else if (i == ((this.danceFloorTiles.length*dancefloorHeight) - dancefloorWidth - 2) )
+            else if (i == ((this.danceFloorTiles.length * dancefloorHeight) - dancefloorWidth - 2))
                 this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
             else if (i % 2 == 0)
                 this.danceFloorTiles[i] = new DanceFloorTile("redDancer");
@@ -91,13 +87,14 @@ public class DanceFloor implements Serializable {
         }
         return this.danceFloorTiles;
     }
+
     public DanceFloorTile[] initializeDanceFloorWithStartPositions() {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
 
             if (i == 11)
                 this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
-            else if (i == ((this.mapWidthInTiles*this.mapHeightInTiles) - this.mapWidthInTiles - 2) )
+            else if (i == ((this.mapWidthInTiles * this.mapHeightInTiles) - this.mapWidthInTiles - 2))
                 this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
 
             else
@@ -122,13 +119,11 @@ public class DanceFloor implements Serializable {
 
             //TODO: an empty tiles shouldn't be a dancer, fix later. Prob. dancer just one case of "object on floor"
             // added player1 here just for the time being if it doesn't make sense
-                this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile");
+            this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile");
 
         }
         return this.danceFloorTiles;
     }
-
-
 
 
     public void removeDancerFromTileIndex(int tileIndex) {
@@ -138,14 +133,9 @@ public class DanceFloor implements Serializable {
 
     //TODO: not sure if should update Dance Fan, or just replace it.
     // Depends on if Dance Fans have any data in them we want to keep even if they change which Main Dancer they're fan of
-    public void newDancerOnTile(int tileIndex, Dancer dancer){
+    public void newDancerOnTile(int tileIndex, Dancer dancer) {
         this.danceFloorTiles[tileIndex].setOccupant(dancer);
     }
-
-
-
-
-
 
 
 }

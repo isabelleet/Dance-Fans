@@ -11,15 +11,15 @@ public class MainDancer extends Dancer implements Serializable {
         super(name);
     }
 
-    public MainDancer(String name, int index){
+    public MainDancer(String name, int index) {
         super(name, index);
     }
 
-    public int getPreviewIndex(){
+    public int getPreviewIndex() {
         return previewIndex;
     }
 
-    public void setPreviewIndex(int index){
+    public void setPreviewIndex(int index) {
         this.previewIndex = index;
     }
 }

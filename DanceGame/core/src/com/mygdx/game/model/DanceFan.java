@@ -14,7 +14,7 @@ public class DanceFan extends Dancer implements Serializable {
         super(spriteName);
     }
 
-    public void move(){
+    public void move() {
         //TODO: Add functionality that makes a dancer able to move
     }
 
