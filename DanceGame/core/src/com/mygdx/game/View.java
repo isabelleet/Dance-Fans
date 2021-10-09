@@ -237,12 +237,12 @@ public class View {
 
 		 if(model.isWinner().equals(" green is winner ")){
 			 greenWinner = textureAtlasWinner.createSprite("greenWinner");
-			 greenWinner.setPosition( 225,300);
+			 greenWinner.setPosition( 160,600);
 			 greenWinner.draw(batch);}
 
 		 if(model.isWinner().equals(" red is winner ")){
 			 redWinner = textureAtlasWinner.createSprite("redWinner");
-			 redWinner.setPosition(  225,  300);
+			 redWinner.setPosition(  160,  600);
 			 redWinner.draw(batch);
 		 }
 
