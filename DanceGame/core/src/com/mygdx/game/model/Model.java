@@ -1,6 +1,4 @@
 package com.mygdx.game.model;
-
-import com.badlogic.gdx.Input;
 import java.lang.Math;
 
 import java.util.ArrayList;
