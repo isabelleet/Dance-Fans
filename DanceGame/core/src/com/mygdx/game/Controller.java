@@ -65,7 +65,7 @@ public class Controller implements InputProcessor {
             return true;
         }
 
-        if(keycode <= 22 && keycode >=19) {
+        if(keycode <= 22 && keycode >= 19) {
             if (model.hasPlayerStartedTheirTurn) {
                 try {
                     model.moveSelection(keycode);

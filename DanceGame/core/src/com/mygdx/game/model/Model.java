@@ -1,6 +1,4 @@
 package com.mygdx.game.model;
-
-import com.badlogic.gdx.Input;
 import java.lang.Math;
 
 import java.util.ArrayList;
@@ -305,8 +303,8 @@ public class Model {
         //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
         // to go there then!
         switch (keycode){
-            //case 19:
-            case Input.Keys.UP:
+            //case Input.Keys.UP:
+            case 19:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX(), selectionOnTileIndex.getY() + h);
                 int indexUp = selectionOnTileIndex - danceFloor.mapWidthInTiles;
 
@@ -324,12 +322,13 @@ public class Model {
                     //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
                     // TODO: only move if within tile is within reach based on dance move card move distance prop.
                     moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
-
                 }
                 break;
 
-            //case 20:
-            case Input.Keys.DOWN:
+
+           // case Input.Keys.DOWN:
+            case 20:
+
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() , selectionOnTileIndex.getY() - h);
                 int indexDown = selectionOnTileIndex + danceFloor.mapWidthInTiles;
 
@@ -351,8 +350,8 @@ public class Model {
                 }
                 break;
 
-            //case 21:
-            case Input.Keys.LEFT:
+            //case Input.Keys.LEFT:
+            case 21:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() - w,selectionOnTileIndex.getY());
                 int indexLeft = selectionOnTileIndex - 1;
 
@@ -375,8 +374,8 @@ public class Model {
                 }
                 break;
 
-            //case 22:
-            case Input.Keys.RIGHT:
+            // case Input.Keys.RIGHT:
+            case 22:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() + w, selectionOnTileIndex.getY());
                 int indexRight = selectionOnTileIndex + 1;
 

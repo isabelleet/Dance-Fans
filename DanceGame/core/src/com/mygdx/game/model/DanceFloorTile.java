@@ -1,6 +1,5 @@
 package com.mygdx.game.model;
 
-import java.io.NotSerializableException;
 import java.io.Serializable;
 
 public class DanceFloorTile implements Serializable {

@@ -26,7 +26,11 @@ public class Player {
         return cardDeck;
     }
 
-    public DanceFan getDanceFan() { return danceFan; }
+    public DanceFan getDanceFan() {
+        return danceFan;
+    }
 
-    public DanceFan getTransparentDanceFan() {return transparentDanceFan;}
+    public DanceFan getTransparentDanceFan() {
+        return transparentDanceFan;
+    }
 }

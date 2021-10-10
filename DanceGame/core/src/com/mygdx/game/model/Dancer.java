@@ -9,12 +9,12 @@ public class Dancer implements Serializable {
     //TODO: only update this index when previewDanceFloor becomes danceFloor?
     private int index;
 
-    public Dancer(String name,int index){
+    public Dancer(String name, int index) {
         this.name = name;
         this.index = index;
     }
 
-    public Dancer(String name){
+    public Dancer(String name) {
         this.name = name;
         //Risk for bugs
         this.index = 0;
@@ -24,7 +24,7 @@ public class Dancer implements Serializable {
         this.index = index;
     }
 
-    public int getIndex(){
+    public int getIndex() {
         return this.index;
     }
 
