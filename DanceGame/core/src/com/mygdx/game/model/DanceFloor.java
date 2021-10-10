@@ -37,6 +37,12 @@ public class DanceFloor implements Serializable {
     // this is used to make a copy of a dancefloor, for our previews
     // https://stackoverflow.com/a/9834683
     // https://howtodoinjava.com/java/serialization/how-to-do-deep-cloning-using-in-memory-serialization-in-java/
+
+    /**
+     * Creates a new object with the same properties as the one that should be copied, to avoid weird pointer errors.
+     * @return A new DanceFloor with the properties of an old one.
+     * @throws Exception if something goes wrong while copying.
+     */
     public DanceFloor deepCopy() throws Exception {
         //Serialization of object
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -91,6 +97,10 @@ public class DanceFloor implements Serializable {
         return this.danceFloorTiles;
     } */
 
+    /**
+     * Fills the DanceFloor with empty tiles.
+     * @return an array containing all tiles.
+     */
     public DanceFloorTile[] initializeDanceFloor() {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
@@ -111,7 +121,10 @@ public class DanceFloor implements Serializable {
         return this.danceFloorTiles;
     }
 
-
+    /**
+     * Sets the occupant of a tile to a transparent tile.
+     * @param tileIndex which tile to update.
+     */
     public void removeDancerFromTileIndex(int tileIndex) {
         //TODO: prob not just have empty string to mean no dancer...
         this.danceFloorTiles[tileIndex] = new DanceFloorTile("transparent_tile");
@@ -119,6 +132,12 @@ public class DanceFloor implements Serializable {
 
     //TODO: not sure if should update Dance Fan, or just replace it.
     // Depends on if Dance Fans have any data in them we want to keep even if they change which Main Dancer they're fan of
+
+    /**
+     * Sets a new dancer on a tile.
+     * @param tileIndex which tile to change.
+     * @param dancer which dancer to place on the tile.
+     */
     public void newDancerOnTile(int tileIndex, Dancer dancer) {
         this.danceFloorTiles[tileIndex].setOccupant(dancer);
     }

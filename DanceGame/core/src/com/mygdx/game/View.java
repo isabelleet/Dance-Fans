@@ -63,7 +63,7 @@ public class View {
 	private AssetManager manager;
 	private TiledMap map;
 
-	public void initManagers(){
+	private void initManagers(){
 		manager = new AssetManager();
 		map = new TiledMap();
 		manager.setLoader(TiledMap.class, new TmxMapLoader());
@@ -73,7 +73,7 @@ public class View {
 		map = manager.get("maps/BasicDanceFloor.tmx", TiledMap.class);
 	}
 
-    public void initCamera(int width, int height){
+    private void initCamera(int width, int height){
         // Set up the camera
 		float aspectRatio = (float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
         camera = new OrthographicCamera(1600, 800);
@@ -90,7 +90,7 @@ public class View {
 	 * Initializes the LibGDX renderer for the map.
 	 *
 	 */
-    public void initRenderer(){
+    private void initRenderer(){
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
     }
 
@@ -105,7 +105,8 @@ public class View {
 
 		//# Things to draw
 		batch = new SpriteBatch();
-
+		initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		initRenderer();
 		// load images for dancers and main characters
 		//https://www.codeandweb.com/texturepacker/start-download?os=mac&bits=64&download=true
 		//tiled

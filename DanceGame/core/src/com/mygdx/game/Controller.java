@@ -11,6 +11,11 @@ public class Controller implements InputProcessor {
         this.model = model;
     }
 
+    /**
+     * Checks which key was pressed and tells the model what the user wants to do.
+     * @param keycode the key that was pressed.
+     * @return returns true when the input has been processed, otherwise returns false.
+     */
     @Override
     public boolean keyDown(int keycode) {
 

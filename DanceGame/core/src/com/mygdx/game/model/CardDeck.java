@@ -17,6 +17,11 @@ public class CardDeck {
     public int selected = 0;
 
     // should decks be predefined? or have a random selection of cards of the right type?
+
+    /**
+     * Creates a new object with a List of cards.
+     * @param deck a list of cards.
+     */
     public CardDeck(List<Card> deck) {
         this.deck = deck;
         // if they are predefined we should probably shuffle them before playing
@@ -29,6 +34,9 @@ public class CardDeck {
 
     }
 
+    /**
+     * Discards the selected card and adds it to the discard pile.
+     */
     public void useCard() {
         System.out.println("Card was used");
         discardCard(selected);

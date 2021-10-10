@@ -68,8 +68,8 @@ public class Model {
 
 
     /**
-     *
-     * @throws ArrayIndexOutOfBoundsException
+     * Updates the state of the DanceFloor to match the state of the PreviewDanceFloor and changes whose turn it is.
+     * @throws ArrayIndexOutOfBoundsException If something went wrong with while copying the previewDanceFloor.
      */
     public void playerConfirmedDanceMove() throws ArrayIndexOutOfBoundsException {
 
@@ -125,7 +125,7 @@ public class Model {
     // Since the game might have a clock for your turn, the timer doesn't start until you draw your cards.
 
     /**
-     *
+     * Sets hasPlayerStartedTheirTurn to true and draws cards.
      */
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
@@ -139,7 +139,7 @@ public class Model {
     /**
      * Moves the MainDancer of the player whose turn it is currently to the specified index supplied to the method.
      * @param indexMovedTo - Which index the MainDancer should be moved to.
-     * @throws Exception
+     * @throws Exception DeepCopies the DanceFloor which can generate an ArrayOutOfBoundsException.
      */
     public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) throws Exception {
 
@@ -293,7 +293,7 @@ public class Model {
     /**
      * Selects which direction the MainDancer should move in depending on the parameter. Makes sure the MainDancer can't move outside of the DanceFloor.
      * @param keycode Supplied from Controller, tells which button has been pressed.
-     * @throws Exception
+     * @throws Exception ArrayIndexOutOfBoundsException if something goes wrong while copying the DanceFloor.
      */
     public void moveSelection(int keycode) throws Exception {
 
@@ -433,6 +433,11 @@ public class Model {
         return i;
     }
 
+    /**
+     * Checks whether the game has reached the turn limit or the board is filled.
+     * @return true or false.
+     */
+
     public boolean gameIsDone(){
         // return true when game is finish
         if(countGreenTiles()+countRedTiles()==54    ||  turnNumber==10){
@@ -441,6 +446,10 @@ public class Model {
         return false;
     }
 
+    /**
+     * Checks which player has the most DanceFans.
+     * @return A string containing the winner.
+     */
     public String isWinner(){
         if (turnNumber==20||countRedTiles()+countGreenTiles()==54){
             if (countGreenTiles() > countRedTiles()){
@@ -453,6 +462,10 @@ public class Model {
         } return "";
     }
 
+    /**
+     * Getter for the turn number.
+     * @return which turn it is.
+     */
     public int numberTurns(){
 
         return turnNumber/2;

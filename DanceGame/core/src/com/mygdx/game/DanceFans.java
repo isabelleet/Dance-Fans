@@ -19,6 +19,9 @@ public class DanceFans extends ApplicationAdapter {
 
     // https://libgdx.badlogicgames.com/ci/nightlies/docs/api/com/badlogic/gdx/ApplicationListener.html
 
+    /**
+     * Initializes everything needed for the game to function.
+     */
     @Override
     public void create() {
         gameState = new Model();
@@ -26,9 +29,7 @@ public class DanceFans extends ApplicationAdapter {
         view = new View();
         view.create(gameState);
         //Possible camera fix, but MVC is more importante!
-        view.initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //Init renderer
-        view.initRenderer();
         controller = new Controller(gameState);
         // controller.init();
         Gdx.input.setInputProcessor(this.controller);
@@ -46,7 +47,7 @@ public class DanceFans extends ApplicationAdapter {
     }
 
     /**
-     *
+     * LibGDX stuff.
      */
     @Override
     public void render() {
@@ -55,7 +56,7 @@ public class DanceFans extends ApplicationAdapter {
     }
 
     /**
-     *
+     * LibGDX stuff.
      */
     @Override
     public void dispose() {

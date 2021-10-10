@@ -9,7 +9,14 @@ public class Player {
     private DanceFan danceFan;
     private DanceFan transparentDanceFan;
 
-
+    /**
+     * Cretes a new Player object.
+     * @param playerTurnSlot if the player goes first or second.
+     * @param mainDancer the players MainDancer.
+     * @param cardDeck the players deck of cards.
+     * @param danceFan the type of fans the player wants.
+     * @param transparentDanceFan the dancefans used to preview a dancemove.
+     */
     public Player(Enum<PlayerTurnSlot> playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck, DanceFan danceFan, DanceFan transparentDanceFan) {
         this.playerTurnSlot = playerTurnSlot;
         this.mainDancer = mainDancer;
@@ -18,18 +25,34 @@ public class Player {
         this.transparentDanceFan = transparentDanceFan;
     }
 
+    /**
+     * Getter for the players MainDancer object.
+     * @return a MainDancer.
+     */
     public MainDancer getMainDancer() {
         return mainDancer;
     }
 
+    /**
+     * Getter for the players deck of cards.
+     * @return a CardDeck.
+     */
     public CardDeck getCardDeck() {
         return cardDeck;
     }
 
+    /**
+     * Getter for the players DanceFans.
+     * @return a DanceFan.
+     */
     public DanceFan getDanceFan() {
         return danceFan;
     }
 
+    /**
+     * Getter for the players DanceFans used to preview moves.
+     * @return a DanceFan.
+     */
     public DanceFan getTransparentDanceFan() {
         return transparentDanceFan;
     }
