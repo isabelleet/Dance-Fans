@@ -238,12 +238,23 @@ public class View {
 		 if(model.isWinner().equals(" green is winner ")){
 			 greenWinner = textureAtlasWinner.createSprite("greenWinner");
 			 greenWinner.setPosition( 160,600);
-			 greenWinner.draw(batch);}
+			 greenWinner.draw(batch);
+			 if(model.numberTurns()==11){
+			 model.startNewGame();}
+
+		 }
+		if(model.numberTurns()==11){
+			model.startNewGame();}
 
 		 if(model.isWinner().equals(" red is winner ")){
 			 redWinner = textureAtlasWinner.createSprite("redWinner");
 			 redWinner.setPosition(  160,  600);
 			 redWinner.draw(batch);
+			 if(model.numberTurns()==11){
+				 model.startNewGame();}
+			 textureAtlasCards.dispose();
+
+
 		 }
 
 
