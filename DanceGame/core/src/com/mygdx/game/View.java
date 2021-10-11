@@ -241,6 +241,8 @@ public class View {
 			 greenWinner.draw(batch);
 			 if(model.numberTurns()==11){
 			 model.startNewGame();}
+			// sprites.remove(5);
+
 
 		 }
 		if(model.numberTurns()==11){
@@ -252,10 +254,10 @@ public class View {
 			 redWinner.draw(batch);
 			 if(model.numberTurns()==11){
 				 model.startNewGame();}
+			// sprites.remove(5);
+
 
 		 }
-
-
 
 		int turnNumbers=model.numberTurns()+1;
 		String s = turnNumbers + "    rounds played";
@@ -298,8 +300,10 @@ public class View {
 		int cardsBottomY = 40;
 		int xAdjustment = 85;
 
-		drawButton("emojione-monotone_keycap-1", 1*spacing + xAdjustment , 10);
-		drawButton("emojione-monotone_keycap-2", 2*spacing + xAdjustment, 10);
+		if(!model.gameIsDone()) {
+			drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
+			drawButton("emojione-monotone_keycap-2", 2 * spacing + xAdjustment, 10);
+		}
 		//drawButton("emojione-monotone_keycap-3", 3*spacing + xAdjustment, 10);
 		//drawButton("emojione-monotone_keycap-4", 4*spacing + xAdjustment, 10);
 		//drawButton("emojione-monotone_keycap-5", 5*spacing + xAdjustment, 10);
@@ -308,6 +312,8 @@ public class View {
 		//TODO: have keys up to 7 but probably not needed now
 
 
+
+		if(!model.gameIsDone()){
 		// Draw current players cards
 		String cardback_spriteName_currentPlayer;
 		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
@@ -328,38 +334,41 @@ public class View {
 				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
 			}
 			drawCard(card, i* spacing + 220, cardsBottomY);
+		}}
+
+
+		//TODO: refactor in better way, this was quick just ot get it working
+		if(!model.gameIsDone()) {
+			String startTurnUIForCurrentPlayer;
+			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+				startTurnUIForCurrentPlayer = "startTurn_keyboard_redPlayer";
+			else
+				startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
+
+			if (model.hasPlayerStartedTheirTurn == false) {
+				drawButton(startTurnUIForCurrentPlayer, xAdjustment, cardsBottomY + 110);
+			}
+
+			//TODO: refactor in better way, this was quick just ot get it working
+			String currentPlayerDeckImageName;
+			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+
+
+				currentPlayerDeckImageName = "deck_red";
+			else
+				currentPlayerDeckImageName = "deck_green";
+
+
+			//TODO: refactor in better way, this was quick just ot get it working
+			int currentPlayerNumber;
+			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+				currentPlayerNumber = 1;
+			else
+				currentPlayerNumber = 2;
+
+			drawButton(currentPlayerDeckImageName, 10, cardsBottomY);
+			font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width, height - 20);
 		}
-
-		//TODO: refactor in better way, this was quick just ot get it working
-		String startTurnUIForCurrentPlayer;
-		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
-			startTurnUIForCurrentPlayer = "startTurn_keyboard_redPlayer";
-		else
-			startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
-
-		if (model.hasPlayerStartedTheirTurn == false) {
-			drawButton(startTurnUIForCurrentPlayer,  xAdjustment, cardsBottomY +110 );
-		}
-
-		//TODO: refactor in better way, this was quick just ot get it working
-		String currentPlayerDeckImageName;
-		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
-			currentPlayerDeckImageName = "deck_red";
-		else
-			currentPlayerDeckImageName = "deck_green";
-
-
-		//TODO: refactor in better way, this was quick just ot get it working
-		int currentPlayerNumber;
-		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
-			currentPlayerNumber = 1;
-		else
-			currentPlayerNumber = 2;
-
-		drawButton(currentPlayerDeckImageName, 10 , cardsBottomY);
-		font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width , height-20);
-
-
 
 		batch.end();
 
