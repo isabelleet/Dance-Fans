@@ -252,8 +252,6 @@ public class View {
 			 redWinner.draw(batch);
 			 if(model.numberTurns()==11){
 				 model.startNewGame();}
-			 textureAtlasCards.dispose();
-
 
 		 }
 
