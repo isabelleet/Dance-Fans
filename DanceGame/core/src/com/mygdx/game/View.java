@@ -24,6 +24,16 @@ import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.PlayerTurnSlot;
 
+/**
+ * View, handles everything visual. Part of the MVC pattern.
+ *
+ * @author Joar Granström
+ * @author Hedy Pettersson
+ * @author David Salmo
+ * @author Jakob Persson
+ * @author Johan Berg
+ */
+
 public class View {
 
 	BitmapFont font = new BitmapFont();

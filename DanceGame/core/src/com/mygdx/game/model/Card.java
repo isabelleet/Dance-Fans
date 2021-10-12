@@ -1,7 +1,6 @@
 package com.mygdx.game.model;
 
 public class Card {
-    private Enum<DanceType> danceType;
     private int id;
     // how to store pattern? for now an array
     private int[][] dancePattern;

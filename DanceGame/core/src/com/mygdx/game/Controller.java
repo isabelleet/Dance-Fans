@@ -4,6 +4,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.game.model.Model;
 
+/**
+ * Controller, calls on methods in model depending on what has been inputted. Part of the MVC pattern.
+ *
+ * @author Joar Granström
+ * @author Hedy Pettersson
+ * @author Johan Berg
+ * @author Jakob Persson
+ * @author David Salmo
+ */
+
 public class Controller implements InputProcessor {
 
     Model model;

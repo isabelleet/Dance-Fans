@@ -4,6 +4,15 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.model.Model;
 
+/**
+ * DanceFans is the application which connects all the MVC.
+ *
+ * @author Joar Granström
+ * @author Jakob Persson
+ * @author Hedy Pettersson
+ * @author Johan Berg
+ */
+
 public class DanceFans extends ApplicationAdapter {
 
     //# Main Modules
