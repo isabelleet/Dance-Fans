@@ -4,6 +4,10 @@ import java.io.*;
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add things to specific tiles.
  *
+ * Is used in Model.
+ *
+ * Uses DanceFloorTile, Dancer,
+ *
  * @author Joar Granström
  * @author Jakob Persson
  * @author Hedy Pettersson

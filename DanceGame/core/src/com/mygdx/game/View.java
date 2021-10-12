@@ -27,6 +27,10 @@ import com.mygdx.game.model.PlayerTurnSlot;
 /**
  * View, handles everything visual. Part of the MVC pattern.
  *
+ * Is used by DanceFans.
+ *
+ * Uses Model.
+ *
  * @author Joar Granström
  * @author Hedy Pettersson
  * @author David Salmo

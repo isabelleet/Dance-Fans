@@ -4,6 +4,8 @@ package com.mygdx.game.model;
  * Card combines amount of steps a player can move with a pattern for how the dance floor will change.
  * It also has an id in order to match it up with the correct image.
  *
+ * Is used by CardDeck,
+ *
  * @author Joar Granström
  * @author Jakob Persson
  * @author Hedy Pettersson
