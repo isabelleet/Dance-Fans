@@ -11,6 +11,7 @@ import com.mygdx.game.model.Model;
  * @author Jakob Persson
  * @author Hedy Pettersson
  * @author Johan Berg
+ * @author Isabelle Ermeryd Tankred
  */
 
 public class DanceFans extends ApplicationAdapter {

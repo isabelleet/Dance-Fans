@@ -1,5 +1,15 @@
 package com.mygdx.game.model;
 
+/**
+ * Player combines the different things a player should have, such as a MainDancer,
+ * a danceFan (as well as a transparent version of it), and a CardDeck.
+ *
+ * @author Joar Granström
+ * @author Jakob Persson
+ * @author Johan Berg
+ * @author Hedy Pettersson
+ */
+
 public class Player {
 
     public Enum<PlayerTurnSlot> playerTurnSlot;

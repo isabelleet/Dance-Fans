@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Stores the different piles of cards which a deck can be divided into.
+ * CardDeck stores the different piles of cards which a deck is divided into. It also handles moving the cards between
+ * the different piles.
+ *
+ * @author Hedy Pettersson
+ * @author Jakob Persson
  */
+
 public class CardDeck {
     // thinking about using maps with enums instead, but not sure
     private List<Card> deck;

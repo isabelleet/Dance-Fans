@@ -32,6 +32,7 @@ import com.mygdx.game.model.PlayerTurnSlot;
  * @author David Salmo
  * @author Jakob Persson
  * @author Johan Berg
+ * @author Isabelle Ermeryd Tankred
  */
 
 public class View {
@@ -73,6 +74,8 @@ public class View {
 	private AssetManager manager;
 	private TiledMap map;
 
+	// Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
+	// Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
 	private void initManagers(){
 		manager = new AssetManager();
 		map = new TiledMap();
