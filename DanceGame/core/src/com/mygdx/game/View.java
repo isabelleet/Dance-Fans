@@ -24,6 +24,21 @@ import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.PlayerTurnSlot;
 
+/**
+ * View, handles everything visual. Part of the MVC pattern.
+ *
+ * Is used by DanceFans.
+ *
+ * Uses Model.
+ *
+ * @author Joar Granström
+ * @author Hedy Pettersson
+ * @author David Salmo
+ * @author Jakob Persson
+ * @author Johan Berg
+ * @author Isabelle Ermeryd Tankred
+ */
+
 public class View {
 
 	BitmapFont font = new BitmapFont();
@@ -63,6 +78,8 @@ public class View {
 	private AssetManager manager;
 	private TiledMap map;
 
+	// Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
+	// Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
 	private void initManagers(){
 		manager = new AssetManager();
 		map = new TiledMap();

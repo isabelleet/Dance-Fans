@@ -1,14 +1,25 @@
 package com.mygdx.game.model;
-
-
 import java.io.*;
+
+/**
+ * DanceFloor keeps track of the board which the game is played on. It can add things to specific tiles.
+ *
+ * Is used in Model.
+ *
+ * Uses DanceFloorTile, Dancer,
+ *
+ * @author Joar Granström
+ * @author Jakob Persson
+ * @author Hedy Pettersson
+ * @author Johan Berg
+ * @author Isabelle Ermeryd Tankred
+ */
 
 public class DanceFloor implements Serializable {
 
     public DanceFloorTile[] danceFloorTiles;
     //TODO: maybe remove if not used?
     private Enum<PlayerTurnSlot> whichPlayersTurnItIs;
-    // Map
 
     // Map properties
     public int tileWidth, tileHeight,
@@ -16,15 +27,9 @@ public class DanceFloor implements Serializable {
             tileSideLength;
 
     public DanceFloor(Enum<PlayerTurnSlot> whichPlayersTurnItIs) {
-        //Kanske flytta en del av detta till View, då det har med View att göra?
         this.whichPlayersTurnItIs = whichPlayersTurnItIs;
-        // Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
-        // Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
 
         // Read properties
-
-
-
         tileWidth = 128;
         tileHeight = 128;
 

@@ -2,6 +2,18 @@ package com.mygdx.game.model;
 
 import java.io.Serializable;
 
+/**
+ * Dancer is an abstract class which can occupy a tile. This might be changed later if other types of objects can
+ * occupy a tile. It keeps track of what index it is standing on, and its own name.
+ *
+ * Is used in DanceFloorTile.
+ *
+ * @author Joar Granström
+ * @author Jakob Persson
+ * @author Hedy Pettersson
+ * @author Johan Berg
+ */
+
 public abstract class Dancer implements Serializable {
 
     private String name;

@@ -4,6 +4,22 @@ import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Model combines many of the other classes in the package, and is what is accessed from outside of the package.
+ * It can start new games, calculate if someone has won, move the MainDancer:s around.
+ *
+ * Is used by Controller, DanceFans, View.
+ *
+ * Uses CardDeck, DanceFloor, Player.
+ *
+ * @author Joar Granström
+ * @author Hedy Pettersson
+ * @author Johan Berg
+ * @author Jakob Persson
+ * @author David Salmo
+ * @author Isabelle Ermeryd Tankred
+ */
+
 public class Model {
 
     private Player[] players;
@@ -259,8 +275,6 @@ public class Model {
             }
         }
     }
-
-
 
 
     private DanceFloorTile[][] convertToMatrix(DanceFloorTile[] danceFloorArray){

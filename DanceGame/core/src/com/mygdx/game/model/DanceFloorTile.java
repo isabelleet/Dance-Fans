@@ -2,6 +2,17 @@ package com.mygdx.game.model;
 
 import java.io.Serializable;
 
+/**
+ * DanceFloorTile keeps track of what is on that specific tile. Can change and tell other classes what is
+ * currently on it.
+ *
+ * Is used by DanceFloor.
+ *
+ * @author Jakob Persson
+ * @author Joar Granström
+ * @author Johan Berg
+ */
+
 public class DanceFloorTile implements Serializable {
     public Dancer occupant;
 

@@ -1,7 +1,18 @@
 package com.mygdx.game.model;
 
-
 import java.io.Serializable;
+
+/**
+ * MainDancer is the representation of the player on the DanceFloor and extends Dancer. It also keeps track of
+ * where it exists in the preview.
+ *
+ * Is used in Player.
+ *
+ * @author Jakob Persson
+ * @author Joar Granström
+ * @author Johan Berg
+ * @author Hedy Pettersson
+ */
 
 public class MainDancer extends Dancer implements Serializable {
 
