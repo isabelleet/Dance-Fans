@@ -338,8 +338,8 @@ public class View {
 
 
 		//TODO: refactor in better way, this was quick just ot get it working
+		String startTurnUIForCurrentPlayer;
 		if(!model.gameIsDone()) {
-			String startTurnUIForCurrentPlayer;
 			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
 				startTurnUIForCurrentPlayer = "startTurn_keyboard_redPlayer";
 			else
