@@ -50,6 +50,8 @@ public class Model {
      * Initializes everything needed to start a new game, sets up Players, the DanceFloor and sets player 1's turn.
      */
     public void startNewGame(){
+        turnNumber = 0;
+
 
         this.players = new Player[2];
 
@@ -67,6 +69,7 @@ public class Model {
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
         this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
         System.out.println("selection tile on " + danceFloor.mapWidthInTiles);
+
 
         danceFloor.newDancerOnTile(player1.getMainDancer().getIndex(), player1.getMainDancer());
         danceFloor.newDancerOnTile(player2.getMainDancer().getIndex(), player2.getMainDancer());
@@ -454,16 +457,14 @@ public class Model {
 
     public boolean gameIsDone(){
         // return true when game is finish
-        if(countGreenTiles()+countRedTiles()==54    ||  turnNumber==10){
+        if(countGreenTiles()+countRedTiles()==54    ||  numberTurns()==10){
             return true;
         }
         return false;
     }
 
-    /**
-     * Checks which player has the most DanceFans.
-     * @return A string containing the winner.
-     */
+
+
     public String isWinner(){
         if (turnNumber==20||countRedTiles()+countGreenTiles()==54){
             if (countGreenTiles() > countRedTiles()){
@@ -471,7 +472,6 @@ public class Model {
             }
             else{
                 return " red is winner ";
-
             }
         } return "";
     }
@@ -484,6 +484,7 @@ public class Model {
 
         return turnNumber/2;
     }
+
 
 
 

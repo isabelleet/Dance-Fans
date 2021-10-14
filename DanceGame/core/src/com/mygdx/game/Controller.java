@@ -41,6 +41,9 @@ public class Controller implements InputProcessor {
             model.startNewGame();
             return true;
         }
+        if(keycode == Input.Keys.N){
+            System.exit(0);
+        }
       
         if(keycode == Input.Keys.NUM_1){
             model.currentPlayer().getCardDeck().selected = 0;
