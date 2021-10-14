@@ -5,8 +5,17 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Stores the different piles of cards which a deck can be divided into.
+ * CardDeck stores the different piles of cards which a deck is divided into. It also handles moving the cards between
+ * the different piles.
+ *
+ * Is used by Model,
+ *
+ * Uses Card.
+ *
+ * @author Hedy Pettersson
+ * @author Jakob Persson
  */
+
 public class CardDeck {
     // thinking about using maps with enums instead, but not sure
     private List<Card> deck;
@@ -17,7 +26,12 @@ public class CardDeck {
     public int selected = 0;
 
     // should decks be predefined? or have a random selection of cards of the right type?
-    public CardDeck(List<Card> deck){
+
+    /**
+     * Creates a new object with a List of cards.
+     * @param deck a list of cards.
+     */
+    public CardDeck(List<Card> deck) {
         this.deck = deck;
         // if they are predefined we should probably shuffle them before playing
         shuffleDeck(this.deck);
@@ -29,7 +43,10 @@ public class CardDeck {
 
     }
 
-    public void useCard(){
+    /**
+     * Discards the selected card and adds it to the discard pile.
+     */
+    public void useCard() {
         System.out.println("Card was used");
         discardCard(selected);
         openCard(selected);
@@ -41,8 +58,8 @@ public class CardDeck {
     /**
      * takes a card from the deck and puts it among the cards that can be chosen
      */
-    private void openCard(int i){
-        if(this.closed.size() == 0){
+    private void openCard(int i) {
+        if (this.closed.size() == 0) {
             addDiscCards();
         }
 
@@ -51,29 +68,31 @@ public class CardDeck {
 
     /**
      * removes a chosen card and moves it to the discarded pile
+     *
      * @param i which of the chosen cards to remove
      */
-    private void discardCard(int i){
+    private void discardCard(int i) {
         this.discarded.add(this.open.remove(i));
     }
 
     /**
      * after using up all cards this method puts them back in the pile
      */
-    private void addDiscCards(){
+    private void addDiscCards() {
         int l = this.discarded.size();
         shuffleDeck(discarded);
-        for(int i = 0; i < l; i++){
+        for (int i = 0; i < l; i++) {
             this.closed.add(this.discarded.remove(0));
         }
     }
 
     /**
      * should create a copy of all the cards in a deck.
+     *
      * @param deck to be copied
      * @return a copy of the deck
      */
-    private List<Card> copyCards(List<Card> deck){
+    private List<Card> copyCards(List<Card> deck) {
         int l = deck.size();
 
         return new ArrayList<>(deck);
@@ -81,6 +100,7 @@ public class CardDeck {
 
     /**
      * used to be able to look at what cards can be chosen
+     *
      * @return the list of cards that can be chosen
      */
     public List<Card> getOpen() {
@@ -89,12 +109,13 @@ public class CardDeck {
 
     /**
      * used to set some starter decks
+     *
      * @param i 0 for a green deck, otherwise a red deck
      * @return either a deck with green cards or red cards
      */
-    public static CardDeck initialDeck(int i){
+    public static CardDeck initialDeck(int i) {
         List<Card> cards = new ArrayList<>();
-        if(i == 0) {
+        if (i == 0) {
             // not allowed to write the pattern directly, must send it the long way.
             int[][] pattern = {
                     {1, 0, 1},
@@ -129,8 +150,7 @@ public class CardDeck {
             //cards.add(new Card(6, pattern, 3));
 
 
-        }else
-        {
+        } else {
             // not allowed to write the pattern directly, must send it the long way.
             int[][] pattern = {
                     {1, 0, 1},
@@ -177,15 +197,16 @@ public class CardDeck {
     /**
      * A shuffle method based on Fisher-Yates shuffle. So that the cards will be shuffled. Changes the original
      * deck of cards.
+     *
      * @param cards the cards to be shuffled
      */
     // Fisher-yates shuffle https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-    private void shuffleDeck(List<Card> cards){
+    private void shuffleDeck(List<Card> cards) {
         Random random = new Random();
         int l = cards.size();
 
-        for(int i = l-1; i > 1; i--){
-            int a = random.nextInt(i+1);
+        for (int i = l - 1; i > 1; i--) {
+            int a = random.nextInt(i + 1);
             Card temp = cards.get(a);
             cards.set(a, cards.get(i));
             cards.set(i, temp);

@@ -1,12 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,6 +23,21 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.PlayerTurnSlot;
+
+/**
+ * View, handles everything visual. Part of the MVC pattern.
+ *
+ * Is used by DanceFans.
+ *
+ * Uses Model.
+ *
+ * @author Joar Granström
+ * @author Hedy Pettersson
+ * @author David Salmo
+ * @author Jakob Persson
+ * @author Johan Berg
+ * @author Isabelle Ermeryd Tankred
+ */
 
 public class View {
 
@@ -62,11 +79,22 @@ public class View {
 
 	private Model model;
 
+	private AssetManager manager;
+	private TiledMap map;
 
+	// Used this guide: http://www.pixnbgames.com/blog/libgdx/how-to-use-libgdx-tiled-drawing-with-libgdx/
+	// Code: https://github.com/angelnavarro/Gdx-MyExamples/blob/master/gdx-tiled-draw-map/core/src/com/pixnbgames/tiled/draw_map/MyGdxTiledGame.java
+	private void initManagers(){
+		manager = new AssetManager();
+		map = new TiledMap();
+		manager.setLoader(TiledMap.class, new TmxMapLoader());
+		manager.load("maps/BasicDanceFloor.tmx", TiledMap.class);
+		manager.finishLoading();
 
+		map = manager.get("maps/BasicDanceFloor.tmx", TiledMap.class);
+	}
 
-
-    public void initCamera(int width, int height){
+    private void initCamera(int width, int height){
         // Set up the camera
 		float aspectRatio = (float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
         camera = new OrthographicCamera(1600, 800);
@@ -83,8 +111,8 @@ public class View {
 	 * Initializes the LibGDX renderer for the map.
 	 *
 	 */
-    public void initRenderer(){
-		mapRenderer = new OrthogonalTiledMapRenderer(model.danceFloor.map);
+    private void initRenderer(){
+		mapRenderer = new OrthogonalTiledMapRenderer(map);
     }
 
 	/**
@@ -94,10 +122,12 @@ public class View {
 	public void create(Model model) {
 
     	this.model = model;
+    	initManagers();
 
 		//# Things to draw
 		batch = new SpriteBatch();
-
+		initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		initRenderer();
 		// load images for dancers and main characters
 		//https://www.codeandweb.com/texturepacker/start-download?os=mac&bits=64&download=true
 		//tiled

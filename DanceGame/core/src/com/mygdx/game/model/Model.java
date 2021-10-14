@@ -1,18 +1,24 @@
 package com.mygdx.game.model;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.mygdx.game.Controller;
-import com.mygdx.game.View;
-import com.badlogic.gdx.Input;
 import java.lang.Math;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Model combines many of the other classes in the package, and is what is accessed from outside of the package.
+ * It can start new games, calculate if someone has won, move the MainDancer:s around.
+ *
+ * Is used by Controller, DanceFans, View.
+ *
+ * Uses CardDeck, DanceFloor, Player.
+ *
+ * @author Joar Granström
+ * @author Hedy Pettersson
+ * @author Johan Berg
+ * @author Jakob Persson
+ * @author David Salmo
+ * @author Isabelle Ermeryd Tankred
+ */
 
 public class Model {
 
@@ -81,8 +87,8 @@ public class Model {
 
 
     /**
-     *
-     * @throws ArrayIndexOutOfBoundsException
+     * Updates the state of the DanceFloor to match the state of the PreviewDanceFloor and changes whose turn it is.
+     * @throws ArrayIndexOutOfBoundsException If something went wrong with while copying the previewDanceFloor.
      */
     public void playerConfirmedDanceMove() throws ArrayIndexOutOfBoundsException {
 
@@ -138,7 +144,7 @@ public class Model {
     // Since the game might have a clock for your turn, the timer doesn't start until you draw your cards.
 
     /**
-     *
+     * Sets hasPlayerStartedTheirTurn to true and draws cards.
      */
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
@@ -152,7 +158,7 @@ public class Model {
     /**
      * Moves the MainDancer of the player whose turn it is currently to the specified index supplied to the method.
      * @param indexMovedTo - Which index the MainDancer should be moved to.
-     * @throws Exception
+     * @throws Exception DeepCopies the DanceFloor which can generate an ArrayOutOfBoundsException.
      */
     public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) throws Exception {
 
@@ -170,7 +176,7 @@ public class Model {
         try {
 
             this.previewDanceFloor = danceFloor.deepCopy();
-            // Update index on dancefloor for main dancer preview, according to input
+               // Check for player collision
               if (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexMovedTo)
               || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexMovedTo))) {
                 // Update index on dancefloor for main dancer preview, according to input
@@ -274,8 +280,6 @@ public class Model {
     }
 
 
-
-
     private DanceFloorTile[][] convertToMatrix(DanceFloorTile[] danceFloorArray){
         DanceFloorTile[][] danceFloorMatrix = new DanceFloorTile[danceFloor.mapWidthInTiles][danceFloor.mapHeightInTiles];
         for(int i = 0; i < danceFloorArray.length; i++){
@@ -306,7 +310,7 @@ public class Model {
     /**
      * Selects which direction the MainDancer should move in depending on the parameter. Makes sure the MainDancer can't move outside of the DanceFloor.
      * @param keycode Supplied from Controller, tells which button has been pressed.
-     * @throws Exception
+     * @throws Exception ArrayIndexOutOfBoundsException if something goes wrong while copying the DanceFloor.
      */
     public void moveSelection(int keycode) throws Exception {
 
@@ -316,12 +320,13 @@ public class Model {
         //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
         // to go there then!
         switch (keycode){
-            //case 19:
-            case Input.Keys.UP:
+            //case Input.Keys.UP:
+            case 19:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX(), selectionOnTileIndex.getY() + h);
                 int indexUp = selectionOnTileIndex - danceFloor.mapWidthInTiles;
 
                 // Move up, If selectionOnTile is not in the top row
+                // also checks for player collision
                 if ((selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 ))
                     && (moveDistanceFromMainDancer(selectionOnTileIndex - danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
                         && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexUp)
@@ -334,16 +339,18 @@ public class Model {
                     //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
                     // TODO: only move if within tile is within reach based on dance move card move distance prop.
                     moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
-
                 }
                 break;
 
-            //case 20:
-            case Input.Keys.DOWN:
+
+           // case Input.Keys.DOWN:
+            case 20:
+
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() , selectionOnTileIndex.getY() - h);
                 int indexDown = selectionOnTileIndex + danceFloor.mapWidthInTiles;
 
                 // Move down, If selectionOnTile is not in the bottom row
+                // also checks for player collision
                 if ((selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) ))
                     && (moveDistanceFromMainDancer(selectionOnTileIndex + danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
                         && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexDown)
@@ -360,12 +367,13 @@ public class Model {
                 }
                 break;
 
-            //case 21:
-            case Input.Keys.LEFT:
+            //case Input.Keys.LEFT:
+            case 21:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() - w,selectionOnTileIndex.getY());
                 int indexLeft = selectionOnTileIndex - 1;
 
                 // Move left, If selectionOnTile is not in the leftmost column
+                // also checks for player collision
                 if (
                     ((selectionOnTileIndex) % danceFloor.mapWidthInTiles != 0 )
                     && (moveDistanceFromMainDancer(selectionOnTileIndex - 1) <= selectedCardMoveDistanceLimit)
@@ -383,12 +391,13 @@ public class Model {
                 }
                 break;
 
-            //case 22:
-            case Input.Keys.RIGHT:
+            // case Input.Keys.RIGHT:
+            case 22:
                 //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() + w, selectionOnTileIndex.getY());
                 int indexRight = selectionOnTileIndex + 1;
 
                 // Move right, If selectionOnTile is not in the rightmost column
+                // also checks for player collision
                 if (
                     ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1)
                     && (moveDistanceFromMainDancer(selectionOnTileIndex + 1) <= selectedCardMoveDistanceLimit)
@@ -441,6 +450,11 @@ public class Model {
         return i;
     }
 
+    /**
+     * Checks whether the game has reached the turn limit or the board is filled.
+     * @return true or false.
+     */
+
     public boolean gameIsDone(){
         // return true when game is finish
         if(countGreenTiles()+countRedTiles()==54    ||  numberTurns()==10){
@@ -449,11 +463,6 @@ public class Model {
         return false;
     }
 
-    public void deleteTiles(){
-        this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
-
-        danceFloor.initializeDanceFloor();
-    }
 
 
     public String isWinner(){
@@ -467,6 +476,10 @@ public class Model {
         } return "";
     }
 
+    /**
+     * Getter for the turn number.
+     * @return which turn it is.
+     */
     public int numberTurns(){
 
         return turnNumber/2;

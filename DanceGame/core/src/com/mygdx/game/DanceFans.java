@@ -2,9 +2,21 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Model;
-import com.mygdx.game.View;
+
+/**
+ * DanceFans is the application which connects all the MVC.
+ *
+ * Is used in DesktopLauncher.
+ *
+ * Uses View, Controller, Model.
+ *
+ * @author Joar Granström
+ * @author Jakob Persson
+ * @author Hedy Pettersson
+ * @author Johan Berg
+ * @author Isabelle Ermeryd Tankred
+ */
 
 public class DanceFans extends ApplicationAdapter {
 
@@ -21,34 +33,47 @@ public class DanceFans extends ApplicationAdapter {
 
     // https://libgdx.badlogicgames.com/ci/nightlies/docs/api/com/badlogic/gdx/ApplicationListener.html
 
-
+    /**
+     * Initializes everything needed for the game to function.
+     */
     @Override
-    public void create(){
+    public void create() {
         gameState = new Model();
         gameState.startNewGame();
         view = new View();
         view.create(gameState);
         //Possible camera fix, but MVC is more importante!
-        view.initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //Init renderer
-        view.initRenderer();
         controller = new Controller(gameState);
         // controller.init();
         Gdx.input.setInputProcessor(this.controller);
     }
 
+    /**
+     * Updates the viewport when a resize event is fired.
+     *
+     * @param width  New width of the window.
+     * @param height New height of the window.
+     */
     @Override
     public void resize(int width, int height) {
         view.viewport.update(width, height);
     }
+
+    /**
+     * LibGDX stuff.
+     */
     @Override
-    public void render () {
+    public void render() {
         view.render(gameState.previewDanceFloor);
         //System.out.println(view.selectedTile_sprite.getX());
     }
 
+    /**
+     * LibGDX stuff.
+     */
     @Override
-    public void dispose(){
+    public void dispose() {
         view.dispose();
         // TODO: maybe need to dispose data in model too? Not sure how
         //gameState.dispose(); // ??? Kanske ska vara så med?

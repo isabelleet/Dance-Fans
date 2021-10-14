@@ -4,6 +4,20 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.game.model.Model;
 
+/**
+ * Controller, calls on methods in model depending on what has been inputted. Part of the MVC pattern.
+ *
+ * Is used in DanceFans.
+ *
+ * Uses Model.
+ *
+ * @author Joar Granström
+ * @author Hedy Pettersson
+ * @author Johan Berg
+ * @author Jakob Persson
+ * @author David Salmo
+ */
+
 public class Controller implements InputProcessor {
 
     Model model;
@@ -11,6 +25,11 @@ public class Controller implements InputProcessor {
         this.model = model;
     }
 
+    /**
+     * Checks which key was pressed and tells the model what the user wants to do.
+     * @param keycode the key that was pressed.
+     * @return returns true when the input has been processed, otherwise returns false.
+     */
     @Override
     public boolean keyDown(int keycode) {
 
@@ -68,7 +87,7 @@ public class Controller implements InputProcessor {
             return true;
         }
 
-        if(keycode <= 22 && keycode >=19) {
+        if(keycode <= 22 && keycode >= 19) {
             if (model.hasPlayerStartedTheirTurn) {
                 try {
                     model.moveSelection(keycode);

@@ -1,27 +1,45 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-
 import java.io.Serializable;
+
+/**
+ * MainDancer is the representation of the player on the DanceFloor and extends Dancer. It also keeps track of
+ * where it exists in the preview.
+ *
+ * Is used in Player.
+ *
+ * @author Jakob Persson
+ * @author Joar Granström
+ * @author Johan Berg
+ * @author Hedy Pettersson
+ */
 
 public class MainDancer extends Dancer implements Serializable {
 
-    private Sprite dancerImg;
     private int previewIndex;
 
-    public MainDancer(String name) {
-        super(name);
-    }
-
-    public MainDancer(String name, int index){
+    /**
+     * Creates a new MainDancer.
+     * @param name name of the MainDancer.
+     * @param index which index it should start on.
+     */
+    public MainDancer(String name, int index) {
         super(name, index);
     }
 
-    public int getPreviewIndex(){
+    /**
+     * Getter for the index used to preview the Dancers position before the player confirms their move.
+     * @return an int describing where the MainDancer is.
+     */
+    public int getPreviewIndex() {
         return previewIndex;
     }
 
-    public void setPreviewIndex(int index){
+    /**
+     * Setter for the index used to preview the Dancers position before the player confirms their move.
+     * @param index which index to move the MainDancer to.
+     */
+    public void setPreviewIndex(int index) {
         this.previewIndex = index;
     }
 }
