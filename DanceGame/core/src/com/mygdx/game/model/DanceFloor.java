@@ -17,7 +17,7 @@ import java.io.*;
 
 public class DanceFloor implements Serializable {
 
-    public DanceFloorTile[] danceFloorTiles;
+    private DanceFloorTile[] danceFloorTiles;
 
 
     // Map properties
@@ -55,6 +55,13 @@ public class DanceFloor implements Serializable {
         return copy;
     }
 
+    public Color getColor(int i){
+        return danceFloorTiles[i].getColor();
+    }
+
+    public Type getType(int i ){
+        return danceFloorTiles[i].getType();
+    }
 
     //TODO: Use this to test end of game conditions e.g.
 
@@ -65,19 +72,7 @@ public class DanceFloor implements Serializable {
     public DanceFloorTile[] initializeDanceFloor() {
         int i;
         for (i = 0; i < this.danceFloorTiles.length; i++) {
-
-/*            if (i == 11)
-                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
-            else if (i == ((this.mapWidthInTiles*this.mapHeightInTiles) - this.mapWidthInTiles - 2) )
-                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
-
-            else
-*/
-
-            //TODO: an empty tiles shouldn't be a dancer, fix later. Prob. dancer just one case of "object on floor"
-            // added player1 here just for the time being if it doesn't make sense
             this.danceFloorTiles[i] = new DanceFloorTile(Color.NONE, Type.EMPTY);
-
         }
         return this.danceFloorTiles;
     }
@@ -87,7 +82,6 @@ public class DanceFloor implements Serializable {
      * @param tileIndex which tile to update.
      */
     public void removeDancerFromTileIndex(int tileIndex) {
-        //TODO: prob not just have empty string to mean no dancer...
         this.danceFloorTiles[tileIndex] = new DanceFloorTile(Color.NONE, Type.EMPTY);
     }
 

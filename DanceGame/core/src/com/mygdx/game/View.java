@@ -44,8 +44,6 @@ public class View {
 	//BitmapFont font = new BitmapFont(Gdx.files.internal("Calibri.fnt"),Gdx.files.internal("Calibri.png"),false);
 	SpriteBatch batch;
 
-	Texture selectedTile;
-
 	public Sprite selectedTile_sprite;
 	Sprite winner;
 
@@ -58,18 +56,6 @@ public class View {
 
 	private final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
 	private final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
-
-	// load images for dancers and main characters
-	//https://www.codeandweb.com/texturepacker/start-download?os=mac&bits=64&download=true
-	//tiled
-	// Guide: https://www.codeandweb.com/texturepacker/tutorials/libgdx-physics
-	private final Sprite greenDanceFan = textureAtlas.createSprite("greenDanceFan");
-	private final Sprite redDanceFan = textureAtlas.createSprite("redDanceFan");
-	private final Sprite greenMainDancer = textureAtlas.createSprite("greenMainDancer");
-	private final Sprite redMainDancer = textureAtlas.createSprite("redMainDancer");
-	private final Sprite greenDanceFanTransparent = textureAtlas.createSprite("greenDanceFanTransparent");
-	private final Sprite redDanceFanTransparent = textureAtlas.createSprite("redDanceFanTransparent");
-	private final Sprite emptyTile = textureAtlas.createSprite("transparent_tile");
 
 	// Camera and render
 	private OrthographicCamera camera;
@@ -166,7 +152,7 @@ public class View {
 	private void drawSprite(String name, float x, float y) {
 		Sprite sprite = sprites.get(name);
 		sprite.setPosition(x, y);
-		if (name.contains("DanceFanTransparent")) {
+		if (name.contains("Transparent")) {
 			sprite.setAlpha(0.5f);
 		}
 		sprite.draw(batch);
@@ -202,22 +188,16 @@ public class View {
 
 		batch.begin();
 
-
-
-		// Draw Dance Floor and things on it
-		// TODO: Make this prettier but added this to draw from top left corner so one can think about it like a matrix
-		// [STARTS DRAWING HERE] [] [] []
-		// ...
-		// [] [] [] [STARTS DRAWING HERE]
 		int distanceFromBottomToTop = (danceFloor.mapHeightInTiles - 1) * danceFloor.tileSideLength;
 		for (int rowIndex = 0; rowIndex < danceFloor.mapWidthInTiles; rowIndex++){
 			for (int columnIndex = 0; columnIndex < danceFloor.mapHeightInTiles; columnIndex++){
-				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
-				Color color = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getColor();
-				Type type = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getType();
+				int indexInDanceFloor = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
+				Color color = danceFloor.getColor(indexInDanceFloor);
+				Type type = danceFloor.getType(indexInDanceFloor);
 			    drawSprite(stringDancer(color, type), danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex));
-				if (currentIndexInDanceFloorArray == model.selectionOnTileIndex)
-				batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
+				if (indexInDanceFloor == model.selectionOnTileIndex){
+					batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
+				}
 
 
 			}
@@ -253,14 +233,9 @@ public class View {
 
 		}
 
-		if(model.numberTurns()==11){
-			model.startNewGame();}
-
-
 		int turnNumbers= model.numberTurns()+1;
 		String s = turnNumbers + "    rounds played";
 		font.draw(batch, s, width, height-40);
-
 
 		font.draw(batch, "Win by having the most dance fans", width, height-100) ;
 		font.draw(batch, "(squares in the same color as your main dancer)", width, height-120);

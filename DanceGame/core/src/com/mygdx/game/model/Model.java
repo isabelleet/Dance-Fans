@@ -254,7 +254,7 @@ public class Model {
                             &&   ( rowInDanceFloor < danceFloor.mapHeightInTiles)
                             &&   ( rowInDanceFloor >= 0)
                             //TODO: Maybe not check spritenames but Id or something!
-                            && !(Type.MD == previewDanceFloor.danceFloorTiles[tileIndex].getType())
+                            && !(Type.MD == previewDanceFloor.getType(tileIndex))
                         )
                         {
                             // Store indexes in a list to use them when the player ends their turn
@@ -421,22 +421,23 @@ public class Model {
     }
 
     private int countTotalTiles(){
-        int i = 0;
-        for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
-            if(dft.getType() != Type.EMPTY){
-                i++;
+        int sum = 0;
+        for(int i = 0; i < danceFloor.mapWidthInTiles*danceFloor.mapHeightInTiles; i++){
+            if(danceFloor.getType(i) != Type.EMPTY){
+                sum++;
             }
         }
-        return i;
+        return sum;
     }
 
     private int countTiles(Player player){
-        int i = 0;
-        for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
-            if(dft.getType() == player.getMainDancer().getType() || dft.getType() == player.getDanceFan().getType())
-                i++;
+        int sum = 0;
+        for(int i = 0; i < danceFloor.mapWidthInTiles*danceFloor.mapHeightInTiles; i++){
+            if(danceFloor.getColor(i) == player.getColor()){
+                sum++;
+            }
         }
-        return i;
+        return sum;
     }
 
     /**

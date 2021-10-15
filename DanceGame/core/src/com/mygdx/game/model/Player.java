@@ -47,6 +47,10 @@ public class Player {
         return mainDancer;
     }
 
+    public Color getColor(){
+        return mainDancer.getColor();
+    }
+
     /**
      * A getter for how many steps a player can take with the selected card.
      * @param selected which of the cards on hand one wants to get the steps from
