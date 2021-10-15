@@ -135,41 +135,6 @@ public class CardDeck {
             // not allowed to write the pattern directly, must send it the long way.
             PatternOccupant[][] pattern = {
                     {DF, E, DF},
-                    {E, MD, E},
-                    {DF, E, DF}};
-            cards.add(new Card(2, pattern, 3));
-            //cards.add(new Card(2,pattern,3 ));
-            //cards.add(new Card(2,pattern,3 ));
-
-            pattern = new PatternOccupant[][]{
-                    {DF, DF, DF},
-                    {DF, MD, E},
-                    {DF, E, DF}};
-            cards.add(new Card(3, pattern, 1));
-            //cards.add(new Card(3, pattern, 1));
-
-            pattern = new PatternOccupant[][]{
-                    {E, DF, E},
-                    {DF, MD, DF},
-                    {E, DF, E}};
-            cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
-
-            pattern = new PatternOccupant[][]{
-                    {E, E, E, E, E},
-                    {E, E, E, E, DF},
-                    {E, E, MD, DF, DF},
-                    {E, E, E, E, DF},
-                    {E, E, E, E, E}};
-            cards.add(new Card(6, pattern, 3));
-            //cards.add(new Card(6, pattern, 3));
-
-
-        } else {
-            // not allowed to write the pattern directly, must send it the long way.
-            PatternOccupant[][] pattern = {
-                    {DF, E, DF},
                     {DF, MD, DF},
                     {DF, E, DF}};
             cards.add(new Card(4, pattern, 1));
@@ -202,6 +167,38 @@ public class CardDeck {
                     {DF, E, E, E, E},
                     {E, E, E, E, E}};
             cards.add(new Card(8, pattern, 3));
+        } else {
+            // not allowed to write the pattern directly, must send it the long way.
+            PatternOccupant[][] pattern = {
+                    {DF, E, DF},
+                    {E, MD, E},
+                    {DF, E, DF}};
+            cards.add(new Card(2, pattern, 3));
+            //cards.add(new Card(2,pattern,3 ));
+            //cards.add(new Card(2,pattern,3 ));
+
+            pattern = new PatternOccupant[][]{
+                    {DF, DF, DF},
+                    {DF, MD, E},
+                    {DF, E, DF}};
+            cards.add(new Card(3, pattern, 1));
+            //cards.add(new Card(3, pattern, 1));
+
+            pattern = new PatternOccupant[][]{
+                    {E, DF, E},
+                    {DF, MD, DF},
+                    {E, DF, E}};
+            cards.add(new Card(5, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
+            //cards.add(new Card(5, pattern, 2));
+
+            pattern = new PatternOccupant[][]{
+                    {E, E, E, E, E},
+                    {E, E, E, E, DF},
+                    {E, E, MD, DF, DF},
+                    {E, E, E, E, DF},
+                    {E, E, E, E, E}};
+            cards.add(new Card(6, pattern, 3));
             //cards.add(new Card(6, pattern, 3));
         }
 

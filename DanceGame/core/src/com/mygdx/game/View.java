@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,9 +19,8 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.model.DanceFloor;
-import com.mygdx.game.model.Model;
-import com.mygdx.game.model.PlayerTurnSlot;
+
+import com.mygdx.game.model.*;
 
 /**
  * View, handles everything visual. Part of the MVC pattern.
@@ -48,26 +46,30 @@ public class View {
 
 	Texture selectedTile;
 
-	TextureAtlas textureAtlas;
-	TextureAtlas textureAtlasWinner;
-	Sprite greenDanceFan;
-	Sprite redDanceFan;
-	Sprite greenMainDancer;
-	Sprite redMainDancer;
-	Sprite greenDanceFanTransparent;
-	Sprite redDanceFanTransparent;
 	public Sprite selectedTile_sprite;
-	Sprite greenWinner;
-	Sprite redWinner;
+	Sprite winner;
 
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
-	// card atlas?
-	TextureAtlas textureAtlasCards;
-	final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
+	private final TextureAtlas textureAtlas = new TextureAtlas("sprites.txt");
+	private final TextureAtlas textureAtlasCards = new TextureAtlas("cardSprites.txt");
+	private final TextureAtlas textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
+	private final TextureAtlas textureAtlasWinner = new TextureAtlas("winners.txt");;
 
-	TextureAtlas textureAtlasButtons;
-	final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
+	private final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
+	private final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
+
+	// load images for dancers and main characters
+	//https://www.codeandweb.com/texturepacker/start-download?os=mac&bits=64&download=true
+	//tiled
+	// Guide: https://www.codeandweb.com/texturepacker/tutorials/libgdx-physics
+	private final Sprite greenDanceFan = textureAtlas.createSprite("greenDanceFan");
+	private final Sprite redDanceFan = textureAtlas.createSprite("redDanceFan");
+	private final Sprite greenMainDancer = textureAtlas.createSprite("greenMainDancer");
+	private final Sprite redMainDancer = textureAtlas.createSprite("redMainDancer");
+	private final Sprite greenDanceFanTransparent = textureAtlas.createSprite("greenDanceFanTransparent");
+	private final Sprite redDanceFanTransparent = textureAtlas.createSprite("redDanceFanTransparent");
+	private final Sprite emptyTile = textureAtlas.createSprite("transparent_tile");
 
 	// Camera and render
 	private OrthographicCamera camera;
@@ -128,23 +130,6 @@ public class View {
 		batch = new SpriteBatch();
 		initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		initRenderer();
-		// load images for dancers and main characters
-		//https://www.codeandweb.com/texturepacker/start-download?os=mac&bits=64&download=true
-		//tiled
-		// Guide: https://www.codeandweb.com/texturepacker/tutorials/libgdx-physics
-		textureAtlas = new TextureAtlas("sprites.txt");
-		textureAtlasCards = new TextureAtlas("cardSprites.txt");
-		textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
-
-
-
-		greenDanceFan = textureAtlas.createSprite("greenDanceFan");
-		redDanceFan = textureAtlas.createSprite("redDanceFan");
-		greenMainDancer = textureAtlas.createSprite("greenMainDancer");
-		redMainDancer = textureAtlas.createSprite("redMainDancer");
-		greenDanceFanTransparent = textureAtlas.createSprite("greenDanceFanTransparent");
-		redDanceFanTransparent = textureAtlas.createSprite("redDanceFanTransparent");
-
 
 		// load images for helper UI
 		//selectedTile = new Texture(Gdx.files.internal("selectionBorder.png"));
@@ -152,12 +137,6 @@ public class View {
 		selectedTile_sprite.setPosition(0, 0);
 
 		addSprites();
-
-
-		//# Which things to draw Where
-
-		// Instantiation of the render for the map object
-
 	}
 
 	private void addSprites() {
@@ -234,8 +213,8 @@ public class View {
 		for (int rowIndex = 0; rowIndex < danceFloor.mapWidthInTiles; rowIndex++){
 			for (int columnIndex = 0; columnIndex < danceFloor.mapHeightInTiles; columnIndex++){
 				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
-				String spriteName = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getOccupantName();
-			    drawSprite(spriteName, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex));
+				Type type = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getType();
+			    drawSprite(stringDancer(type), danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex));
 				if (currentIndexInDanceFloorArray == model.selectionOnTileIndex)
 				batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
 
@@ -260,42 +239,26 @@ public class View {
 		batch.begin();
 
 
-		String strWinner= model.isWinner();
-		font.draw(batch, strWinner, width , height-40);
-		textureAtlasWinner = new TextureAtlas("winners.txt");
+		if(model.gameIsDone()){
+			String strWinner = whoWon(model.isLeading());
+			font.draw(batch, strWinner, width , height-40);
 
+			winner = textureAtlasWinner.createSprite(strWinner);
+			winner.setPosition( 160,600);
+			winner.draw(batch);
+			if(model.numberTurns()==11){
+				model.startNewGame();
+			}
 
-		 if(model.isWinner().equals(" green is winner ")){
-			 greenWinner = textureAtlasWinner.createSprite("greenWinner");
-			 greenWinner.setPosition( 160,600);
-			 greenWinner.draw(batch);
-			 if(model.numberTurns()==11){
-			 model.startNewGame();}
-			// sprites.remove(5);
+		}
 
-
-		 }
 		if(model.numberTurns()==11){
 			model.startNewGame();}
 
-		 if(model.isWinner().equals(" red is winner ")){
-			 redWinner = textureAtlasWinner.createSprite("redWinner");
-			 redWinner.setPosition(  160,  600);
-			 redWinner.draw(batch);
-			 if(model.numberTurns()==11){
-				 model.startNewGame();}
-			// sprites.remove(5);
 
-
-		 }
-
-		int turnNumbers=model.numberTurns()+1;
+		int turnNumbers= model.numberTurns()+1;
 		String s = turnNumbers + "    rounds played";
-		if(turnNumbers<=10) {
-			font.draw(batch, s, width, height-40);
-		}
-
-
+		font.draw(batch, s, width, height-40);
 
 
 		font.draw(batch, "Win by having the most dance fans", width, height-100) ;
@@ -318,12 +281,6 @@ public class View {
 		font.draw(batch, "Confirm you planned dance move", width, height-370);
 		drawButton("emojione-monotone_keycap-enter", width+210, height-420);
 
-		//int maxCardSlots = 7;
-		//for(int i = 0; i < maxCardSlots; i++){
-		//	String numberButton = "emojione-monotone_keycap-" + i;
-		//	drawButton(numberButton, 150, i*150);
-		//}
-
 		font.draw(batch, "Change what dance move to consider", width, height-480);
 
 		int spacing = 195;
@@ -334,14 +291,6 @@ public class View {
 			drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
 			drawButton("emojione-monotone_keycap-2", 2 * spacing + xAdjustment, 10);
 		}
-		//drawButton("emojione-monotone_keycap-3", 3*spacing + xAdjustment, 10);
-		//drawButton("emojione-monotone_keycap-4", 4*spacing + xAdjustment, 10);
-		//drawButton("emojione-monotone_keycap-5", 5*spacing + xAdjustment, 10);
-		//drawButton("emojione-monotone_keycap-6", 6*spacing , cardsBottomY);
-		//drawButton("emojione-monotone_keycap-7", 7*spacing , cardsBottomY);
-		//TODO: have keys up to 7 but probably not needed now
-
-
 
 		if(!model.gameIsDone()){
 		// Draw current players cards
@@ -402,6 +351,38 @@ public class View {
 
 		batch.end();
 
+	}
+
+	private String whoWon(Player player){
+		String s = "";
+		switch (player.getMainDancer().getType()){
+			case REDMD:
+				 s = "redWinner";
+				break;
+			case GREENMD:
+				s = "greenWinner";
+				break;
+		}
+		return s;
+	}
+
+	private String stringDancer(Type type){
+		switch (type){
+			case REDMD:
+				return "redMainDancer";
+			case REDDF:
+				return "redDanceFan";
+			case REDTRANS:
+				return "redDanceFanTransparent";
+			case GREENMD:
+				return "greenMainDancer";
+			case GREENDF:
+				return "greenDanceFan";
+			case GREENTRANS:
+				return "greenDanceFanTransparent";
+			default:
+				return "transparent_tile";
+		}
 	}
 
 	/**

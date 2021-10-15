@@ -24,6 +24,8 @@ public class Model {
 
     private Player[] players;
     public Enum<PlayerTurnSlot> whichPlayersTurnItIs;
+    private int turnNumber = 0;
+    private final int maximumTurns = 20;
     public Boolean hasPlayerStartedTheirTurn;
     public DanceFloor danceFloor;
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
@@ -57,8 +59,8 @@ public class Model {
 
         this.players = new Player[2];
 
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), CardDeck.initialDeck(1), new DanceFan("redDanceFan"), new DanceFan("redDanceFanTransparent"));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), CardDeck.initialDeck(0), new DanceFan("greenDanceFan"), new DanceFan("greenDanceFanTransparent"));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Type.REDMD, 50), CardDeck.initialDeck(0), new DanceFan(Type.REDDF), new DanceFan(Type.REDTRANS));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer(Type.GREENMD, 0), CardDeck.initialDeck(1), new DanceFan(Type.GREENDF), new DanceFan(Type.GREENTRANS));
 
         this.players[0] = player1;
         this.players[1] = player2;
@@ -123,7 +125,7 @@ public class Model {
         }
     }
 
-    int turnNumber=0;
+
     // No need to make this more sophisticated until potential decision to add more players.
 
     /**
@@ -252,8 +254,8 @@ public class Model {
                             &&   ( rowInDanceFloor < danceFloor.mapHeightInTiles)
                             &&   ( rowInDanceFloor >= 0)
                             //TODO: Maybe not check spritenames but Id or something!
-                            && !"redMainDancer".equals(previewDanceFloor.danceFloorTiles[tileIndex].getOccupantName())
-                            && !"greenMainDancer".equals(previewDanceFloor.danceFloorTiles[tileIndex].getOccupantName())
+                            && !(Type.REDMD == previewDanceFloor.danceFloorTiles[tileIndex].getType())
+                            && !(Type.GREENMD == previewDanceFloor.danceFloorTiles[tileIndex].getType())
 
                         )
                         {
@@ -420,22 +422,21 @@ public class Model {
         return currentPlayer().getHand();
     }
 
-    private int countRedTiles(){
+    private int countTotalTiles(){
         int i = 0;
         for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
-            if(dft.occupant.getSpriteName().equals("redDanceFan")||dft.occupant.getSpriteName().equals("redMainDancer"))
+            if(dft.getType() != Type.EMPTY){
                 i++;
-
+            }
         }
         return i;
     }
 
-    private int countGreenTiles(){                       // number of green occupants
-        int i=0 ;
+    private int countTiles(Player player){
+        int i = 0;
         for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
-            if(dft.occupant.getSpriteName().equals("greenDanceFan")||dft.occupant.getSpriteName().equals("greenMainDancer")){
+            if(dft.getType() == player.getMainDancer().getType() || dft.getType() == player.getDanceFan().getType())
                 i++;
-            }
         }
         return i;
     }
@@ -444,26 +445,21 @@ public class Model {
      * Checks whether the game has reached the turn limit or the board is filled.
      * @return true or false.
      */
-
     public boolean gameIsDone(){
         // return true when game is finish
-        if(countGreenTiles()+countRedTiles()==54    ||  numberTurns()==10){
+        if(countTotalTiles() ==54 || turnNumber == maximumTurns){
             return true;
         }
         return false;
     }
 
-
-
-    public String isWinner(){
-        if (turnNumber==20||countRedTiles()+countGreenTiles()==54){
-            if (countGreenTiles() > countRedTiles()){
-                return " green is winner ";
-            }
-            else{
-                return " red is winner ";
-            }
-        } return "";
+    public Player isLeading(){
+        if (countTiles(players[0]) > countTiles(players[1])){
+            return players[0];
+        }
+        else{
+            return players[1];
+        }
     }
 
     /**

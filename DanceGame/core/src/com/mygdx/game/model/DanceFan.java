@@ -12,16 +12,12 @@ import java.io.Serializable;
  * @author Johan Berg
  */
 
-public class DanceFan extends Dancer implements Serializable {
-    private String spriteName = "";
-
-    public void setSpriteName(String name) {
-        this.spriteName = name;
-    }
+public class DanceFan extends Dancer {
+    private Type type;
 
     // Constructor
-    public DanceFan(String spriteName) {
-        super(spriteName);
+    public DanceFan(Type type) {
+        super(type);
     }
 
     public void move() {

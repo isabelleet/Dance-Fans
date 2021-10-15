@@ -42,29 +42,12 @@ public class DanceFloor implements Serializable {
     /**
      * Creates a new object with the same properties as the one that should be copied, to avoid weird pointer errors.
      * @return A new DanceFloor with the properties of an old one.
-     * @throws Exception if something goes wrong while copying.
      */
     public DanceFloor deepCopy() {
-        /*
-        //Serialization of object
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(this);
 
-        //De-serialization of object
-        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-        ObjectInputStream in = new ObjectInputStream(bis);
-        DanceFloor copied = (DanceFloor) in.readObject();
-
-        //Verify that object is not corrupt
-
-        //validateNameParts(fName);
-        //validateNameParts(lName);
-
-         */
         DanceFloorTile[] copyTiles = new DanceFloorTile[danceFloorTiles.length];
         for(int i = 0; i < danceFloorTiles.length; i++){
-            copyTiles[i] = new DanceFloorTile(danceFloorTiles[i].getOccupantName());
+            copyTiles[i] = new DanceFloorTile(danceFloorTiles[i].getType());
         }
 
         DanceFloor copy = new DanceFloor(copyTiles);
@@ -93,7 +76,7 @@ public class DanceFloor implements Serializable {
 
             //TODO: an empty tiles shouldn't be a dancer, fix later. Prob. dancer just one case of "object on floor"
             // added player1 here just for the time being if it doesn't make sense
-            this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile");
+            this.danceFloorTiles[i] = new DanceFloorTile(Type.EMPTY);
 
         }
         return this.danceFloorTiles;
@@ -105,7 +88,7 @@ public class DanceFloor implements Serializable {
      */
     public void removeDancerFromTileIndex(int tileIndex) {
         //TODO: prob not just have empty string to mean no dancer...
-        this.danceFloorTiles[tileIndex] = new DanceFloorTile("transparent_tile");
+        this.danceFloorTiles[tileIndex] = new DanceFloorTile(Type.EMPTY);
     }
 
     //TODO: not sure if should update Dance Fan, or just replace it.
@@ -117,7 +100,7 @@ public class DanceFloor implements Serializable {
      * @param dancer which dancer to place on the tile.
      */
     public void newDancerOnTile(int tileIndex, Dancer dancer) {
-        this.danceFloorTiles[tileIndex].setOccupant(dancer);
+        this.danceFloorTiles[tileIndex].setOccupant(dancer.getType());
     }
 
 

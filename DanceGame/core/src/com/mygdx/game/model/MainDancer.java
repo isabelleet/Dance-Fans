@@ -14,17 +14,17 @@ import java.io.Serializable;
  * @author Hedy Pettersson
  */
 
-public class MainDancer extends Dancer implements Serializable {
+public class MainDancer extends Dancer {
 
     private int previewIndex;
 
     /**
      * Creates a new MainDancer.
-     * @param name name of the MainDancer.
+     * @param type which MainDancer.
      * @param index which index it should start on.
      */
-    public MainDancer(String name, int index) {
-        super(name, index);
+    public MainDancer(Type type, int index) {
+        super(type, index);
     }
 
     /**

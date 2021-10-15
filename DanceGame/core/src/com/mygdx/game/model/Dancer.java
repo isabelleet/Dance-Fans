@@ -1,7 +1,5 @@
 package com.mygdx.game.model;
 
-import java.io.Serializable;
-
 /**
  * Dancer is an abstract class which can occupy a tile. This might be changed later if other types of objects can
  * occupy a tile. It keeps track of what index it is standing on, and its own name.
@@ -14,28 +12,28 @@ import java.io.Serializable;
  * @author Johan Berg
  */
 
-public abstract class Dancer implements Serializable {
+public abstract class Dancer {
 
-    private String name;
+    private Type type;
     //TODO: only update this index when previewDanceFloor becomes danceFloor?
     private int index;
 
     /**
      * Creates a dancer that starts on a specified tile.
-     * @param name the name of the dancer.
+     * @param type the name of the dancer.
      * @param index which tile the dancer should be on.
      */
-    public Dancer(String name, int index) {
-        this.name = name;
+    public Dancer(Type type, int index) {
+        this.type = type;
         this.index = index;
     }
 
     /**
      * Creates a dancer on tile 0.
-     * @param name the name of the dancer.
+     * @param type the name of the dancer.
      */
-    public Dancer(String name) {
-        this.name = name;
+    public Dancer(Type type) {
+        this.type = type;
         //Risk for bugs
         this.index = 0;
     }
@@ -60,7 +58,7 @@ public abstract class Dancer implements Serializable {
      * Getter for the dancer's name.
      * @return the name of the dancer.
      */
-    public String getSpriteName() {
-        return this.name;
+    public Type getType() {
+        return this.type;
     }
 }
