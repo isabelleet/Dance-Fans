@@ -18,25 +18,21 @@ import java.io.*;
 public class DanceFloor implements Serializable {
 
     public DanceFloorTile[] danceFloorTiles;
-    //TODO: maybe remove if not used?
-    private Enum<PlayerTurnSlot> whichPlayersTurnItIs;
+
 
     // Map properties
-    public int tileWidth, tileHeight,
-            mapWidthInTiles, mapHeightInTiles,
-            tileSideLength;
+    public final int tileWidth = 128;
+    public final int tileHeight = 128;
+    public final int mapWidthInTiles = 9;
+    public final int mapHeightInTiles = 6;
+    public final int tileSideLength = tileHeight;
 
-    public DanceFloor(Enum<PlayerTurnSlot> whichPlayersTurnItIs) {
-        this.whichPlayersTurnItIs = whichPlayersTurnItIs;
-
-        // Read properties
-        tileWidth = 128;
-        tileHeight = 128;
-
-        tileSideLength = tileHeight;
-        mapWidthInTiles = 9;
-        mapHeightInTiles = 6;
+    public DanceFloor() {
         this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles * mapWidthInTiles];
+    }
+
+    private DanceFloor(DanceFloorTile[] tiles){
+        this.danceFloorTiles = tiles;
     }
 
     // this is used to make a copy of a dancefloor, for our previews
@@ -48,7 +44,8 @@ public class DanceFloor implements Serializable {
      * @return A new DanceFloor with the properties of an old one.
      * @throws Exception if something goes wrong while copying.
      */
-    public DanceFloor deepCopy() throws Exception {
+    public DanceFloor deepCopy() {
+        /*
         //Serialization of object
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(bos);
@@ -64,43 +61,19 @@ public class DanceFloor implements Serializable {
         //validateNameParts(fName);
         //validateNameParts(lName);
 
-        return copied;
+         */
+        DanceFloorTile[] copyTiles = new DanceFloorTile[danceFloorTiles.length];
+        for(int i = 0; i < danceFloorTiles.length; i++){
+            copyTiles[i] = new DanceFloorTile(danceFloorTiles[i].getOccupantName());
+        }
+
+        DanceFloor copy = new DanceFloor(copyTiles);
+
+        return copy;
     }
 
 
     //TODO: Use this to test end of game conditions e.g.
-   /* public DanceFloorTile[] initializeFullDanceFloor(int dancefloorWidth, int dancefloorHeight) {
-        int i;
-        for (i = 0; i < this.danceFloorTiles.length; i++) {
-
-            if (i == 11)
-                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
-            else if (i == ((this.danceFloorTiles.length * dancefloorHeight) - dancefloorWidth - 2))
-                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
-            else if (i % 2 == 0)
-                this.danceFloorTiles[i] = new DanceFloorTile("redDancer");
-            else
-                this.danceFloorTiles[i] = new DanceFloorTile("greenDancer");
-
-        }
-        return this.danceFloorTiles;
-    } */
-
-   /* public DanceFloorTile[] initializeDanceFloorWithStartPositions() {
-        int i;
-        for (i = 0; i < this.danceFloorTiles.length; i++) {
-
-            if (i == 11)
-                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
-            else if (i == ((this.mapWidthInTiles * this.mapHeightInTiles) - this.mapWidthInTiles - 2))
-                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
-
-            else
-                this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile");
-
-        }
-        return this.danceFloorTiles;
-    } */
 
     /**
      * Fills the DanceFloor with empty tiles.

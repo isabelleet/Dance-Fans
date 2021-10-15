@@ -28,7 +28,6 @@ public class Model {
     public DanceFloor danceFloor;
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
     // When the move is confirmed, make danceFloor become previewDanceFloor.
-    // TODO: to make a simple undo is to just store all the previous states of danceFloor etc
     public DanceFloor previewDanceFloor;
     // TODO: test so selectionOnTileIndex is never outside of danceFloor
     public int selectionOnTileIndex;
@@ -64,7 +63,7 @@ public class Model {
         this.players[0] = player1;
         this.players[1] = player2;
 
-        this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
+        this.danceFloor = new DanceFloor();
 
         danceFloor.initializeDanceFloor();
 
@@ -188,19 +187,13 @@ public class Model {
                   this.currentPlayer().getMainDancer().setPreviewIndex(indexMovedTo);
                 // Update dancefloor
                 previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
+                previewDanceFloor.removeDancerFromTileIndex(currentPlayer().getMainDancer().getPreviewIndex());
                 previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
             }
 
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
-        //TODO: reset where mainDancerIndex is from danceFloor: currentPlayer().getMainDancer().setIndex(something);
-
-        //TODO: show ghost/grayed out dancer at first position, to help player recall where they started the dance move from?
-
-        System.out.println("mainDancerPreviewIndex: " + currentPlayer().getMainDancer().getPreviewIndex());
-        System.out.println("mainDancerIndex: " + currentPlayer().getMainDancer().getIndex());
-        System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
 
 
         this.addDanceFansFromPattern(currentPlayer().getPattern(selectedCard));
@@ -213,15 +206,12 @@ public class Model {
      * Displays previews of the DanceFans around the MainDancer from the card supplied as a parameter.
      * @param pattern A matrix that represents the 8 tiles around a MainDancer and contains which tiles should have DanceFans added and which are unmodified.
      */
-    public void addDanceFansFromPattern(Occupant[][] pattern){
-        System.out.println("mainDancerPreviewIndex: " + currentPlayer().getMainDancer().getPreviewIndex());
-        System.out.println("mainDancerDancefloorIndex: " + currentPlayer().getMainDancer().getIndex());
+    public void addDanceFansFromPattern(PatternOccupant[][] pattern){
         int tileIndex = 0;
 
         int mainDancerDanceFloorIndex = currentPlayer().getMainDancer().getPreviewIndex();
         int[] mainDancerCoords = indexToCoords(mainDancerDanceFloorIndex);
-        System.out.println("column: " + mainDancerCoords[0]);
-        System.out.println("row: " + mainDancerCoords[1]);
+
 
         // loop through the pattern to find where the main dancer is and get the offset from top left corner of pattern
         int mainDancerOffsetInColumnIndex = 0;
@@ -231,10 +221,7 @@ public class Model {
             int rowIndex, columnIndex = 0;
             for (rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
                 for (columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
-                    if (pattern[rowIndex][columnIndex] == Occupant.MAINDANCER) {
-                        System.out.println("pattern.length" + pattern.length);
-                        System.out.println("pattern[rowIndex].length" + pattern[rowIndex].length);
-                        System.out.println("maindancer column: " + columnIndex + " maindancer row: " + rowIndex);
+                    if (pattern[rowIndex][columnIndex] == PatternOccupant.MAINDANCER) {
                         mainDancerOffsetInColumnIndex = columnIndex;
                         mainDancerOffsetInRowIndex = rowIndex;
                         break;
@@ -251,13 +238,11 @@ public class Model {
             for (int rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
                 for (int columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
 
-                    if (pattern[rowIndex][columnIndex] == Occupant.DANCEFAN) {
+                    if (pattern[rowIndex][columnIndex] == PatternOccupant.DANCEFAN) {
                         int columnInDanceFloor = mainDancerCoords[0] - mainDancerOffsetInColumnIndex + columnIndex;
                         int rowInDanceFloor = mainDancerCoords[1] - mainDancerOffsetInRowIndex + rowIndex;
                         tileIndex = tileIndexFromCoordinatesInTiles(columnInDanceFloor, rowInDanceFloor);
-                        System.out.println("mainDancerColumn: " + mainDancerCoords[0]);
-                        System.out.println("mainDancerOffsetInColumnIndex: " + mainDancerOffsetInColumnIndex);
-                        System.out.println("rowIndex: " + rowIndex);
+
 
 
                         // Logic to check if dancer in pattern would be outside of the dancefloor edges

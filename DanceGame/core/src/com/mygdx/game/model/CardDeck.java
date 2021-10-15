@@ -23,9 +23,9 @@ public class CardDeck {
     private final List<Card> closed;
     private final List<Card> discarded = new ArrayList<>();
 
-    private final static Occupant E = Occupant.EMPTY;
-    private final static Occupant DF = Occupant.DANCEFAN;
-    private final static Occupant MD = Occupant.MAINDANCER;
+    private final static PatternOccupant E = PatternOccupant.EMPTY;
+    private final static PatternOccupant DF = PatternOccupant.DANCEFAN;
+    private final static PatternOccupant MD = PatternOccupant.MAINDANCER;
 
     // should decks be predefined? or have a random selection of cards of the right type?
 
@@ -67,7 +67,7 @@ public class CardDeck {
      * Gets the dance pattern of the currently selected card.
      * @return the dance pattern of the currently selected card.
      */
-    public Occupant[][] getPattern(int selected){
+    public PatternOccupant[][] getPattern(int selected){
         return open.get(selected).getDancePattern();
     }
 
@@ -133,7 +133,7 @@ public class CardDeck {
         List<Card> cards = new ArrayList<>();
         if (i == 0) {
             // not allowed to write the pattern directly, must send it the long way.
-            Occupant[][] pattern = {
+            PatternOccupant[][] pattern = {
                     {DF, E, DF},
                     {E, MD, E},
                     {DF, E, DF}};
@@ -141,14 +141,14 @@ public class CardDeck {
             //cards.add(new Card(2,pattern,3 ));
             //cards.add(new Card(2,pattern,3 ));
 
-            pattern = new Occupant[][]{
+            pattern = new PatternOccupant[][]{
                     {DF, DF, DF},
                     {DF, MD, E},
                     {DF, E, DF}};
             cards.add(new Card(3, pattern, 1));
             //cards.add(new Card(3, pattern, 1));
 
-            pattern = new Occupant[][]{
+            pattern = new PatternOccupant[][]{
                     {E, DF, E},
                     {DF, MD, DF},
                     {E, DF, E}};
@@ -156,7 +156,7 @@ public class CardDeck {
             //cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
 
-            pattern = new Occupant[][]{
+            pattern = new PatternOccupant[][]{
                     {E, E, E, E, E},
                     {E, E, E, E, DF},
                     {E, E, MD, DF, DF},
@@ -168,7 +168,7 @@ public class CardDeck {
 
         } else {
             // not allowed to write the pattern directly, must send it the long way.
-            Occupant[][] pattern = {
+            PatternOccupant[][] pattern = {
                     {DF, E, DF},
                     {DF, MD, DF},
                     {DF, E, DF}};
@@ -176,14 +176,14 @@ public class CardDeck {
             //cards.add(new Card(2,pattern,3 ));
             //cards.add(new Card(2,pattern,3 ));
 
-            pattern = new Occupant[][]{
+            pattern = new PatternOccupant[][]{
                     {E, DF, DF},
                     {DF, MD, E},
                     {DF, E, E}};
             cards.add(new Card(7, pattern, 2));
             //cards.add(new Card(3, pattern, 1));
 
-            pattern = new Occupant[][]{
+            pattern = new PatternOccupant[][]{
                     {E, E, E, DF, DF, E, E},
                     {E, E, E, DF, E, E, E},
                     {E, E, E, DF, E, E, E},
@@ -195,7 +195,7 @@ public class CardDeck {
             //cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
 
-            pattern = new Occupant[][]{
+            pattern = new PatternOccupant[][]{
                     {E, E, E, E, E},
                     {DF, E, E, E, E},
                     {DF, DF, MD, E, E},

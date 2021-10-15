@@ -14,12 +14,12 @@ package com.mygdx.game.model;
 
 public class Card {
     private final int id;
-    private final Occupant[][] dancePattern;
+    private final PatternOccupant[][] dancePattern;
     private final int steps;
 
-    private final Occupant EMPTY = Occupant.EMPTY;
-    private final Occupant DANCEFAN = Occupant.DANCEFAN;
-    private final Occupant MAINDANCER = Occupant.MAINDANCER;
+    private final PatternOccupant EMPTY = PatternOccupant.EMPTY;
+    private final PatternOccupant DANCEFAN = PatternOccupant.DANCEFAN;
+    private final PatternOccupant MAINDANCER = PatternOccupant.MAINDANCER;
 
 
     /**
@@ -28,7 +28,7 @@ public class Card {
      * @param dancePattern an array containing the information needed to know which tiles should be changed when the card is used.
      * @param steps how far the player is allowed to move when using the card.
      */
-    public Card(int id, Occupant[][] dancePattern, int steps) {
+    public Card(int id, PatternOccupant[][] dancePattern, int steps) {
         this.id = id;
         this.dancePattern = dancePattern;
         this.steps = steps;
@@ -43,7 +43,7 @@ public class Card {
      */
     public Card() {
         this.id = 1;
-        this.dancePattern = new Occupant[][]{
+        this.dancePattern = new PatternOccupant[][]{
                 {EMPTY, DANCEFAN, EMPTY},
                 {EMPTY, MAINDANCER, EMPTY},
                 {DANCEFAN, EMPTY, DANCEFAN}};
@@ -58,7 +58,7 @@ public class Card {
      */
     public Card(int id) {
         this.id = id;
-        this.dancePattern = new Occupant[][]{
+        this.dancePattern = new PatternOccupant[][]{
                 {EMPTY, DANCEFAN, EMPTY},
                 {EMPTY, MAINDANCER, EMPTY},
                 {DANCEFAN, EMPTY, DANCEFAN}};
@@ -77,7 +77,7 @@ public class Card {
      * Getter for a cards dancePattern. 1 = dancefan, 3 = position of the MainDancer.
      * @return a matrix of the dancePattern.
      */
-    public Occupant[][] getDancePattern() {
+    public PatternOccupant[][] getDancePattern() {
         return this.dancePattern;
     }
 

@@ -5,6 +5,6 @@ package com.mygdx.game.model;
  * @author Hedy Pettersson
  */
 
-public enum Occupant {
+public enum PatternOccupant {
     MAINDANCER, DANCEFAN, EMPTY
 }

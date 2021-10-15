@@ -63,7 +63,7 @@ public class Player {
      * @param selected which of the cards on hand one wants to get the dance pattern from
      * @return the dance patter of the selected card
      */
-    public Occupant[][] getPattern(int selected){
+    public PatternOccupant[][] getPattern(int selected){
         return cardDeck.getPattern(selected);
     }
 
