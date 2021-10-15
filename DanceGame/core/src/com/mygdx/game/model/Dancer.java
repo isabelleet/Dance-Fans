@@ -13,8 +13,8 @@ package com.mygdx.game.model;
  */
 
 public abstract class Dancer {
-
-    private Type type;
+    private final Color color;
+    private final Type type;
     //TODO: only update this index when previewDanceFloor becomes danceFloor?
     private int index;
 
@@ -23,7 +23,8 @@ public abstract class Dancer {
      * @param type the name of the dancer.
      * @param index which tile the dancer should be on.
      */
-    public Dancer(Type type, int index) {
+    public Dancer(Color color, Type type, int index) {
+        this.color = color;
         this.type = type;
         this.index = index;
     }
@@ -32,7 +33,8 @@ public abstract class Dancer {
      * Creates a dancer on tile 0.
      * @param type the name of the dancer.
      */
-    public Dancer(Type type) {
+    public Dancer(Color color, Type type) {
+        this.color = color;
         this.type = type;
         //Risk for bugs
         this.index = 0;
@@ -60,5 +62,9 @@ public abstract class Dancer {
      */
     public Type getType() {
         return this.type;
+    }
+
+    public Color getColor() {
+        return this.color;
     }
 }

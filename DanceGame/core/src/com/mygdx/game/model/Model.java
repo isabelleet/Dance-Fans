@@ -59,8 +59,8 @@ public class Model {
 
         this.players = new Player[2];
 
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Type.REDMD, 50), CardDeck.initialDeck(0), new DanceFan(Type.REDDF), new DanceFan(Type.REDTRANS));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer(Type.GREENMD, 0), CardDeck.initialDeck(1), new DanceFan(Type.GREENDF), new DanceFan(Type.GREENTRANS));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Color.RED, Type.MD, 50), CardDeck.initialDeck(0));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer(Color.GREEN, Type.MD, 0), CardDeck.initialDeck(1));
 
         this.players[0] = player1;
         this.players[1] = player2;
@@ -254,9 +254,7 @@ public class Model {
                             &&   ( rowInDanceFloor < danceFloor.mapHeightInTiles)
                             &&   ( rowInDanceFloor >= 0)
                             //TODO: Maybe not check spritenames but Id or something!
-                            && !(Type.REDMD == previewDanceFloor.danceFloorTiles[tileIndex].getType())
-                            && !(Type.GREENMD == previewDanceFloor.danceFloorTiles[tileIndex].getType())
-
+                            && !(Type.MD == previewDanceFloor.danceFloorTiles[tileIndex].getType())
                         )
                         {
                             // Store indexes in a list to use them when the player ends their turn

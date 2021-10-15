@@ -13,13 +13,15 @@ package com.mygdx.game.model;
  */
 
 public class DanceFloorTile {
+    private Color color;
     private Type type;
 
     /**
      * Creates a new DanceFloorTile with an occupant.
-     * @param occupant the name of the occupant.
+     * @param type the name of the occupant.
      */
-    public DanceFloorTile(Type type) {
+    public DanceFloorTile(Color color, Type type) {
+        this.color = color;
         this.type = type;
     }
 
@@ -31,13 +33,17 @@ public class DanceFloorTile {
         return type;
     }
 
+    public Color getColor(){
+        return color;
+    }
+
     /**
      * Gives a Dancer to the tile.
      * @param type the Dancer that is occupying the tile.
      */
-    public void setOccupant(Type type) {
+    public void setOccupant(Color color, Type type) {
+        this.color = color;
         this.type = type;
-
     }
 
     // Constructor

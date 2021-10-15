@@ -30,15 +30,13 @@ public class Player {
      * @param playerTurnSlot if the player goes first or second.
      * @param mainDancer the players MainDancer.
      * @param cardDeck the players deck of cards.
-     * @param danceFan the type of fans the player wants.
-     * @param transparentDanceFan the dancefans used to preview a dancemove.
      */
-    public Player(Enum<PlayerTurnSlot> playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck, DanceFan danceFan, DanceFan transparentDanceFan) {
+    public Player(Enum<PlayerTurnSlot> playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck) {
         this.playerTurnSlot = playerTurnSlot;
         this.mainDancer = mainDancer;
         this.cardDeck = cardDeck;
-        this.danceFan = danceFan;
-        this.transparentDanceFan = transparentDanceFan;
+        this.danceFan = new DanceFan(mainDancer.getColor(), Type.DF);
+        this.transparentDanceFan = new DanceFan(mainDancer.getColor(), Type.TRANSDF);
     }
 
     /**

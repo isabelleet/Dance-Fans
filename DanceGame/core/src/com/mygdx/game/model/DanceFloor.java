@@ -47,7 +47,7 @@ public class DanceFloor implements Serializable {
 
         DanceFloorTile[] copyTiles = new DanceFloorTile[danceFloorTiles.length];
         for(int i = 0; i < danceFloorTiles.length; i++){
-            copyTiles[i] = new DanceFloorTile(danceFloorTiles[i].getType());
+            copyTiles[i] = new DanceFloorTile(danceFloorTiles[i].getColor(), danceFloorTiles[i].getType());
         }
 
         DanceFloor copy = new DanceFloor(copyTiles);
@@ -76,7 +76,7 @@ public class DanceFloor implements Serializable {
 
             //TODO: an empty tiles shouldn't be a dancer, fix later. Prob. dancer just one case of "object on floor"
             // added player1 here just for the time being if it doesn't make sense
-            this.danceFloorTiles[i] = new DanceFloorTile(Type.EMPTY);
+            this.danceFloorTiles[i] = new DanceFloorTile(Color.NONE, Type.EMPTY);
 
         }
         return this.danceFloorTiles;
@@ -88,7 +88,7 @@ public class DanceFloor implements Serializable {
      */
     public void removeDancerFromTileIndex(int tileIndex) {
         //TODO: prob not just have empty string to mean no dancer...
-        this.danceFloorTiles[tileIndex] = new DanceFloorTile(Type.EMPTY);
+        this.danceFloorTiles[tileIndex] = new DanceFloorTile(Color.NONE, Type.EMPTY);
     }
 
     //TODO: not sure if should update Dance Fan, or just replace it.
@@ -100,7 +100,7 @@ public class DanceFloor implements Serializable {
      * @param dancer which dancer to place on the tile.
      */
     public void newDancerOnTile(int tileIndex, Dancer dancer) {
-        this.danceFloorTiles[tileIndex].setOccupant(dancer.getType());
+        this.danceFloorTiles[tileIndex].setOccupant(dancer.getColor(), dancer.getType());
     }
 
 

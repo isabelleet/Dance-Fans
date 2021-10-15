@@ -23,8 +23,8 @@ public class MainDancer extends Dancer {
      * @param type which MainDancer.
      * @param index which index it should start on.
      */
-    public MainDancer(Type type, int index) {
-        super(type, index);
+    public MainDancer(Color color, Type type, int index) {
+        super(color, type, index);
     }
 
     /**

@@ -16,8 +16,8 @@ public class DanceFan extends Dancer {
     private Type type;
 
     // Constructor
-    public DanceFan(Type type) {
-        super(type);
+    public DanceFan(Color color, Type type) {
+        super(color, type);
     }
 
     public void move() {

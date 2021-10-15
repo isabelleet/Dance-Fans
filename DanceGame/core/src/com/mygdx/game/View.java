@@ -213,8 +213,9 @@ public class View {
 		for (int rowIndex = 0; rowIndex < danceFloor.mapWidthInTiles; rowIndex++){
 			for (int columnIndex = 0; columnIndex < danceFloor.mapHeightInTiles; columnIndex++){
 				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
+				Color color = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getColor();
 				Type type = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getType();
-			    drawSprite(stringDancer(type), danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex));
+			    drawSprite(stringDancer(color, type), danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex));
 				if (currentIndexInDanceFloorArray == model.selectionOnTileIndex)
 				batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
 
@@ -355,31 +356,37 @@ public class View {
 
 	private String whoWon(Player player){
 		String s = "";
-		switch (player.getMainDancer().getType()){
-			case REDMD:
+		switch (player.getMainDancer().getColor()){
+			case RED:
 				 s = "redWinner";
 				break;
-			case GREENMD:
+			case GREEN:
 				s = "greenWinner";
 				break;
 		}
 		return s;
 	}
 
-	private String stringDancer(Type type){
+	private String stringDancer(Color color, Type type){
+		String s = "";
+		switch (color){
+			case RED:
+				s = "red";
+				break;
+			case GREEN:
+				s = "green";
+				break;
+		}
 		switch (type){
-			case REDMD:
-				return "redMainDancer";
-			case REDDF:
-				return "redDanceFan";
-			case REDTRANS:
-				return "redDanceFanTransparent";
-			case GREENMD:
-				return "greenMainDancer";
-			case GREENDF:
-				return "greenDanceFan";
-			case GREENTRANS:
-				return "greenDanceFanTransparent";
+			case MD:
+				s += "MainDancer";
+				return s;
+			case DF:
+				s += "DanceFan";
+				return s;
+			case TRANSDF:
+				s += "TransparentDanceFan";
+				return s;
 			default:
 				return "transparent_tile";
 		}
