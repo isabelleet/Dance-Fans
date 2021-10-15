@@ -1,5 +1,7 @@
 package com.mygdx.game.model;
 
+import java.util.List;
+
 /**
  * Player combines the different things a player should have, such as a MainDancer,
  * a danceFan (as well as a transparent version of it), and a CardDeck.
@@ -18,10 +20,10 @@ public class Player {
 
     public Enum<PlayerTurnSlot> playerTurnSlot;
     // Timer left (if you use some clock that is saved between turns, so you sometimes can do fast turns and sometimes long.
-    private MainDancer mainDancer;
-    private CardDeck cardDeck;
-    private DanceFan danceFan;
-    private DanceFan transparentDanceFan;
+    private final MainDancer mainDancer;
+    private final CardDeck cardDeck;
+    private final DanceFan danceFan;
+    private final DanceFan transparentDanceFan;
 
     /**
      * Cretes a new Player object.
@@ -48,11 +50,37 @@ public class Player {
     }
 
     /**
-     * Getter for the players deck of cards.
-     * @return a CardDeck.
+     * A getter for how many steps a player can take with the selected card.
+     * @param selected which of the cards on hand one wants to get the steps from
+     * @return an int with the amount of steps a player can take.
      */
-    public CardDeck getCardDeck() {
-        return cardDeck;
+    public int getSteps(int selected){
+        return cardDeck.getSteps(selected);
+    }
+
+    /**
+     * Gets the dance pattern from the card selected
+     * @param selected which of the cards on hand one wants to get the dance pattern from
+     * @return the dance patter of the selected card
+     */
+    public Occupant[][] getPattern(int selected){
+        return cardDeck.getPattern(selected);
+    }
+
+    /**
+     * Gets the cards a player can currently use.
+     * @return the cards a player can currently use.
+     */
+    public List<Card> getHand(){
+        return cardDeck.getOpen();
+    }
+
+    /**
+     * Uses the card selected in the cardDeck.
+     * @param selected which card on hand one wants to use
+     */
+    public void useCard(int selected){
+        cardDeck.useCard(selected);
     }
 
     /**

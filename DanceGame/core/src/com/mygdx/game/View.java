@@ -358,7 +358,7 @@ public class View {
 				drawButton(card, i* spacing + 220, cardsBottomY);
 				break;
 			}
-			else if(i == model.currentPlayer().getCardDeck().selected){
+			else if(i == model.selectedCard){
 				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=True";
 			} else{
 				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";

@@ -18,12 +18,14 @@ import java.util.Random;
 
 public class CardDeck {
     // thinking about using maps with enums instead, but not sure
-    private List<Card> deck;
-    private List<Card> open = new ArrayList<>();
-    private List<Card> closed;
-    private List<Card> discarded = new ArrayList<>();
+    private final List<Card> deck;
+    private final List<Card> open = new ArrayList<>();
+    private final List<Card> closed;
+    private final List<Card> discarded = new ArrayList<>();
 
-    public int selected = 0;
+    private final static Occupant E = Occupant.EMPTY;
+    private final static Occupant DF = Occupant.DANCEFAN;
+    private final static Occupant MD = Occupant.MAINDANCER;
 
     // should decks be predefined? or have a random selection of cards of the right type?
 
@@ -46,14 +48,28 @@ public class CardDeck {
     /**
      * Discards the selected card and adds it to the discard pile.
      */
-    public void useCard() {
+    public void useCard(int selected) {
         System.out.println("Card was used");
         discardCard(selected);
         openCard(selected);
         selected = 0;
     }
 
-    // don't need to open cards outside.
+    /**
+     * Gets the steps from the currently selected card.
+     * @return the steps from the currently selected card.
+     */
+    public int getSteps(int selected){
+        return open.get(selected).getSteps();
+    }
+
+    /**
+     * Gets the dance pattern of the currently selected card.
+     * @return the dance pattern of the currently selected card.
+     */
+    public Occupant[][] getPattern(int selected){
+        return open.get(selected).getDancePattern();
+    }
 
     /**
      * takes a card from the deck and puts it among the cards that can be chosen
@@ -117,74 +133,74 @@ public class CardDeck {
         List<Card> cards = new ArrayList<>();
         if (i == 0) {
             // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {
-                    {1, 0, 1},
-                    {0, 3, 0},
-                    {1, 0, 1}};
+            Occupant[][] pattern = {
+                    {DF, E, DF},
+                    {E, MD, E},
+                    {DF, E, DF}};
             cards.add(new Card(2, pattern, 3));
             //cards.add(new Card(2,pattern,3 ));
             //cards.add(new Card(2,pattern,3 ));
 
-            pattern = new int[][]{
-                    {1, 1, 1},
-                    {1, 3, 0},
-                    {1, 0, 1}};
+            pattern = new Occupant[][]{
+                    {DF, DF, DF},
+                    {DF, MD, E},
+                    {DF, E, DF}};
             cards.add(new Card(3, pattern, 1));
             //cards.add(new Card(3, pattern, 1));
 
-            pattern = new int[][]{
-                    {0, 1, 0},
-                    {1, 3, 1},
-                    {0, 1, 0}};
+            pattern = new Occupant[][]{
+                    {E, DF, E},
+                    {DF, MD, DF},
+                    {E, DF, E}};
             cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
 
-            pattern = new int[][]{
-                    {0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 1},
-                    {0, 0, 3, 1, 1},
-                    {0, 0, 0, 0, 1},
-                    {0, 0, 0, 0, 0}};
+            pattern = new Occupant[][]{
+                    {E, E, E, E, E},
+                    {E, E, E, E, DF},
+                    {E, E, MD, DF, DF},
+                    {E, E, E, E, DF},
+                    {E, E, E, E, E}};
             cards.add(new Card(6, pattern, 3));
             //cards.add(new Card(6, pattern, 3));
 
 
         } else {
             // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {
-                    {1, 0, 1},
-                    {1, 3, 1},
-                    {1, 0, 1}};
+            Occupant[][] pattern = {
+                    {DF, E, DF},
+                    {DF, MD, DF},
+                    {DF, E, DF}};
             cards.add(new Card(4, pattern, 1));
             //cards.add(new Card(2,pattern,3 ));
             //cards.add(new Card(2,pattern,3 ));
 
-            pattern = new int[][]{
-                    {0, 1, 1},
-                    {1, 3, 0},
-                    {1, 0, 0}};
+            pattern = new Occupant[][]{
+                    {E, DF, DF},
+                    {DF, MD, E},
+                    {DF, E, E}};
             cards.add(new Card(7, pattern, 2));
             //cards.add(new Card(3, pattern, 1));
 
-            pattern = new int[][]{
-                    {0, 0, 0, 1, 1, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 3, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0}};
+            pattern = new Occupant[][]{
+                    {E, E, E, DF, DF, E, E},
+                    {E, E, E, DF, E, E, E},
+                    {E, E, E, DF, E, E, E},
+                    {E, E, E, MD, E, E, E},
+                    {E, E, E, E, E, E, E},
+                    {E, E, E, E, E, E, E},
+                    {E, E, E, E, E, E, E}};
             cards.add(new Card(1, pattern, 4));
             //cards.add(new Card(5, pattern, 2));
             //cards.add(new Card(5, pattern, 2));
 
-            pattern = new int[][]{
-                    {0, 0, 0, 0, 0},
-                    {1, 0, 0, 0, 0},
-                    {1, 1, 3, 0, 0},
-                    {1, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0}};
+            pattern = new Occupant[][]{
+                    {E, E, E, E, E},
+                    {DF, E, E, E, E},
+                    {DF, DF, MD, E, E},
+                    {DF, E, E, E, E},
+                    {E, E, E, E, E}};
             cards.add(new Card(8, pattern, 3));
             //cards.add(new Card(6, pattern, 3));
         }

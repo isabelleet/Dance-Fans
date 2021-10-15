@@ -46,7 +46,7 @@ public class Controller implements InputProcessor {
         }
       
         if(keycode == Input.Keys.NUM_1){
-            model.currentPlayer().getCardDeck().selected = 0;
+            model.selectedCard = 0;
             try {
                 model.moveMainDancerOfCurrentPlayerToIndex(playerIndex);
                 model.selectionOnTileIndex = playerIndex;
@@ -57,7 +57,7 @@ public class Controller implements InputProcessor {
         }
 
         if(keycode == Input.Keys.NUM_2){
-            model.currentPlayer().getCardDeck().selected = 1;
+            model.selectedCard = 1;
 
             try {
                 model.moveMainDancerOfCurrentPlayerToIndex(playerIndex);

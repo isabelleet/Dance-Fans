@@ -32,9 +32,12 @@ public class Model {
     public DanceFloor previewDanceFloor;
     // TODO: test so selectionOnTileIndex is never outside of danceFloor
     public int selectionOnTileIndex;
-    //private MainDancer playerOne;
-    //private MainDancer playerTwo;
+
+    public int selectedCard = 0;
+
     List<Integer> tileIndexes = new ArrayList();
+
+
     public Model(){
     }
 
@@ -114,6 +117,8 @@ public class Model {
             this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
             this.hasPlayerStartedTheirTurn = false;
 
+            selectedCard = 0;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,7 +153,7 @@ public class Model {
      */
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
-        currentPlayer().getCardDeck().useCard();
+        currentPlayer().useCard(selectedCard);
     }
 
     // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
@@ -198,7 +203,7 @@ public class Model {
         System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
 
 
-        this.addDanceFansFromPattern(currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getDancePattern());
+        this.addDanceFansFromPattern(currentPlayer().getPattern(selectedCard));
     }
 
     // visuell förklaring: https://miro.com/app/board/o9J_luo5ozI=/
@@ -208,7 +213,7 @@ public class Model {
      * Displays previews of the DanceFans around the MainDancer from the card supplied as a parameter.
      * @param pattern A matrix that represents the 8 tiles around a MainDancer and contains which tiles should have DanceFans added and which are unmodified.
      */
-    public void addDanceFansFromPattern(int[][] pattern){
+    public void addDanceFansFromPattern(Occupant[][] pattern){
         System.out.println("mainDancerPreviewIndex: " + currentPlayer().getMainDancer().getPreviewIndex());
         System.out.println("mainDancerDancefloorIndex: " + currentPlayer().getMainDancer().getIndex());
         int tileIndex = 0;
@@ -226,7 +231,7 @@ public class Model {
             int rowIndex, columnIndex = 0;
             for (rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
                 for (columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
-                    if (pattern[rowIndex][columnIndex] == 3) {
+                    if (pattern[rowIndex][columnIndex] == Occupant.MAINDANCER) {
                         System.out.println("pattern.length" + pattern.length);
                         System.out.println("pattern[rowIndex].length" + pattern[rowIndex].length);
                         System.out.println("maindancer column: " + columnIndex + " maindancer row: " + rowIndex);
@@ -246,7 +251,7 @@ public class Model {
             for (int rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
                 for (int columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
 
-                    if (pattern[rowIndex][columnIndex] == 1) {
+                    if (pattern[rowIndex][columnIndex] == Occupant.DANCEFAN) {
                         int columnInDanceFloor = mainDancerCoords[0] - mainDancerOffsetInColumnIndex + columnIndex;
                         int rowInDanceFloor = mainDancerCoords[1] - mainDancerOffsetInRowIndex + rowIndex;
                         tileIndex = tileIndexFromCoordinatesInTiles(columnInDanceFloor, rowInDanceFloor);
@@ -315,7 +320,7 @@ public class Model {
     public void moveSelection(int keycode) throws Exception {
 
         // TODO: update this to selected card, not first card in deck
-        int selectedCardMoveDistanceLimit = currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getSteps();
+        int selectedCardMoveDistanceLimit = currentPlayer().getSteps(selectedCard);
 
         //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
         // to go there then!
@@ -427,7 +432,7 @@ public class Model {
     }
 
     public List<Card> currentlyOpenCards(){
-        return currentPlayer().getCardDeck().getOpen();
+        return currentPlayer().getHand();
     }
 
     private int countRedTiles(){

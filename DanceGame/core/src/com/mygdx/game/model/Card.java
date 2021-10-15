@@ -13,9 +13,14 @@ package com.mygdx.game.model;
  */
 
 public class Card {
-    private int id;
-    private int[][] dancePattern;
-    private int steps;
+    private final int id;
+    private final Occupant[][] dancePattern;
+    private final int steps;
+
+    private final Occupant EMPTY = Occupant.EMPTY;
+    private final Occupant DANCEFAN = Occupant.DANCEFAN;
+    private final Occupant MAINDANCER = Occupant.MAINDANCER;
+
 
     /**
      * Creates a new card object.
@@ -23,7 +28,7 @@ public class Card {
      * @param dancePattern an array containing the information needed to know which tiles should be changed when the card is used.
      * @param steps how far the player is allowed to move when using the card.
      */
-    public Card(int id, int[][] dancePattern, int steps) {
+    public Card(int id, Occupant[][] dancePattern, int steps) {
         this.id = id;
         this.dancePattern = dancePattern;
         this.steps = steps;
@@ -38,7 +43,10 @@ public class Card {
      */
     public Card() {
         this.id = 1;
-        this.dancePattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
+        this.dancePattern = new Occupant[][]{
+                {EMPTY, DANCEFAN, EMPTY},
+                {EMPTY, MAINDANCER, EMPTY},
+                {DANCEFAN, EMPTY, DANCEFAN}};
         this.steps = 2;
     }
 
@@ -50,7 +58,10 @@ public class Card {
      */
     public Card(int id) {
         this.id = id;
-        this.dancePattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
+        this.dancePattern = new Occupant[][]{
+                {EMPTY, DANCEFAN, EMPTY},
+                {EMPTY, MAINDANCER, EMPTY},
+                {DANCEFAN, EMPTY, DANCEFAN}};
         this.steps = 2;
     }
 
@@ -66,7 +77,7 @@ public class Card {
      * Getter for a cards dancePattern. 1 = dancefan, 3 = position of the MainDancer.
      * @return a matrix of the dancePattern.
      */
-    public int[][] getDancePattern() {
+    public Occupant[][] getDancePattern() {
         return this.dancePattern;
     }
 
