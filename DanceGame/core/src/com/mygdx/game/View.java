@@ -198,12 +198,8 @@ public class View {
 				if (indexInDanceFloor == model.selectionOnTileIndex){
 					batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
 				}
-
-
 			}
-
 		}
-
 
 		//TODO: Draw UI that help player play
 
@@ -218,7 +214,6 @@ public class View {
 
 		// batch for drawing cards
 		batch.begin();
-
 
 		if(model.gameIsDone()){
 			String strWinner = whoWon(model.isLeading());
@@ -263,33 +258,34 @@ public class View {
 		int cardsBottomY = 40;
 		int xAdjustment = 85;
 
-		if(!model.gameIsDone()) {
-			drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
-			drawButton("emojione-monotone_keycap-2", 2 * spacing + xAdjustment, 10);
-		}
 
 		if(!model.gameIsDone()){
-		// Draw current players cards
-		String cardback_spriteName_currentPlayer;
-		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
-			cardback_spriteName_currentPlayer = "cardback_red";
-		else
-			cardback_spriteName_currentPlayer = "cardback_green";
+			drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
+			drawButton("emojione-monotone_keycap-2", 2 * spacing + xAdjustment, 10);
 
-		for(int i = 0; i < model.currentlyOpenCards().size(); i++){
-			String card;
-			if (model.hasPlayerStartedTheirTurn == false){
-				card = cardback_spriteName_currentPlayer;
-				drawButton(card, i* spacing + 220, cardsBottomY);
-				break;
+			// Draw current players cards
+			String cardback_spriteName_currentPlayer;
+			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE){
+				cardback_spriteName_currentPlayer = "cardback_red";
 			}
-			else if(i == model.selectedCard){
-				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=True";
-			} else{
-				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
+			else{
+				cardback_spriteName_currentPlayer = "cardback_green";
 			}
-			drawCard(card, i* spacing + 220, cardsBottomY);
-		}}
+			for(int i = 0; i < model.currentlyOpenCards().size(); i++){
+				String card;
+				if (model.hasPlayerStartedTheirTurn == false){
+					card = cardback_spriteName_currentPlayer;
+					drawButton(card, i* spacing + 220, cardsBottomY);
+					break;
+				}
+				else if(i == model.selectedCard){
+					card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=True";
+				} else{
+					card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
+				}
+				drawCard(card, i* spacing + 220, cardsBottomY);
+			}
+		}
 
 
 		//TODO: refactor in better way, this was quick just ot get it working
@@ -307,8 +303,6 @@ public class View {
 			//TODO: refactor in better way, this was quick just ot get it working
 			String currentPlayerDeckImageName;
 			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
-
-
 				currentPlayerDeckImageName = "deck_red";
 			else
 				currentPlayerDeckImageName = "deck_green";
@@ -326,6 +320,10 @@ public class View {
 		}
 
 		batch.end();
+
+	}
+
+	private void displayText(){
 
 	}
 
