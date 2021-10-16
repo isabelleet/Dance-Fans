@@ -170,15 +170,13 @@ public class Model {
 
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
         this.previewDanceFloor = danceFloor.deepCopy();
-        // Check for player collision
-        if (!(collisionOtherPlayer(coordsMovedTo))) {
-            // Update index on dancefloor for main dancer preview, according to input
-            this.currentPlayer().getMainDancer().setPreviewCoords(coordsMovedTo);
-            // Update dancefloor
-            previewDanceFloor.removeDancerFromTileIndex(mdCoords);
-            previewDanceFloor.removeDancerFromTileIndex(currentPlayer().getMainDancer().getPreviewCoords());
-            previewDanceFloor.newDancerOnTile(coordsMovedTo, currentPlayer().getMainDancer());
-        }
+        // Update index on dancefloor for main dancer preview, according to input
+        this.currentPlayer().getMainDancer().setPreviewCoords(coordsMovedTo);
+        // Update dancefloor
+        previewDanceFloor.removeDancerFromTileIndex(mdCoords);
+        previewDanceFloor.removeDancerFromTileIndex(currentPlayer().getMainDancer().getPreviewCoords());
+        previewDanceFloor.newDancerOnTile(coordsMovedTo, currentPlayer().getMainDancer());
+
 
         this.addDanceFansFromPattern(currentPlayer().getPattern(selectedCard));
     }
@@ -263,52 +261,27 @@ public class Model {
         return false;
     }
 
-    private int moveDistanceFromMainDancer(Coordinates coords){
+    private int distanceToMainDancer(Coordinates coords){
         Coordinates startCoordsFromLastMove = currentPlayer().getMainDancer().getCoordinates();
         int distance = Math.abs(startCoordsFromLastMove.getX() - coords.getX()) + Math.abs(startCoordsFromLastMove.getY() - coords.getY());
         return distance;
     }
 
     /**
-     * Selects which direction the MainDancer should move in depending on the parameter. Makes sure the MainDancer can't move outside of the DanceFloor.
-     * @param keycode Supplied from Controller, tells which button has been pressed.
+     * Moves the current players main dancer a certain amount of steps in x and y direction.
+     * @param x how much to move the player along x
+     * @param y how much to move the player along y
      */
-    public void moveSelection(int keycode){
+    public void moveSelection(int x, int y){
+        int moveLimit = currentPlayer().getSteps(selectedCard);
+        Coordinates newCoords = new Coordinates(selectionOnTileCoords.getX() + x, selectionOnTileCoords.getY() + y);
 
-        // TODO: update this to selected card, not first card in deck
-        int selectedCardMoveDistanceLimit = currentPlayer().getSteps(selectedCard);
-        Coordinates newCoords = new Coordinates(selectionOnTileCoords);
-        //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
-        // to go there then!
-        switch (keycode) {
-            //case Input.Keys.UP:
-            case 19:
-                newCoords = new Coordinates(selectionOnTileCoords.getX(), selectionOnTileCoords.getY() - 1);
-                break;
-
-            // case Input.Keys.DOWN:
-            case 20:
-                newCoords = new Coordinates(selectionOnTileCoords.getX(), selectionOnTileCoords.getY() + 1);
-                break;
-
-            //case Input.Keys.LEFT:
-            case 21:
-                newCoords = new Coordinates(selectionOnTileCoords.getX() - 1, selectionOnTileCoords.getY());
-                break;
-
-            // case Input.Keys.RIGHT:
-            case 22:
-                newCoords = new Coordinates(selectionOnTileCoords.getX() + 1, selectionOnTileCoords.getY());
-                break;
-        }
-        if (insideDanceFloor(newCoords) && (moveDistanceFromMainDancer(newCoords) <= selectedCardMoveDistanceLimit)
+        if (insideDanceFloor(newCoords) && (distanceToMainDancer(newCoords) <= moveLimit)
                 && (!(collisionOtherPlayer(newCoords))))
         {
             selectionOnTileCoords = newCoords;
             moveMainDancerOfCurrentPlayerToCoords(newCoords);
         }
-        System.out.println("X: " + newCoords.getX() + " Y: " + newCoords.getY());
-
     }
 
     public List<Card> currentlyOpenCards(){
@@ -366,7 +339,6 @@ public class Model {
      * @return which turn it is.
      */
     public int numberTurns(){
-
         return turnNumber/2;
     }
 

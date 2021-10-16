@@ -88,13 +88,26 @@ public class Controller implements InputProcessor {
             return true;
         }
 
+        //movement
         if(keycode <= 22 && keycode >= 19) {
             if (model.hasPlayerStartedTheirTurn) {
-                try {
-                    model.moveSelection(keycode);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                int x = 0;
+                int y = 0;
+                switch (keycode){
+                    case Input.Keys.UP:
+                        y = -1;
+                        break;
+                    case Input.Keys.DOWN:
+                        y = 1;
+                        break;
+                    case Input.Keys.LEFT:
+                        x = -1;
+                        break;
+                    case Input.Keys.RIGHT:
+                        x = 1;
+                        break;
                 }
+                    model.moveSelection(x, y);
                 return true;
             }
         }
