@@ -1,6 +1,4 @@
 package com.mygdx.game.model;
-import java.io.*;
-
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add things to specific tiles.
  *
@@ -34,15 +32,11 @@ public class DanceFloor{
         this.danceFloorTiles = tiles;
     }
 
-    // this is used to make a copy of a dancefloor, for our previews
-    // https://stackoverflow.com/a/9834683
-    // https://howtodoinjava.com/java/serialization/how-to-do-deep-cloning-using-in-memory-serialization-in-java/
-
     /**
-     * Creates a new object with the same properties as the one that should be copied, to avoid weird pointer errors.
-     * @return A new DanceFloor with the properties of an old one.
+     * Creates and returns a copy of the danceFloor.
+     * @return A copy of the danceFloor.
      */
-    public DanceFloor deepCopy() {
+    public DanceFloor copy() {
         DanceFloorTile[][] copyTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
         for(int row = 0; row < danceFloorTiles.length; row++){
             for(int col = 0; col < danceFloorTiles[0].length; col++){
@@ -83,9 +77,6 @@ public class DanceFloor{
     public void removeDancerFromTileIndex(Coordinates coords) {
         this.danceFloorTiles[coords.getY()][coords.getX()] = new DanceFloorTile(Color.NONE, Type.EMPTY);
     }
-
-    //TODO: not sure if should update Dance Fan, or just replace it.
-    // Depends on if Dance Fans have any data in them we want to keep even if they change which Main Dancer they're fan of
 
     /**
      * Sets a new dancer on a tile.

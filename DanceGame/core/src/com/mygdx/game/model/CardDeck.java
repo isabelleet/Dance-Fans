@@ -52,7 +52,6 @@ public class CardDeck {
         System.out.println("Card was used");
         discardCard(selected);
         openCard(selected);
-        selected = 0;
     }
 
     /**
@@ -109,8 +108,6 @@ public class CardDeck {
      * @return a copy of the deck
      */
     private List<Card> copyCards(List<Card> deck) {
-        int l = deck.size();
-
         return new ArrayList<>(deck);
     }
 
@@ -138,15 +135,12 @@ public class CardDeck {
                     {DF, MD, DF},
                     {DF, E, DF}};
             cards.add(new Card(4, pattern, 1));
-            //cards.add(new Card(2,pattern,3 ));
-            //cards.add(new Card(2,pattern,3 ));
 
             pattern = new PatternOccupant[][]{
                     {E, DF, DF},
                     {DF, MD, E},
                     {DF, E, E}};
             cards.add(new Card(7, pattern, 2));
-            //cards.add(new Card(3, pattern, 1));
 
             pattern = new PatternOccupant[][]{
                     {E, E, E, DF, DF, E, E},
@@ -157,8 +151,6 @@ public class CardDeck {
                     {E, E, E, E, E, E, E},
                     {E, E, E, E, E, E, E}};
             cards.add(new Card(1, pattern, 4));
-            //cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
 
             pattern = new PatternOccupant[][]{
                     {E, E, E, E, E},
@@ -174,23 +166,18 @@ public class CardDeck {
                     {E, MD, E},
                     {DF, E, DF}};
             cards.add(new Card(2, pattern, 3));
-            //cards.add(new Card(2,pattern,3 ));
-            //cards.add(new Card(2,pattern,3 ));
 
             pattern = new PatternOccupant[][]{
                     {DF, DF, DF},
                     {DF, MD, E},
                     {DF, E, DF}};
             cards.add(new Card(3, pattern, 1));
-            //cards.add(new Card(3, pattern, 1));
 
             pattern = new PatternOccupant[][]{
                     {E, DF, E},
                     {DF, MD, DF},
                     {E, DF, E}};
             cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
 
             pattern = new PatternOccupant[][]{
                     {E, E, E, E, E},
@@ -199,7 +186,6 @@ public class CardDeck {
                     {E, E, E, E, DF},
                     {E, E, E, E, E}};
             cards.add(new Card(6, pattern, 3));
-            //cards.add(new Card(6, pattern, 3));
         }
 
 

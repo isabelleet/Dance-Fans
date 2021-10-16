@@ -36,36 +36,26 @@ public class Controller implements InputProcessor {
 
         Coordinates playerCoords = model.currentPlayer().getMainDancer().getCoordinates();
 
-        System.out.println("key down" + keycode);
-
         if(keycode == Input.Keys.NUM_0){
             model.startNewGame();
             return true;
         }
+
         if(keycode == Input.Keys.N){
             System.exit(0);
         }
       
         if(keycode == Input.Keys.NUM_1){
             model.selectedCard = 0;
-            try {
-                model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
-                model.selectionOnTileCoords = playerCoords;
-                } catch (Exception e) {
-                e.printStackTrace();
-            }
+            model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
+            model.selectionOnTileCoords = playerCoords;
             return true;
         }
 
         if(keycode == Input.Keys.NUM_2){
             model.selectedCard = 1;
-
-            try {
-                model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
-                model.selectionOnTileCoords = playerCoords;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
+            model.selectionOnTileCoords = playerCoords;
             return true;
         }
 
@@ -77,18 +67,12 @@ public class Controller implements InputProcessor {
         if(keycode == Input.Keys.ENTER) {
             System.out.println("Player clicked enter to confirm Dance move");
             if (model.hasPlayerStartedTheirTurn) {
-                try {
-                    // Protected code
-                    model.playerConfirmedDanceMove();
-                    // TODO: probably change what kind of exception, I have no Idea which is right
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("Exception thrown  :" + e);
-                }
+                model.playerConfirmedDanceMove();
             }
             return true;
         }
 
-        //movement
+        //movement of the player
         if(keycode <= 22 && keycode >= 19) {
             if (model.hasPlayerStartedTheirTurn) {
                 int x = 0;
@@ -121,7 +105,6 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        System.out.println(character);
         return false;
     }
 

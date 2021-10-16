@@ -78,11 +78,8 @@ public class Model {
         danceFloor.newDancerOnTile(player2.getMainDancer().getCoordinates(), player2.getMainDancer());
 
         // Initialize previewdance floor
-        try {
-        this.previewDanceFloor = this.danceFloor.deepCopy();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        this.previewDanceFloor = this.danceFloor.copy();
 
         //The first turn the cards are drawn right away.
         this.hasPlayerStartedTheirTurn = true;
@@ -91,9 +88,8 @@ public class Model {
 
     /**
      * Updates the state of the DanceFloor to match the state of the PreviewDanceFloor and changes whose turn it is.
-     * @throws ArrayIndexOutOfBoundsException If something went wrong with while copying the previewDanceFloor.
      */
-    public void playerConfirmedDanceMove() throws ArrayIndexOutOfBoundsException {
+    public void playerConfirmedDanceMove() {
         currentPlayer().useCard(selectedCard);
         selectedCard = 0;
 
@@ -110,7 +106,7 @@ public class Model {
         }
 
 
-        this.danceFloor = previewDanceFloor.deepCopy();
+        this.danceFloor = previewDanceFloor.copy();
         this.currentPlayer().getMainDancer().setCoordinates(this.currentPlayer().getMainDancer().getPreviewCoords());
 
         changeWhichPlayersTurnItIs();
@@ -156,7 +152,6 @@ public class Model {
     /**
      * Moves the MainDancer of the player whose turn it is currently to the specified index supplied to the method.
      * @param coordsMovedTo - Which index the MainDancer should be moved to.
-     * @throws Exception DeepCopies the DanceFloor which can generate an ArrayOutOfBoundsException.
      */
     public void moveMainDancerOfCurrentPlayerToCoords(Coordinates coordsMovedTo){
         // Clear list before the player moves so only the last preview indexes are stored in the list
@@ -168,7 +163,7 @@ public class Model {
         currentPlayer().getMainDancer().setPreviewCoords(mdCoords);
 
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
-        this.previewDanceFloor = danceFloor.deepCopy();
+        this.previewDanceFloor = danceFloor.copy();
         // Update index on dancefloor for main dancer preview, according to input
         this.currentPlayer().getMainDancer().setPreviewCoords(coordsMovedTo);
         // Update dancefloor

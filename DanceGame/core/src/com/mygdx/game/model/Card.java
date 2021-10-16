@@ -17,11 +17,6 @@ public class Card {
     private final PatternOccupant[][] dancePattern;
     private final int steps;
 
-    private final PatternOccupant EMPTY = PatternOccupant.EMPTY;
-    private final PatternOccupant DANCEFAN = PatternOccupant.DANCEFAN;
-    private final PatternOccupant MAINDANCER = PatternOccupant.MAINDANCER;
-
-
     /**
      * Creates a new card object.
      * @param id position of the card in the deck.
@@ -35,29 +30,16 @@ public class Card {
     }
 
     // example card
-
-    // 3 indicates the position of the maindancer, 1 indicates new dancefan, 0 = don't change this tile
-
-    /**
-     * Used for testing purposes.
-     */
-    public Card() {
-        this.id = 1;
-        this.dancePattern = new PatternOccupant[][]{
-                {EMPTY, DANCEFAN, EMPTY},
-                {EMPTY, MAINDANCER, EMPTY},
-                {DANCEFAN, EMPTY, DANCEFAN}};
-        this.steps = 2;
-    }
-
-    // example card
-
     /**
      * Used for testing purposes.
      * @param id card position in the deck.
      */
     public Card(int id) {
         this.id = id;
+        PatternOccupant EMPTY = PatternOccupant.EMPTY;
+        PatternOccupant DANCEFAN = PatternOccupant.DANCEFAN;
+        PatternOccupant MAINDANCER = PatternOccupant.MAINDANCER;
+
         this.dancePattern = new PatternOccupant[][]{
                 {EMPTY, DANCEFAN, EMPTY},
                 {EMPTY, MAINDANCER, EMPTY},
