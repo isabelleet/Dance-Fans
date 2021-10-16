@@ -25,10 +25,6 @@ public class DanceFloorTile {
         this.type = type;
     }
 
-    /**
-     * Getter for the name of the sprite on the tile.
-     * @return A string with the name of the occupant.
-     */
     public Type getType() {
         return type;
     }
@@ -46,7 +42,6 @@ public class DanceFloorTile {
         this.type = type;
     }
 
-    // Constructor
 
 
 }

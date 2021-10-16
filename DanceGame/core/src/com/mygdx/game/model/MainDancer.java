@@ -16,30 +16,27 @@ import java.io.Serializable;
 
 public class MainDancer extends Dancer {
 
-    private int previewIndex;
+    private Coordinates preCoords;
 
     /**
      * Creates a new MainDancer.
      * @param type which MainDancer.
-     * @param index which index it should start on.
+     * @param coords which coordinates it should start on.
      */
-    public MainDancer(Color color, Type type, int index) {
-        super(color, type, index);
+    public MainDancer(Color color, Type type, Coordinates coords) {
+        super(color, type, coords);
     }
 
-    /**
-     * Getter for the index used to preview the Dancers position before the player confirms their move.
-     * @return an int describing where the MainDancer is.
-     */
-    public int getPreviewIndex() {
-        return previewIndex;
+
+    public Coordinates getPreviewCoords() {
+        return new Coordinates(preCoords);
     }
 
     /**
      * Setter for the index used to preview the Dancers position before the player confirms their move.
-     * @param index which index to move the MainDancer to.
+     * @param coords which coordinates to move the MainDancer to.
      */
-    public void setPreviewIndex(int index) {
-        this.previewIndex = index;
+    public void setPreviewCoords(Coordinates coords) {
+        this.preCoords = new Coordinates(coords);
     }
 }

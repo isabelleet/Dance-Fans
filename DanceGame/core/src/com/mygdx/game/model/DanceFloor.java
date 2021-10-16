@@ -15,10 +15,9 @@ import java.io.*;
  * @author Isabelle Ermeryd Tankred
  */
 
-public class DanceFloor implements Serializable {
+public class DanceFloor{
 
-    private DanceFloorTile[] danceFloorTiles;
-
+    private final DanceFloorTile[][] danceFloorTiles;
 
     // Map properties
     public final int tileWidth = 128;
@@ -28,10 +27,10 @@ public class DanceFloor implements Serializable {
     public final int tileSideLength = tileHeight;
 
     public DanceFloor() {
-        this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles * mapWidthInTiles];
+        this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
     }
 
-    private DanceFloor(DanceFloorTile[] tiles){
+    private DanceFloor(DanceFloorTile[][] tiles){
         this.danceFloorTiles = tiles;
     }
 
@@ -44,10 +43,11 @@ public class DanceFloor implements Serializable {
      * @return A new DanceFloor with the properties of an old one.
      */
     public DanceFloor deepCopy() {
-
-        DanceFloorTile[] copyTiles = new DanceFloorTile[danceFloorTiles.length];
-        for(int i = 0; i < danceFloorTiles.length; i++){
-            copyTiles[i] = new DanceFloorTile(danceFloorTiles[i].getColor(), danceFloorTiles[i].getType());
+        DanceFloorTile[][] copyTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
+        for(int row = 0; row < danceFloorTiles.length; row++){
+            for(int col = 0; col < danceFloorTiles[0].length; col++){
+                copyTiles[row][col] = new DanceFloorTile(danceFloorTiles[row][col].getColor(), danceFloorTiles[row][col].getType());
+            }
         }
 
         DanceFloor copy = new DanceFloor(copyTiles);
@@ -55,34 +55,33 @@ public class DanceFloor implements Serializable {
         return copy;
     }
 
-    public Color getColor(int i){
-        return danceFloorTiles[i].getColor();
+    public Color getColor(Coordinates coords){
+        return danceFloorTiles[coords.getY()][coords.getX()].getColor();
     }
 
-    public Type getType(int i ){
-        return danceFloorTiles[i].getType();
+    public Type getType(Coordinates coords){
+        return danceFloorTiles[coords.getY()][coords.getX()].getType();
     }
 
     //TODO: Use this to test end of game conditions e.g.
 
     /**
      * Fills the DanceFloor with empty tiles.
-     * @return an array containing all tiles.
      */
-    public DanceFloorTile[] initializeDanceFloor() {
-        int i;
-        for (i = 0; i < this.danceFloorTiles.length; i++) {
-            this.danceFloorTiles[i] = new DanceFloorTile(Color.NONE, Type.EMPTY);
+    public void initializeDanceFloor() {
+        for(int row = 0; row < danceFloorTiles.length; row++) {
+            for(int col = 0; col < danceFloorTiles[0].length; col++){
+                this.danceFloorTiles[row][col] = new DanceFloorTile(Color.NONE, Type.EMPTY);
+            }
         }
-        return this.danceFloorTiles;
     }
 
     /**
      * Sets the occupant of a tile to a transparent tile.
-     * @param tileIndex which tile to update.
+     * @param coords which tile to update.
      */
-    public void removeDancerFromTileIndex(int tileIndex) {
-        this.danceFloorTiles[tileIndex] = new DanceFloorTile(Color.NONE, Type.EMPTY);
+    public void removeDancerFromTileIndex(Coordinates coords) {
+        this.danceFloorTiles[coords.getY()][coords.getX()] = new DanceFloorTile(Color.NONE, Type.EMPTY);
     }
 
     //TODO: not sure if should update Dance Fan, or just replace it.
@@ -90,11 +89,11 @@ public class DanceFloor implements Serializable {
 
     /**
      * Sets a new dancer on a tile.
-     * @param tileIndex which tile to change.
+     * @param coords which tile to change.
      * @param dancer which dancer to place on the tile.
      */
-    public void newDancerOnTile(int tileIndex, Dancer dancer) {
-        this.danceFloorTiles[tileIndex].setOccupant(dancer.getColor(), dancer.getType());
+    public void newDancerOnTile(Coordinates coords, Dancer dancer) {
+        this.danceFloorTiles[coords.getY()][coords.getX()].setOccupant(dancer.getColor(), dancer.getType());
     }
 
 

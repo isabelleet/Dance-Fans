@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.mygdx.game.model.Coordinates;
 import com.mygdx.game.model.Model;
 
 /**
@@ -33,7 +34,7 @@ public class Controller implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
-        int playerIndex = model.currentPlayer().getMainDancer().getIndex();
+        Coordinates playerCoords = model.currentPlayer().getMainDancer().getCoordinates();
 
         System.out.println("key down" + keycode);
 
@@ -48,8 +49,8 @@ public class Controller implements InputProcessor {
         if(keycode == Input.Keys.NUM_1){
             model.selectedCard = 0;
             try {
-                model.moveMainDancerOfCurrentPlayerToIndex(playerIndex);
-                model.selectionOnTileIndex = playerIndex;
+                model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
+                model.selectionOnTileCoords = playerCoords;
                 } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -60,8 +61,8 @@ public class Controller implements InputProcessor {
             model.selectedCard = 1;
 
             try {
-                model.moveMainDancerOfCurrentPlayerToIndex(playerIndex);
-                model.selectionOnTileIndex = playerIndex;
+                model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
+                model.selectionOnTileCoords = playerCoords;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

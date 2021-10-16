@@ -188,15 +188,15 @@ public class View {
 
 		batch.begin();
 
-		int distanceFromBottomToTop = (danceFloor.mapHeightInTiles - 1) * danceFloor.tileSideLength;
-		for (int rowIndex = 0; rowIndex < danceFloor.mapWidthInTiles; rowIndex++){
-			for (int columnIndex = 0; columnIndex < danceFloor.mapHeightInTiles; columnIndex++){
-				int indexInDanceFloor = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
-				Color color = danceFloor.getColor(indexInDanceFloor);
-				Type type = danceFloor.getType(indexInDanceFloor);
-			    drawSprite(stringDancer(color, type), danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex));
-				if (indexInDanceFloor == model.selectionOnTileIndex){
-					batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
+		int distanceFromBottomToTop = (danceFloor.mapHeightInTiles - 1 ) * danceFloor.tileSideLength;
+		for (int colIndex = 0; colIndex < danceFloor.mapWidthInTiles; colIndex++){
+			for (int rowIndex = 0; rowIndex < danceFloor.mapHeightInTiles; rowIndex++){
+				Coordinates coordsInDanceFloor = new Coordinates(colIndex, rowIndex);
+				Color color = danceFloor.getColor(coordsInDanceFloor);
+				Type type = danceFloor.getType(coordsInDanceFloor);
+			    drawSprite(stringDancer(color, type), danceFloor.tileSideLength * colIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * rowIndex));
+				if (coordsInDanceFloor == model.selectionOnTileCoords){
+					batch.draw(selectedTile_sprite, danceFloor.tileSideLength * colIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * rowIndex) );
 				}
 			}
 		}

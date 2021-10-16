@@ -16,17 +16,17 @@ public abstract class Dancer {
     private final Color color;
     private final Type type;
     //TODO: only update this index when previewDanceFloor becomes danceFloor?
-    private int index;
+    private Coordinates coordinates;
 
     /**
      * Creates a dancer that starts on a specified tile.
      * @param type the name of the dancer.
-     * @param index which tile the dancer should be on.
+     * @param coordinates which tile the dancer should be on.
      */
-    public Dancer(Color color, Type type, int index) {
+    public Dancer(Color color, Type type, Coordinates coordinates) {
         this.color = color;
         this.type = type;
-        this.index = index;
+        this.coordinates = coordinates;
     }
 
     /**
@@ -37,23 +37,23 @@ public abstract class Dancer {
         this.color = color;
         this.type = type;
         //Risk for bugs
-        this.index = 0;
+        this.coordinates = new Coordinates(0,0);
     }
 
     /**
      * Sets the index of the dancer.
-     * @param index which index the dancer should be set to.
+     * @param coordinates which index the dancer should be set to.
      */
-    public void setIndex(int index) {
-        this.index = index;
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = new Coordinates(coordinates);
     }
 
     /**
      * Getter for a dancer's index.
      * @return the index of the dancer.
      */
-    public int getIndex() {
-        return this.index;
+    public Coordinates getCoordinates() {
+        return new Coordinates(coordinates);
     }
 
     /**
