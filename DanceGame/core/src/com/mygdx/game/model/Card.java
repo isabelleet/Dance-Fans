@@ -74,11 +74,25 @@ public class Card {
     }
 
     /**
-     * Getter for a cards dancePattern. 1 = dancefan, 3 = position of the MainDancer.
-     * @return a matrix of the dancePattern.
+     * Getter for a cards dancePattern.
+     * @return a copy of the matrix of the dancePattern.
      */
     public PatternOccupant[][] getDancePattern() {
-        return this.dancePattern;
+        return copy();
+    }
+
+    /**
+     * Used to make the patterns of the cards immutable.
+     * @return a copy of the dance pattern the card has.
+     */
+    private PatternOccupant[][] copy(){
+        PatternOccupant[][] copy = new PatternOccupant[dancePattern.length][dancePattern[0].length];
+        for(int row = 0; row < dancePattern.length; row++){
+            for(int col = 0; col < dancePattern[0].length; col++){
+                copy[row][col] = dancePattern[row][col];
+            }
+        }
+        return copy;
     }
 
     /**

@@ -23,7 +23,7 @@ import java.util.List;
 public class Model {
 
     private Player[] players;
-    public Enum<PlayerTurnSlot> whichPlayersTurnItIs;
+    public PlayerTurnSlot whichPlayersTurnItIs;
     private int turnNumber = 0;
     private final int maximumTurns = 20;
     public Boolean hasPlayerStartedTheirTurn;
@@ -37,7 +37,6 @@ public class Model {
     public int selectedCard = 0;
 
     List<Coordinates> tileCoords = new ArrayList();
-
 
     public Model(){
     }
