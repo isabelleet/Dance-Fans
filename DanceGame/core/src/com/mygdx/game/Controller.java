@@ -48,14 +48,14 @@ public class Controller implements InputProcessor {
         if(keycode == Input.Keys.NUM_1 && !model.gameIsDone()){
             model.selectedCard = 0;
             model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
-            model.selectionOnTileCoords = playerCoords;
+            model.selectedCoordinates = playerCoords;
             return true;
         }
 
         if(keycode == Input.Keys.NUM_2 && !model.gameIsDone()){
             model.selectedCard = 1;
             model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
-            model.selectionOnTileCoords = playerCoords;
+            model.selectedCoordinates = playerCoords;
             return true;
         }
 

@@ -36,7 +36,7 @@ public class Model {
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
     // When the move is confirmed, make danceFloor become previewDanceFloor.
     public DanceFloor previewDanceFloor;
-    public Coordinates selectionOnTileCoords;
+    public Coordinates selectedCoordinates;
     public int selectedCard = 0;
 
     List<Coordinates> tileCoords = new ArrayList();
@@ -69,7 +69,7 @@ public class Model {
 
         // Player ONE starts
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
-        this.selectionOnTileCoords = currentPlayer().getCoordinates();
+        this.selectedCoordinates = currentPlayer().getCoordinates();
 
         this.danceFloor.newObjectOnTile(player1.getMainDancer());
         this.danceFloor.newObjectOnTile(player2.getMainDancer());
@@ -97,7 +97,7 @@ public class Model {
         this.currentPlayer().setCoordinates(this.currentPlayer().getPreviewCoordinates());
 
         changeWhichPlayersTurnItIs();
-        this.selectionOnTileCoords = currentPlayer().getCoordinates();
+        this.selectedCoordinates = currentPlayer().getCoordinates();
         this.hasPlayerStartedTheirTurn = false;
     }
 
@@ -205,12 +205,12 @@ public class Model {
      */
     public void moveSelection(int x, int y){
         int moveLimit = currentPlayer().getSteps(selectedCard);
-        Coordinates newCoords = new Coordinates(selectionOnTileCoords.getX() + x, selectionOnTileCoords.getY() + y);
+        Coordinates newCoords = new Coordinates(selectedCoordinates.getX() + x, selectedCoordinates.getY() + y);
 
         if (insideDanceFloor(newCoords) && (distanceToMainDancer(newCoords) <= moveLimit)
                 && (!(collisionOtherPlayer(newCoords))))
         {
-            selectionOnTileCoords = newCoords;
+            selectedCoordinates = newCoords;
             moveMainDancerOfCurrentPlayerToCoords(newCoords);
         }
     }

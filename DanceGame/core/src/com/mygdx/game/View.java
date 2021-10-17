@@ -197,7 +197,7 @@ public class View {
 				Color color = danceFloor.getColor(coordsInDanceFloor);
 				Type type = danceFloor.getType(coordsInDanceFloor);
 			    drawSprite(stringDancer(color, type), danceFloor.tileSideLength * colIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * rowIndex));
-				if (coordsInDanceFloor == model.selectionOnTileCoords){
+				if (coordsInDanceFloor.getX() == model.selectedCoordinates.getX() && coordsInDanceFloor.getY() == model.selectedCoordinates.getY()){
 					batch.draw(selectedTile_sprite, danceFloor.tileSideLength * colIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * rowIndex) );
 				}
 			}
