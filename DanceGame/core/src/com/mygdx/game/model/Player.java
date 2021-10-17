@@ -23,7 +23,7 @@ public class Player {
     private final MainDancer mainDancer;
     private final CardDeck cardDeck;
     private final DanceFan danceFan;
-    private final DanceFan transparentDanceFan;
+    private final DanceFan transDanceFan;
 
     /**
      * Cretes a new Player object.
@@ -35,8 +35,8 @@ public class Player {
         this.playerTurnSlot = playerTurnSlot;
         this.mainDancer = mainDancer;
         this.cardDeck = cardDeck;
-        this.danceFan = new DanceFan(mainDancer.getColor(), Type.DF);
-        this.transparentDanceFan = new DanceFan(mainDancer.getColor(), Type.TRANSDF);
+        this.danceFan = new DanceFan(mainDancer.getColor(), Type.DF, new Coordinates(0,0));
+        this.transDanceFan = new DanceFan(mainDancer.getColor(), Type.TRANSDF, new Coordinates(0,0));
     }
 
     /**
@@ -47,8 +47,44 @@ public class Player {
         return mainDancer;
     }
 
+    /**
+     * Getter of the mainDancers color.
+     * @return the color of the mainDancer.
+     */
     public Color getColor(){
         return mainDancer.getColor();
+    }
+
+    /**
+     * Getter of the mainDancers coordinates
+     * @return the coordinates of the mainDancer.
+     */
+    public Coordinates getCoordinates(){
+        return mainDancer.getCoordinates();
+    }
+
+    /**
+     * Getter of the mainDancers preview Coordinates.
+     * @return the coordinates of the mainDancer in the preview.
+     */
+    public Coordinates getPreviewCoordinates(){
+        return mainDancer.getPreviewCoordinates();
+    }
+
+    /**
+     * Setter of the mainDancers coordinates.
+     * @param coords the coordinates to change to.
+     */
+    public void setCoordinates(Coordinates coords){
+        mainDancer.setCoordinates(coords);
+    }
+
+    /**
+     * Setter of the mainDancers coordinates.
+     * @param coords the coordinates to change to.
+     */
+    public void setPreviewCoordinates(Coordinates coords){
+        mainDancer.setPreviewCoordinates(coords);
     }
 
     /**
@@ -86,11 +122,11 @@ public class Player {
     }
 
     /**
-     * Getter for the players DanceFans.
-     * @return a DanceFan.
+     * Getter for the players DanceFan.
+     * @return a copy of the DanceFan.
      */
     public DanceFan getDanceFan() {
-        return danceFan;
+        return new DanceFan(danceFan.getColor(), danceFan.getType(), danceFan.getCoordinates());
     }
 
     /**
@@ -98,6 +134,6 @@ public class Player {
      * @return a DanceFan.
      */
     public DanceFan getTransparentDanceFan() {
-        return transparentDanceFan;
+        return new DanceFan(transDanceFan.getColor(), transDanceFan.getType(), transDanceFan.getCoordinates());
     }
 }

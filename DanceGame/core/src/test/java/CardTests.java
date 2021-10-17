@@ -20,9 +20,7 @@ public class CardTests {
 
     @Test
     public void gettingId() {
-        Card test = new Card(42);
 
-        assertEquals(42, test.getId());
     }
 
     @Test

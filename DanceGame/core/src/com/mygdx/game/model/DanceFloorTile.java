@@ -2,7 +2,7 @@ package com.mygdx.game.model;
 
 /**
  * DanceFloorTile keeps track of what is on that specific tile. Can change and tell other classes what is
- * currently on it.
+ * currently on it. The thing on the tile kept track of using Color and Type.
  *
  * Is used by DanceFloor.
  *

@@ -1,7 +1,8 @@
 package com.mygdx.game.model;
 
 /**
- * Simple coordinates
+ * Simple coordinates to help place and move / navigate dancers and things on the dance floor.
+ *
  * @author Hedy Pettersson
  */
 public class Coordinates {

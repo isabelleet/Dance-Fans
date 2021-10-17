@@ -1,12 +1,8 @@
 package com.mygdx.game.model;
 
-import java.io.Serializable;
-
 /**
  * MainDancer is the representation of the player on the DanceFloor and extends Dancer. It also keeps track of
  * where it exists in the preview.
- *
- * Is used in Player.
  *
  * @author Jakob Persson
  * @author Joar Granström
@@ -15,7 +11,7 @@ import java.io.Serializable;
  */
 
 public class MainDancer extends Dancer {
-
+    // used to preview its position before the player confirms their move.
     private Coordinates preCoords;
 
     /**
@@ -27,16 +23,19 @@ public class MainDancer extends Dancer {
         super(color, type, coords);
     }
 
-
-    public Coordinates getPreviewCoords() {
+    /**
+     * Getter for the coordinates in the preview.
+     * @return the coordinates in the preview.
+     */
+    public Coordinates getPreviewCoordinates() {
         return new Coordinates(preCoords);
     }
 
     /**
-     * Setter for the index used to preview the Dancers position before the player confirms their move.
-     * @param coords which coordinates to move the MainDancer to.
+     * Setter for the coordinates in the preview.
+     * @param coords is the coordinates this has moved to in the preview.
      */
-    public void setPreviewCoords(Coordinates coords) {
+    public void setPreviewCoordinates(Coordinates coords) {
         this.preCoords = new Coordinates(coords);
     }
 }

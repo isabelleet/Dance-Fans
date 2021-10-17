@@ -4,7 +4,6 @@ package com.mygdx.game.model;
  * Card combines amount of steps a player can move with a pattern for how the dance floor will change.
  * It also has an id in order to match it up with the correct image.
  *
- * Is used by CardDeck,
  *
  * @author Joar Granström
  * @author Jakob Persson
@@ -29,24 +28,6 @@ public class Card {
         this.steps = steps;
     }
 
-    // example card
-    /**
-     * Used for testing purposes.
-     * @param id card position in the deck.
-     */
-    public Card(int id) {
-        this.id = id;
-        PatternOccupant EMPTY = PatternOccupant.EMPTY;
-        PatternOccupant DANCEFAN = PatternOccupant.DANCEFAN;
-        PatternOccupant MAINDANCER = PatternOccupant.MAINDANCER;
-
-        this.dancePattern = new PatternOccupant[][]{
-                {EMPTY, DANCEFAN, EMPTY},
-                {EMPTY, MAINDANCER, EMPTY},
-                {DANCEFAN, EMPTY, DANCEFAN}};
-        this.steps = 2;
-    }
-
     /**
      * Getter for a cards id.
      * @return an int of the cards id.
@@ -63,6 +44,15 @@ public class Card {
         return copy();
     }
 
+
+    /**
+     * Getter for the amount of steps on that card.
+     * @return an int of the amount of steps.
+     */
+    public int getSteps() {
+        return this.steps;
+    }
+
     /**
      * Used to make the patterns of the cards immutable.
      * @return a copy of the dance pattern the card has.
@@ -75,14 +65,6 @@ public class Card {
             }
         }
         return copy;
-    }
-
-    /**
-     * Getter for the amount of steps on that card.
-     * @return an int of the amount of steps.
-     */
-    public int getSteps() {
-        return this.steps;
     }
 
 }
