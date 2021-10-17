@@ -79,6 +79,8 @@ public class Model {
 
         //The first turn the cards are drawn right away.
         this.hasPlayerStartedTheirTurn = true;
+        //TODO: temporary way to display the preview immediately
+        resetDancer();
     }
 
     /**
@@ -120,8 +122,13 @@ public class Model {
      */
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
+        //TODO: uses resetDancer to get the preview to display immediately
+        resetDancer();
     }
 
+    /**
+     * moves the current players mainDancer back to the position it had at the start of the players turn.
+     */
     public void resetDancer(){
         selectedCoordinates = currentPlayer().getCoordinates();
         moveMainDancerOfCurrentPlayerToCoords(selectedCoordinates);
