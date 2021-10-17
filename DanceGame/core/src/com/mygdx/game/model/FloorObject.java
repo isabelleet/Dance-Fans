@@ -7,7 +7,7 @@ import com.mygdx.game.model.Enums.Type;
  * Game objects which can be on tiles. Needs to have a color, a type and coordinates. Extend for new classes that can
  * be on the dance floor.
  *
- * Is used by DanceFloor.
+ * Is used by DanceFloor, DanceFloorTile and Dancer.
  *
  * Uses Color, Type and Coordinates.
  *

@@ -10,7 +10,7 @@ import java.util.Random;
  * CardDeck stores the different piles of cards which a deck is divided into. It also handles moving the cards between
  * the different piles.
  *
- * Is used by Player.
+ * Is used by Model, Player.
  *
  * Uses Card, PatternOccupant.
  *

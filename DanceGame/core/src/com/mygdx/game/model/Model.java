@@ -15,7 +15,7 @@ import java.util.List;
  *
  * Is used by Controller, DanceFans, View.
  *
- * Uses Color, PatternOccupant, PLayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFloor, .
+ * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFloor, .
  *
  * @author Joar Granström
  * @author Hedy Pettersson

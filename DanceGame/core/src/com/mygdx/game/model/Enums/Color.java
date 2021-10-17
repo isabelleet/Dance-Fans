@@ -7,7 +7,7 @@ package com.mygdx.game.model.Enums;
  *
  * In the future this would probably be changed to dance styles or similar, like waltz, sumba, tango etc.
  *
- * Is used in Dancer, DanceFan, MainDancer, DanceFloorTile, FloorObject and View.
+ * Is used in Dancer, DanceFan, DanceFloor, DanceFloorTile, FloorObject, MainDancer, Player, Model, and View.
  *
  * @author Hedy Pettersson
  */

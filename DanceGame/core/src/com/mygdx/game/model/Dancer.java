@@ -7,7 +7,7 @@ import com.mygdx.game.model.Enums.Type;
  * Dancer is an abstract class which extends FloorObject. There might be functionality added in the future which is
  * dancer specific.
  *
- * Is used by
+ * Is used by DanceFan and MainDancer.
  *
  * Uses Color, Type and Coordinates.
  *

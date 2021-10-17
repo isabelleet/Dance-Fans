@@ -6,9 +6,9 @@ import com.mygdx.game.model.Enums.Type;
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add / remove things on specific tiles.
  *
- * Is used by Model.
+ * Is used by View, Model.
  *
- * Uses FloorObject, MainDancer.
+ * Uses DanceFloorTile, FloorObject, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson

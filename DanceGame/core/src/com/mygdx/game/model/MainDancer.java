@@ -11,6 +11,7 @@ import com.mygdx.game.model.Enums.Type;
  *
  * Uses Color, Type and Coordinates.
  *
+ *
  * @author Jakob Persson
  * @author Joar Granström
  * @author Johan Berg

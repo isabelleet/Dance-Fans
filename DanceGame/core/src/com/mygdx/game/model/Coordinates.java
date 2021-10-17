@@ -3,7 +3,7 @@ package com.mygdx.game.model;
 /**
  * Simple coordinates to help place and move / navigate dancers and things on the dance floor.
  *
- * Is used by FloorObject, MainDancer, Model, Controller and View.
+ * Is used by Dancer, DanceFan, DanceFloor, FloorObject, MainDancer, Model, Player, Controller and View.
  *
  * @author Hedy Pettersson
  */
