@@ -24,7 +24,7 @@ public abstract class Dancer extends FloorObject {
      * @param type the name of the dancer.
      * @param coordinates which tile the dancer should be on.
      */
-    public Dancer(Color color, Type type, Coordinates coordinates) {
+    protected Dancer(Color color, Type type, Coordinates coordinates) {
         super(color, type, coordinates);
     }
 

@@ -25,16 +25,16 @@ public class DanceFloorTile {
      * Creates a new DanceFloorTile with an occupant.
      * @param type the name of the occupant.
      */
-    public DanceFloorTile(Color color, Type type) {
+    protected DanceFloorTile(Color color, Type type) {
         this.color = color;
         this.type = type;
     }
 
-    public Type getType() {
+    protected Type getType() {
         return type;
     }
 
-    public Color getColor(){
+    protected Color getColor(){
         return color;
     }
 
@@ -42,7 +42,7 @@ public class DanceFloorTile {
      * Gives a floorObject to the tile.
      * @param floorObject the floorObject that is occupying the tile.
      */
-    public void setOccupant(FloorObject floorObject) {
+    protected void setOccupant(FloorObject floorObject) {
         this.color = floorObject.getColor();
         this.type = floorObject.getType();
     }

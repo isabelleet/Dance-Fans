@@ -32,7 +32,7 @@ public class CardDeck {
      * Constructor, initially opens two of the cards from the pile.
      * @param deck a list of cards the deck will contain.
      */
-    public CardDeck(List<Card> deck) {
+    protected CardDeck(List<Card> deck) {
         this.pile = copyCards(deck);
         shuffleDeck(deck);
 
@@ -81,7 +81,7 @@ public class CardDeck {
      * Gets the steps from the currently selected card.
      * @return the steps from the currently selected card.
      */
-    public int getSteps(int selected){
+    protected int getSteps(int selected){
         return hand.get(selected).getSteps();
     }
 
@@ -89,7 +89,7 @@ public class CardDeck {
      * Gets the dance pattern of the currently selected card.
      * @return the dance pattern of the currently selected card.
      */
-    public PatternOccupant[][] getPattern(int selected){
+    protected PatternOccupant[][] getPattern(int selected){
         return hand.get(selected).getDancePattern();
     }
 

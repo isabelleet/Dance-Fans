@@ -18,7 +18,7 @@ public abstract class FloorObject {
     private final Type type;
     private Coordinates coordinates;
 
-    public FloorObject(Color color, Type type, Coordinates coords){
+    protected FloorObject(Color color, Type type, Coordinates coords){
         this.color = color;
         this.type = type;
         this.coordinates = coords;
@@ -28,7 +28,7 @@ public abstract class FloorObject {
      * Sets the coordinates of the object.
      * @param coordinates which index the dancer should be set to.
      */
-    public void setCoordinates(Coordinates coordinates) {
+    protected void setCoordinates(Coordinates coordinates) {
         this.coordinates = new Coordinates(coordinates);
     }
 
@@ -36,7 +36,7 @@ public abstract class FloorObject {
      * Getter for the objects coordinates.
      * @return the coordinates of the object.
      */
-    public Coordinates getCoordinates() {
+    protected Coordinates getCoordinates() {
         return new Coordinates(coordinates);
     }
 
@@ -44,7 +44,7 @@ public abstract class FloorObject {
      * Getter for the type of the object.
      * @return the type of the object.
      */
-    public Type getType() {
+    protected Type getType() {
         return this.type;
     }
 
@@ -52,7 +52,7 @@ public abstract class FloorObject {
      * Getter for the color of the object.
      * @return the color of the object.
      */
-    public Color getColor() {
+    protected Color getColor() {
         return this.color;
     }
 

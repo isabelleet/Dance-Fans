@@ -45,7 +45,7 @@ public class Card {
      * Getter for a cards dancePattern.
      * @return a copy of the matrix of the dancePattern.
      */
-    public PatternOccupant[][] getDancePattern() {
+    protected PatternOccupant[][] getDancePattern() {
         return copy();
     }
 
@@ -53,7 +53,7 @@ public class Card {
      * Getter for the amount of steps on that card.
      * @return an int of the amount of steps.
      */
-    public int getSteps() {
+    protected int getSteps() {
         return this.steps;
     }
 

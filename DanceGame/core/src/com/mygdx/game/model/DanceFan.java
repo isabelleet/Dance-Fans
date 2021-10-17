@@ -23,7 +23,7 @@ public class DanceFan extends Dancer {
      * @param color
      * @param coords
      */
-    public DanceFan(Color color, Type type, Coordinates coords) {
+    protected DanceFan(Color color, Type type, Coordinates coords) {
         super(color, type, coords);
     }
 

@@ -30,7 +30,7 @@ public class DanceFloor{
     public final int tileSideLength = tileHeight;
 
     // Constructor
-    public DanceFloor() {
+    protected DanceFloor() {
         this.dfTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
         initializeDanceFloor();
     }
@@ -43,7 +43,7 @@ public class DanceFloor{
     /**
      * Fills the DanceFloor with empty tiles.
      */
-    private void initializeDanceFloor() {
+    protected void initializeDanceFloor() {
         for(int row = 0; row < dfTiles.length; row++) {
             for(int col = 0; col < dfTiles[0].length; col++){
                 this.dfTiles[row][col] = new DanceFloorTile(Color.NONE, Type.EMPTY);
@@ -55,7 +55,7 @@ public class DanceFloor{
      * Creates and returns a copy of the danceFloor. Used to avoid pointing to the same object.
      * @return A copy of the danceFloor.
      */
-    public DanceFloor copy() {
+    protected DanceFloor copy() {
         DanceFloorTile[][] copyTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
         for(int row = 0; row < dfTiles.length; row++){
             for(int col = 0; col < dfTiles[0].length; col++){
@@ -70,7 +70,7 @@ public class DanceFloor{
      * Sets the color and type of the tile to NONE and EMPTY, which is how the empty tile is represented.
      * @param coords which tile to update.
      */
-    public void removeObjectFromTileIndex(Coordinates coords) {
+    protected void removeObjectFromTileIndex(Coordinates coords) {
         this.dfTiles[coords.getY()][coords.getX()] = new DanceFloorTile(Color.NONE, Type.EMPTY);
     }
 
@@ -79,7 +79,7 @@ public class DanceFloor{
      * @param coords which tile to change.
      * @param floorObject which object to place on the tile.
      */
-    public void newObjectOnTile(Coordinates coords, FloorObject floorObject) {
+    protected void newObjectOnTile(Coordinates coords, FloorObject floorObject) {
         this.dfTiles[coords.getY()][coords.getX()].setOccupant(floorObject);
     }
 
@@ -87,7 +87,7 @@ public class DanceFloor{
      * Sets a mainDancer on a tile.
      * @param mDancer the dancer to place.
      */
-    public void newObjectOnTile(MainDancer mDancer){
+    protected void newObjectOnTile(MainDancer mDancer){
         int x = mDancer.getCoordinates().getX();
         int y = mDancer.getCoordinates().getY();
 

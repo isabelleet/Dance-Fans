@@ -31,12 +31,12 @@ public class Player {
     private final DanceFan transDanceFan;
 
     /**
-     * Cretes a new Player object.
+     * Creates a new Player object.
      * @param playerTurnSlot if the player goes first or second.
      * @param mainDancer the players MainDancer.
      * @param cardDeck the players deck of cards.
      */
-    public Player(PlayerTurnSlot playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck) {
+    protected Player(PlayerTurnSlot playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck) {
         this.playerTurnSlot = playerTurnSlot;
         this.mainDancer = mainDancer;
         this.cardDeck = cardDeck;
@@ -64,7 +64,7 @@ public class Player {
      * Getter for the players DanceFans used to preview moves.
      * @return a copy of the DanceFan.
      */
-    public DanceFan getTransparentDanceFan() {
+    protected DanceFan getTransparentDanceFan() {
         return new DanceFan(transDanceFan.getColor(), transDanceFan.getType(), transDanceFan.getCoordinates());
     }
 
