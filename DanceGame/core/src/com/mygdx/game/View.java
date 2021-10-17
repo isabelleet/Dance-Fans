@@ -219,15 +219,9 @@ public class View {
 
 		if(model.gameIsDone()){
 			String strWinner = whoWon(model.isLeading());
-			font.draw(batch, strWinner, width , height-40);
-
 			winner = textureAtlasWinner.createSprite(strWinner);
 			winner.setPosition( 160,600);
 			winner.draw(batch);
-			if(model.numberTurns()==11){
-				model.startNewGame();
-			}
-
 		}
 
 
