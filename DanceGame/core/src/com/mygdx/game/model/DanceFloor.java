@@ -1,14 +1,14 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.model.Enums.Color;
-import com.mygdx.game.model.Enums.Type;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add / remove things on specific tiles.
  *
  * Is used by View, Model.
  *
- * Uses DanceFloorTile, FloorObject, MainDancer.
+ * Uses Color, Type, Coordinates, DanceFloorTile, FloorObject, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson

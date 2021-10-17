@@ -1,7 +1,7 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.model.Enums.Color;
-import com.mygdx.game.model.Enums.Type;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 
 /**
  * DanceFan extends Dancer, and represents the dancers on the dance floor which are not controlled by the player
@@ -9,7 +9,7 @@ import com.mygdx.game.model.Enums.Type;
  *
  * Is used by Player.
  *
- * Uses Color, Type, Coordinates and Dancer.
+ * Uses Color, Type, Coordinates, Dancer, FloorObject.
  *
  * @author Jakob Persson
  * @author Johan Berg

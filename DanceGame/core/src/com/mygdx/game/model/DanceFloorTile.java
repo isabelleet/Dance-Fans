@@ -1,7 +1,7 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.model.Enums.Color;
-import com.mygdx.game.model.Enums.Type;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 
 /**
  * DanceFloorTile keeps track of what is on that specific tile. Can change and tell other classes what is

@@ -1,7 +1,7 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.model.Enums.Color;
-import com.mygdx.game.model.Enums.Type;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 
 /**
  * Game objects which can be on tiles. Needs to have a color, a type and coordinates. Extend for new classes that can

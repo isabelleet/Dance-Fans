@@ -10,7 +10,7 @@ import com.mygdx.game.model.Model;
  *
  * Is used in DanceFans.
  *
- * Uses Model.
+ * Uses Coordinates, Model.
  *
  * @author Joar Granström
  * @author Hedy Pettersson

@@ -1,8 +1,8 @@
 package com.mygdx.game.model;
-import com.mygdx.game.model.Enums.Color;
-import com.mygdx.game.model.Enums.PatternOccupant;
-import com.mygdx.game.model.Enums.PlayerTurnSlot;
-import com.mygdx.game.model.Enums.Type;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.PatternOccupant;
+import com.mygdx.game.Enums.PlayerTurnSlot;
+import com.mygdx.game.Enums.Type;
 
 import java.lang.Math;
 
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * Is used by Controller, DanceFans, View.
  *
- * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFloor, .
+ * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFloor, Player.
  *
  * @author Joar Granström
  * @author Hedy Pettersson

@@ -1,4 +1,4 @@
-package com.mygdx.game.model.Enums;
+package com.mygdx.game.Enums;
 
 /**
  * Used to keep track of what is in a dance pattern.

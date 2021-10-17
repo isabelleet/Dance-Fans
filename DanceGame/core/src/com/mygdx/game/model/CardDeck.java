@@ -1,6 +1,6 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.model.Enums.PatternOccupant;
+import com.mygdx.game.Enums.PatternOccupant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * Is used by Model, Player.
  *
- * Uses Card, PatternOccupant.
+ * Uses PatternOccupant, Card.
  *
  *
  * @author Hedy Pettersson

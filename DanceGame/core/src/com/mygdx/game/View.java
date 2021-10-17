@@ -22,15 +22,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Coordinates;
-import com.mygdx.game.model.Enums.PlayerTurnSlot;
-import com.mygdx.game.model.Enums.*;
+import com.mygdx.game.Enums.PlayerTurnSlot;
+import com.mygdx.game.Enums.*;
 
 /**
  * View, handles everything visual. Part of the MVC pattern.
  *
  * Is used by DanceFans.
  *
- * Uses Model.
+ * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Coordinates, DanceFloor, Model.
  *
  * @author Joar Granström
  * @author Hedy Pettersson

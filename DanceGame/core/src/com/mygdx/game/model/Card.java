@@ -1,6 +1,6 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.model.Enums.PatternOccupant;
+import com.mygdx.game.Enums.PatternOccupant;
 
 /**
  * Card combines amount of steps a player can move with a pattern for how the dance floor will change.

@@ -1,9 +1,9 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.model.Enums.Color;
-import com.mygdx.game.model.Enums.PatternOccupant;
-import com.mygdx.game.model.Enums.PlayerTurnSlot;
-import com.mygdx.game.model.Enums.Type;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.PatternOccupant;
+import com.mygdx.game.Enums.PlayerTurnSlot;
+import com.mygdx.game.Enums.Type;
 
 import java.util.List;
 
