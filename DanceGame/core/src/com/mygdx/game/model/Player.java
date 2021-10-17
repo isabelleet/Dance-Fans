@@ -45,10 +45,10 @@ public class Player {
     }
 
     /**
-     * Getter for the players MainDancer object.
+     * Getter for the players MainDancer.
      * @return a MainDancer.
      */
-    public MainDancer getMainDancer() {
+    protected MainDancer getMainDancer() {
         return mainDancer;
     }
 
@@ -56,13 +56,13 @@ public class Player {
      * Getter for the players DanceFan.
      * @return a copy of the DanceFan.
      */
-    public DanceFan getDanceFan() {
+    protected DanceFan getDanceFan() {
         return new DanceFan(danceFan.getColor(), danceFan.getType(), danceFan.getCoordinates());
     }
 
     /**
      * Getter for the players DanceFans used to preview moves.
-     * @return a DanceFan.
+     * @return a copy of the DanceFan.
      */
     public DanceFan getTransparentDanceFan() {
         return new DanceFan(transDanceFan.getColor(), transDanceFan.getType(), transDanceFan.getCoordinates());
@@ -74,7 +74,7 @@ public class Player {
      * Getter of the mainDancers color.
      * @return the color of the mainDancer.
      */
-    public Color getColor(){
+    protected  Color getColor(){
         return mainDancer.getColor();
     }
 
@@ -82,7 +82,7 @@ public class Player {
      * Getter of the mainDancers coordinates
      * @return the coordinates of the mainDancer.
      */
-    public Coordinates getCoordinates(){
+    protected  Coordinates getCoordinates(){
         return mainDancer.getCoordinates();
     }
 
@@ -90,7 +90,7 @@ public class Player {
      * Getter of the mainDancers preview Coordinates.
      * @return the coordinates of the mainDancer in the preview.
      */
-    public Coordinates getPreviewCoordinates(){
+    protected  Coordinates getPreviewCoordinates(){
         return mainDancer.getPreviewCoordinates();
     }
 
@@ -98,7 +98,7 @@ public class Player {
      * Setter of the mainDancers coordinates.
      * @param coords the coordinates to change to.
      */
-    public void setCoordinates(Coordinates coords){
+    protected void setCoordinates(Coordinates coords){
         mainDancer.setCoordinates(coords);
     }
 
@@ -106,7 +106,7 @@ public class Player {
      * Setter of the mainDancers coordinates.
      * @param coords the coordinates to change to.
      */
-    public void setPreviewCoordinates(Coordinates coords){
+    protected  void setPreviewCoordinates(Coordinates coords){
         mainDancer.setPreviewCoordinates(coords);
     }
 
@@ -115,7 +115,7 @@ public class Player {
      * @param selected which of the cards on hand one wants to get the steps from
      * @return an int with the amount of steps a player can take.
      */
-    public int getSteps(int selected){
+    protected int getSteps(int selected){
         return cardDeck.getSteps(selected);
     }
 
@@ -124,7 +124,7 @@ public class Player {
      * @param selected which of the cards on hand one wants to get the dance pattern from
      * @return the dance patter of the selected card
      */
-    public PatternOccupant[][] getPattern(int selected){
+    protected  PatternOccupant[][] getPattern(int selected){
         return cardDeck.getPattern(selected);
     }
 
@@ -132,7 +132,7 @@ public class Player {
      * Gets the cards a player can currently use.
      * @return the cards a player can currently use.
      */
-    public List<Card> getHand(){
+    protected List<Card> getHand(){
         return cardDeck.getOpen();
     }
 
@@ -140,7 +140,7 @@ public class Player {
      * Uses the card selected in the cardDeck.
      * @param selected which card on hand one wants to use
      */
-    public void useCard(int selected){
+    protected void useCard(int selected){
         cardDeck.useCard(selected);
     }
 }

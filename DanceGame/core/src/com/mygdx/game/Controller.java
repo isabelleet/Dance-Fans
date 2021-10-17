@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.game.model.Coordinates;
 import com.mygdx.game.model.Model;
 
 /**
@@ -10,7 +9,7 @@ import com.mygdx.game.model.Model;
  *
  * Is used in DanceFans.
  *
- * Uses Coordinates, Model.
+ * Uses Model.
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -34,8 +33,6 @@ public class Controller implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
-        Coordinates playerCoords = model.currentPlayer().getMainDancer().getCoordinates();
-
         if(keycode == Input.Keys.NUM_0){
             model.startNewGame();
             return true;
@@ -47,15 +44,13 @@ public class Controller implements InputProcessor {
       
         if(keycode == Input.Keys.NUM_1 && !model.gameIsDone()){
             model.selectedCard = 0;
-            model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
-            model.selectedCoordinates = playerCoords;
+            model.resetDancer();
             return true;
         }
 
         if(keycode == Input.Keys.NUM_2 && !model.gameIsDone()){
             model.selectedCard = 1;
-            model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
-            model.selectedCoordinates = playerCoords;
+            model.resetDancer();
             return true;
         }
 

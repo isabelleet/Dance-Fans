@@ -122,6 +122,11 @@ public class Model {
         this.hasPlayerStartedTheirTurn = true;
     }
 
+    public void resetDancer(){
+        selectedCoordinates = currentPlayer().getCoordinates();
+        moveMainDancerOfCurrentPlayerToCoords(selectedCoordinates);
+    }
+
     /**
      * Moves the MainDancer of the player whose turn it is currently to the specified coordinates.
      * @param coordsMovedTo - Which index the MainDancer should be moved to.
@@ -261,15 +266,15 @@ public class Model {
     }
 
     /**
-     * Returns the player which is currently in the lead.
-     * @return the player which is currently in the lead.
+     * Returns the playerTurnSlot representing which player is currently in the lead.
+     * @return the playerTurnSlot of the player which is currently in the lead.
      */
-    public Player isLeading(){
+    public PlayerTurnSlot isLeading(){
         if (countTiles(players[0]) > countTiles(players[1])){
-            return players[0];
+            return players[0].playerTurnSlot;
         }
         else{
-            return players[1];
+            return players[1].playerTurnSlot;
         }
     }
 

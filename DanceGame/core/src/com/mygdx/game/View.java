@@ -218,7 +218,7 @@ public class View {
 		batch.begin();
 
 		if(model.gameIsDone()){
-			String strWinner = whoWon(model.isLeading().getColor());
+			String strWinner = whoWon(model.isLeading());
 			font.draw(batch, strWinner, width , height-40);
 
 			winner = textureAtlasWinner.createSprite(strWinner);
@@ -252,7 +252,7 @@ public class View {
 			// Draw current players cards
 			String cardback;
 
-			if (model.currentPlayer().getColor() == Color.RED){
+			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE){
 				cardback = "cardback_red";
 			}
 			else{
@@ -289,7 +289,7 @@ public class View {
 
 			//TODO: refactor in better way, this was quick just ot get it working
 			String currentPlayerDeckImageName;
-			if (model.currentPlayer().getColor() == Color.RED)
+			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
 				currentPlayerDeckImageName = "deck_red";
 			else
 				currentPlayerDeckImageName = "deck_green";
@@ -332,13 +332,13 @@ public class View {
 		font.draw(batch, "Change what dance move to consider", width, height-480);
 	}
 
-	private String whoWon(Color color){
+	private String whoWon(PlayerTurnSlot playerTurnSlot){
 		String s = "";
-		switch (color){
-			case RED:
+		switch (playerTurnSlot){
+			case ONE:
 				 s = "redWinner";
 				break;
-			case GREEN:
+			case TWO:
 				s = "greenWinner";
 				break;
 		}
