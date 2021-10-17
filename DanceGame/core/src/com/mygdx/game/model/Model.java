@@ -1,4 +1,9 @@
 package com.mygdx.game.model;
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.PatternOccupant;
+import com.mygdx.game.model.Enums.PlayerTurnSlot;
+import com.mygdx.game.model.Enums.Type;
+
 import java.lang.Math;
 
 import java.util.ArrayList;
@@ -10,7 +15,7 @@ import java.util.List;
  *
  * Is used by Controller, DanceFans, View.
  *
- * Uses CardDeck, DanceFloor, Player.
+ * Uses Color, PatternOccupant, PLayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFloor, .
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -31,16 +36,13 @@ public class Model {
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
     // When the move is confirmed, make danceFloor become previewDanceFloor.
     public DanceFloor previewDanceFloor;
-    // TODO: test so selectionOnTileIndex is never outside of danceFloor
     public Coordinates selectionOnTileCoords;
-
     public int selectedCard = 0;
 
     List<Coordinates> tileCoords = new ArrayList();
 
     public Model(){
     }
-
 
     public Player currentPlayer(){
         if (this.whichPlayersTurnItIs == PlayerTurnSlot.ONE)
@@ -57,8 +59,8 @@ public class Model {
 
         this.players = new Player[2];
 
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Color.RED, Type.MD, new Coordinates(2,4)), CardDeck.initialDeck(0));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer(Color.GREEN, Type.MD, new Coordinates(0,0)), CardDeck.initialDeck(1));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Color.RED, new Coordinates(2,4)), CardDeck.initialDeck(0));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer(Color.GREEN, new Coordinates(0,0)), CardDeck.initialDeck(1));
 
         this.players[0] = player1;
         this.players[1] = player2;
@@ -69,8 +71,8 @@ public class Model {
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
         this.selectionOnTileCoords = currentPlayer().getCoordinates();
 
-        this.danceFloor.newDancerOnTile(player1.getMainDancer());
-        this.danceFloor.newDancerOnTile(player2.getMainDancer());
+        this.danceFloor.newObjectOnTile(player1.getMainDancer());
+        this.danceFloor.newObjectOnTile(player2.getMainDancer());
 
         // Initialize previewdance floor
         this.previewDanceFloor = this.danceFloor.copy();
@@ -78,7 +80,6 @@ public class Model {
         //The first turn the cards are drawn right away.
         this.hasPlayerStartedTheirTurn = true;
     }
-
 
     /**
      * Updates the state of the DanceFloor to match the state of the PreviewDanceFloor and changes whose turn it is.
@@ -89,9 +90,8 @@ public class Model {
 
         // Update tiles of the previewed transparent dancefans to dancefans when the player ends the turn
         for (int i = 0; i < tileCoords.size(); i++) {
-            this.previewDanceFloor.newDancerOnTile(tileCoords.get(i), currentPlayer().getDanceFan());
+            this.previewDanceFloor.newObjectOnTile(tileCoords.get(i), currentPlayer().getDanceFan());
         }
-
 
         this.danceFloor = previewDanceFloor.copy();
         this.currentPlayer().setCoordinates(this.currentPlayer().getPreviewCoordinates());
@@ -102,7 +102,7 @@ public class Model {
     }
 
     /**
-     * Changes whose turn it is.
+     * Changes which players turn it is.
      */
     public void changeWhichPlayersTurnItIs(){
         turnNumber++;
@@ -116,7 +116,7 @@ public class Model {
     }
 
     /**
-     * Sets hasPlayerStartedTheirTurn to true and draws cards.
+     * Sets hasPlayerStartedTheirTurn to true.
      */
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
@@ -133,7 +133,7 @@ public class Model {
 
         // Reset the preview to the last state of the dancefloor and maindancer positions
         // Sets currentplayers maindancer preview index to last turns index
-        currentPlayer().getMainDancer().setPreviewCoordinates(mdCoords);
+        currentPlayer().setPreviewCoordinates(mdCoords);
 
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
         this.previewDanceFloor = danceFloor.copy();
@@ -142,7 +142,7 @@ public class Model {
         // Update dancefloor
         previewDanceFloor.removeObjectFromTileIndex(mdCoords);
         previewDanceFloor.removeObjectFromTileIndex(currentPlayer().getPreviewCoordinates());
-        previewDanceFloor.newDancerOnTile(coordsMovedTo, currentPlayer().getMainDancer());
+        previewDanceFloor.newObjectOnTile(coordsMovedTo, currentPlayer().getMainDancer());
 
         this.addDanceFansFromPattern(currentPlayer().getPattern(selectedCard));
     }
@@ -191,37 +191,11 @@ public class Model {
                         // Store indexes in a list to use them when the player ends their turn
                         tileCoords.add(danceFanCoord);
                         // Show transparent DanceFans based on the card before the turn ends
-                        previewDanceFloor.newDancerOnTile(danceFanCoord, currentPlayer().getTransparentDanceFan());
+                        previewDanceFloor.newObjectOnTile(danceFanCoord, currentPlayer().getTransparentDanceFan());
                     }
                 }
             }
         }
-    }
-
-    private boolean insideDanceFloor(Coordinates coords){
-        return ( coords.getX()< danceFloor.mapWidthInTiles)
-                &&   ( coords.getX() >= 0)
-                &&   ( coords.getY() < danceFloor.mapHeightInTiles)
-                &&   ( coords.getY() >= 0);
-    }
-
-    private boolean collisionOtherPlayer(Coordinates coordinates){
-        for(Player player: players){
-
-            if(player != currentPlayer() &&
-                    player.getMainDancer().getCoordinates().getX() == coordinates.getX()
-                    && player.getMainDancer().getCoordinates().getY() == coordinates.getY()){
-                System.out.println("collision!");
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private int distanceToMainDancer(Coordinates coords){
-        Coordinates startCoordsFromLastMove = currentPlayer().getMainDancer().getCoordinates();
-        int distance = Math.abs(startCoordsFromLastMove.getX() - coords.getX()) + Math.abs(startCoordsFromLastMove.getY() - coords.getY());
-        return distance;
     }
 
     /**
@@ -241,7 +215,11 @@ public class Model {
         }
     }
 
-    public List<Card> currentlyOpenCards(){
+    /**
+     * Getter of the cards currently on hand for the current player.
+     * @return a list of the cards on hand for the current player.
+     */
+    public List<Card> cardsOnHand(){
         return currentPlayer().getHand();
     }
 
@@ -282,6 +260,10 @@ public class Model {
         return false;
     }
 
+    /**
+     * Returns the player which is currently in the lead.
+     * @return the player which is currently in the lead.
+     */
     public Player isLeading(){
         if (countTiles(players[0]) > countTiles(players[1])){
             return players[0];
@@ -297,6 +279,34 @@ public class Model {
      */
     public int numberTurns(){
         return turnNumber/2;
+    }
+
+    // private helper methods
+
+    private boolean insideDanceFloor(Coordinates coords){
+        return ( coords.getX()< danceFloor.mapWidthInTiles)
+                &&   ( coords.getX() >= 0)
+                &&   ( coords.getY() < danceFloor.mapHeightInTiles)
+                &&   ( coords.getY() >= 0);
+    }
+
+    private boolean collisionOtherPlayer(Coordinates coordinates){
+        for(Player player: players){
+
+            if(player != currentPlayer() &&
+                    player.getMainDancer().getCoordinates().getX() == coordinates.getX()
+                    && player.getMainDancer().getCoordinates().getY() == coordinates.getY()){
+                System.out.println("collision!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int distanceToMainDancer(Coordinates coords){
+        Coordinates startCoordsFromLastMove = currentPlayer().getMainDancer().getCoordinates();
+        int distance = Math.abs(startCoordsFromLastMove.getX() - coords.getX()) + Math.abs(startCoordsFromLastMove.getY() - coords.getY());
+        return distance;
     }
 
 }

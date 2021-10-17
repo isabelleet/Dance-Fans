@@ -1,7 +1,14 @@
 package com.mygdx.game.model;
+
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.Type;
+
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add / remove things on specific tiles.
  *
+ * Is used by Model.
+ *
+ * Uses FloorObject, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson
@@ -70,21 +77,21 @@ public class DanceFloor{
     /**
      * Sets a new dancer on a tile.
      * @param coords which tile to change.
-     * @param dancer which dancer to place on the tile.
+     * @param floorObject which object to place on the tile.
      */
-    public void newDancerOnTile(Coordinates coords, Dancer dancer) {
-        this.dfTiles[coords.getY()][coords.getX()].setOccupant(dancer.getColor(), dancer.getType());
+    public void newObjectOnTile(Coordinates coords, FloorObject floorObject) {
+        this.dfTiles[coords.getY()][coords.getX()].setOccupant(floorObject);
     }
 
     /**
      * Sets a mainDancer on a tile.
      * @param mDancer the dancer to place.
      */
-    public void newDancerOnTile(MainDancer mDancer){
+    public void newObjectOnTile(MainDancer mDancer){
         int x = mDancer.getCoordinates().getX();
         int y = mDancer.getCoordinates().getY();
 
-        this.dfTiles[y][x].setOccupant(mDancer.getColor(), mDancer.getType());
+        this.dfTiles[y][x].setOccupant(mDancer);
     }
 
     // Law of demeter handling

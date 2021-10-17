@@ -1,10 +1,15 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.Type;
 
 /**
  * DanceFan extends Dancer, and represents the dancers on the dance floor which are not controlled by the player
  * directly. There might be more functionality added in the future.
  *
+ * Is used by
+ *
+ * Uses.
  *
  * @author Jakob Persson
  * @author Johan Berg
@@ -13,7 +18,11 @@ package com.mygdx.game.model;
 
 public class DanceFan extends Dancer {
 
-    // Constructor
+    /**
+     * Constructor, needs a color and coordinates. Type is already decided since it is a danceFan.
+     * @param color
+     * @param coords
+     */
     public DanceFan(Color color, Type type, Coordinates coords) {
         super(color, type, coords);
     }

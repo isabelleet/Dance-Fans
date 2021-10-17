@@ -1,5 +1,7 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.model.Enums.PatternOccupant;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,6 +9,10 @@ import java.util.Random;
 /**
  * CardDeck stores the different piles of cards which a deck is divided into. It also handles moving the cards between
  * the different piles.
+ *
+ * Is used by Player.
+ *
+ * Uses Card, PatternOccupant.
  *
  *
  * @author Hedy Pettersson
@@ -32,11 +38,11 @@ public class CardDeck {
 
         openCard(0);
         openCard(0);
-
     }
 
     /**
-     * takes a card from the deck and puts it among the cards that can be chosen
+     * Takes the first card from the pile and puts it on hand.
+     * @param i the location which the new card will be placed in the hand.
      */
     private void openCard(int i) {
         if (this.pile.size() == 0) {

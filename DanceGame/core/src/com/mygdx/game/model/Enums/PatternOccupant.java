@@ -1,7 +1,9 @@
-package com.mygdx.game.model;
+package com.mygdx.game.model.Enums;
 
 /**
  * Used to keep track of what is in a dance pattern.
+ *
+ * Is used by Card, CardDeck, Player, Model and View.
  *
  * @author Hedy Pettersson
  */

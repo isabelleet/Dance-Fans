@@ -1,9 +1,9 @@
-package com.mygdx.game.model;
+package com.mygdx.game.model.Enums;
 
 /**
  * PlayerTurnSlot is used to keep track of which players turn it is.
  *
- * Is used in View.
+ * Is used in Model, Player and View.
  *
  * @author Joar Granström
  */

@@ -1,10 +1,15 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.Type;
+
 /**
  * DanceFloorTile keeps track of what is on that specific tile. Can change and tell other classes what is
  * currently on it. The thing on the tile kept track of using Color and Type.
  *
- * Is used by DanceFloor.
+ * Is used by.
+ *
+ * Uses Color.
  *
  * @author Jakob Persson
  * @author Joar Granström
@@ -34,12 +39,12 @@ public class DanceFloorTile {
     }
 
     /**
-     * Gives a Dancer to the tile.
-     * @param type the Dancer that is occupying the tile.
+     * Gives a floorObject to the tile.
+     * @param floorObject the floorObject that is occupying the tile.
      */
-    public void setOccupant(Color color, Type type) {
-        this.color = color;
-        this.type = type;
+    public void setOccupant(FloorObject floorObject) {
+        this.color = floorObject.getColor();
+        this.type = floorObject.getType();
     }
 
 

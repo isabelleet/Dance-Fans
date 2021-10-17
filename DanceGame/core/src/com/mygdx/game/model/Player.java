@@ -1,5 +1,10 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.PatternOccupant;
+import com.mygdx.game.model.Enums.PlayerTurnSlot;
+import com.mygdx.game.model.Enums.Type;
+
 import java.util.List;
 
 /**
@@ -8,7 +13,7 @@ import java.util.List;
  *
  * Is used in Model.
  *
- * Uses DanceFan, MainDancer.
+ * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFan, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson
@@ -18,7 +23,7 @@ import java.util.List;
 
 public class Player {
 
-    public Enum<PlayerTurnSlot> playerTurnSlot;
+    public PlayerTurnSlot playerTurnSlot;
     // Timer left (if you use some clock that is saved between turns, so you sometimes can do fast turns and sometimes long.
     private final MainDancer mainDancer;
     private final CardDeck cardDeck;
@@ -31,7 +36,7 @@ public class Player {
      * @param mainDancer the players MainDancer.
      * @param cardDeck the players deck of cards.
      */
-    public Player(Enum<PlayerTurnSlot> playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck) {
+    public Player(PlayerTurnSlot playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck) {
         this.playerTurnSlot = playerTurnSlot;
         this.mainDancer = mainDancer;
         this.cardDeck = cardDeck;
@@ -46,6 +51,24 @@ public class Player {
     public MainDancer getMainDancer() {
         return mainDancer;
     }
+
+    /**
+     * Getter for the players DanceFan.
+     * @return a copy of the DanceFan.
+     */
+    public DanceFan getDanceFan() {
+        return new DanceFan(danceFan.getColor(), danceFan.getType(), danceFan.getCoordinates());
+    }
+
+    /**
+     * Getter for the players DanceFans used to preview moves.
+     * @return a DanceFan.
+     */
+    public DanceFan getTransparentDanceFan() {
+        return new DanceFan(transDanceFan.getColor(), transDanceFan.getType(), transDanceFan.getCoordinates());
+    }
+
+    // law of demeter handling
 
     /**
      * Getter of the mainDancers color.
@@ -119,21 +142,5 @@ public class Player {
      */
     public void useCard(int selected){
         cardDeck.useCard(selected);
-    }
-
-    /**
-     * Getter for the players DanceFan.
-     * @return a copy of the DanceFan.
-     */
-    public DanceFan getDanceFan() {
-        return new DanceFan(danceFan.getColor(), danceFan.getType(), danceFan.getCoordinates());
-    }
-
-    /**
-     * Getter for the players DanceFans used to preview moves.
-     * @return a DanceFan.
-     */
-    public DanceFan getTransparentDanceFan() {
-        return new DanceFan(transDanceFan.getColor(), transDanceFan.getType(), transDanceFan.getCoordinates());
     }
 }

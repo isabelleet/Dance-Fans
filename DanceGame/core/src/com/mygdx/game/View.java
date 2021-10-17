@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -20,7 +19,11 @@ import java.util.HashMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import com.mygdx.game.model.*;
+import com.mygdx.game.model.Model;
+import com.mygdx.game.model.DanceFloor;
+import com.mygdx.game.model.Coordinates;
+import com.mygdx.game.model.Enums.PlayerTurnSlot;
+import com.mygdx.game.model.Enums.*;
 
 /**
  * View, handles everything visual. Part of the MVC pattern.
@@ -118,7 +121,6 @@ public class View {
 		initRenderer();
 
 		// load images for helper UI
-		//selectedTile = new Texture(Gdx.files.internal("selectionBorder.png"));
 		selectedTile_sprite = textureAtlas.createSprite("selectionBorder");
 		selectedTile_sprite.setPosition(0, 0);
 
@@ -216,7 +218,7 @@ public class View {
 		batch.begin();
 
 		if(model.gameIsDone()){
-			String strWinner = whoWon(model.isLeading());
+			String strWinner = whoWon(model.isLeading().getColor());
 			font.draw(batch, strWinner, width , height-40);
 
 			winner = textureAtlasWinner.createSprite(strWinner);
@@ -256,7 +258,7 @@ public class View {
 			else{
 				cardback = "cardback_green";
 			}
-			for(int i = 0; i < model.currentlyOpenCards().size(); i++){
+			for(int i = 0; i < model.cardsOnHand().size(); i++){
 				String card;
 				if (!model.hasPlayerStartedTheirTurn){
 					card = cardback;
@@ -264,9 +266,9 @@ public class View {
 					break;
 				}
 				else if(i == model.selectedCard){
-					card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=True";
+					card = "id=" + model.cardsOnHand().get(i).getId() + ", selected=True";
 				} else{
-					card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
+					card = "id=" + model.cardsOnHand().get(i).getId() + ", selected=False";
 				}
 				drawCard(card, i* spacing + 220, cardsBottomY);
 			}
@@ -330,9 +332,9 @@ public class View {
 		font.draw(batch, "Change what dance move to consider", width, height-480);
 	}
 
-	private String whoWon(Player player){
+	private String whoWon(Color color){
 		String s = "";
-		switch (player.getMainDancer().getColor()){
+		switch (color){
 			case RED:
 				 s = "redWinner";
 				break;
