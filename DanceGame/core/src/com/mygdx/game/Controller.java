@@ -45,26 +45,26 @@ public class Controller implements InputProcessor {
             System.exit(0);
         }
       
-        if(keycode == Input.Keys.NUM_1){
+        if(keycode == Input.Keys.NUM_1 && !model.gameIsDone()){
             model.selectedCard = 0;
             model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
             model.selectionOnTileCoords = playerCoords;
             return true;
         }
 
-        if(keycode == Input.Keys.NUM_2){
+        if(keycode == Input.Keys.NUM_2 && !model.gameIsDone()){
             model.selectedCard = 1;
             model.moveMainDancerOfCurrentPlayerToCoords(playerCoords);
             model.selectionOnTileCoords = playerCoords;
             return true;
         }
 
-        if(keycode == Input.Keys.D) {
+        if(keycode == Input.Keys.D && !model.gameIsDone()) {
             model.playerDrewCardsToStartTurn();
             return true;
           
         }
-        if(keycode == Input.Keys.ENTER) {
+        if(keycode == Input.Keys.ENTER && !model.gameIsDone()) {
             System.out.println("Player clicked enter to confirm Dance move");
             if (model.hasPlayerStartedTheirTurn) {
                 model.playerConfirmedDanceMove();
@@ -73,7 +73,7 @@ public class Controller implements InputProcessor {
         }
 
         //movement of the player
-        if(keycode <= 22 && keycode >= 19) {
+        if(keycode <= 22 && keycode >= 19 && !model.gameIsDone()) {
             if (model.hasPlayerStartedTheirTurn) {
                 int x = 0;
                 int y = 0;
