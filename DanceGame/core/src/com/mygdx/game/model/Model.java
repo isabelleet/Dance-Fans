@@ -232,7 +232,7 @@ public class Model {
 
     private void updatePreview(){
         Player player = currentPlayer();
-        previewDanceFloor.removeObjectFromTileIndex(player.getCoordinates());
+        previewDanceFloor.newObjectOnTile(player.getCoordinates(), player.getDanceFan());
         previewDanceFloor.removeObjectFromTileIndex(player.getPreviewCoordinates());
         previewDanceFloor.newObjectOnTile(player.getPreviewCoordinates(), player.getMainDancer());
 
