@@ -1,7 +1,5 @@
 package com.mygdx.game.model;
 import com.mygdx.game.Enums.Color;
-import com.mygdx.game.Enums.PatternOccupant;
-import com.mygdx.game.Enums.PlayerTurnSlot;
 import com.mygdx.game.Enums.Type;
 
 import java.lang.Math;
@@ -15,7 +13,7 @@ import java.util.List;
  *
  * Is used by Controller, DanceFans, View.
  *
- * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFloor, Player.
+ * Uses Color, Type, Card, CardDeck, Coordinates, DanceFloor, Player.
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -28,7 +26,6 @@ import java.util.List;
 public class Model {
 
     private Player[] players;
-    public PlayerTurnSlot whichPlayersTurnItIs;
     private int turnNumber = 0;
     private final int maximumTurns = 20;
     public Boolean hasPlayerStartedTheirTurn;
@@ -45,7 +42,7 @@ public class Model {
     }
 
     public Player currentPlayer(){
-        if (this.whichPlayersTurnItIs == PlayerTurnSlot.ONE)
+        if (playerOneTurn())
             return this.players[0];
         else
             return this.players[1];
@@ -59,8 +56,8 @@ public class Model {
 
         this.players = new Player[2];
 
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Color.RED, new Coordinates(2,4)), CardDeck.initialDeck(0));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer(Color.GREEN, new Coordinates(0,0)), CardDeck.initialDeck(1));
+        Player player1 = new Player(new MainDancer(Color.RED, new Coordinates(2,4)), CardDeck.initialDeck(0));
+        Player player2 = new Player(new MainDancer(Color.GREEN, new Coordinates(0,0)), CardDeck.initialDeck(1));
 
         this.players[0] = player1;
         this.players[1] = player2;
@@ -68,7 +65,6 @@ public class Model {
         this.danceFloor = new DanceFloor();
 
         // Player ONE starts
-        this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
         this.selectedCoordinates = currentPlayer().getCoordinates();
 
         this.danceFloor.newObjectOnTile(player1.getMainDancer());
@@ -108,13 +104,6 @@ public class Model {
      */
     public void changeWhichPlayersTurnItIs(){
         turnNumber++;
-
-        if (whichPlayersTurnItIs == PlayerTurnSlot.ONE) {
-            this.whichPlayersTurnItIs = PlayerTurnSlot.TWO;
-        }
-        else {
-            this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
-        }
     }
 
     /**
@@ -226,13 +215,24 @@ public class Model {
      * Returns the playerTurnSlot representing which player is currently in the lead.
      * @return the playerTurnSlot of the player which is currently in the lead.
      */
-    public PlayerTurnSlot isLeading(){
+    public int isLeading(){
         if (countTiles(players[0]) > countTiles(players[1])){
-            return players[0].playerTurnSlot;
+            return 0;
         }
-        else{
-            return players[1].playerTurnSlot;
+        else if (countTiles(players[0]) < countTiles(players[1])){
+            return 1;
+        } else {
+            return 2;
         }
+    }
+
+    /**
+     * Returns a boolean depending on which player's turn it is. If we want more players we would use modulus and
+     * the index in players probably.
+     * @return true if it is player one's turn, otherwise false.
+     */
+    public boolean playerOneTurn(){
+        return turnNumber % players.length == 0;
     }
 
     /**

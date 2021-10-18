@@ -22,7 +22,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Coordinates;
-import com.mygdx.game.Enums.PlayerTurnSlot;
 import com.mygdx.game.Enums.*;
 
 /**
@@ -30,7 +29,7 @@ import com.mygdx.game.Enums.*;
  *
  * Is used by DanceFans.
  *
- * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Coordinates, DanceFloor, Model.
+ * Uses Color, Type, Coordinates, DanceFloor, Model.
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -246,7 +245,7 @@ public class View {
 			// Draw current players cards
 			String cardback;
 
-			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE){
+			if (model.playerOneTurn()){
 				cardback = "cardback_red";
 			}
 			else{
@@ -272,7 +271,7 @@ public class View {
 		//TODO: refactor in better way, this was quick just ot get it working
 		String startTurnUIForCurrentPlayer;
 		if(!model.gameIsDone()) {
-			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			if (model.playerOneTurn())
 				startTurnUIForCurrentPlayer = "startTurn_keyboard_redPlayer";
 			else
 				startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
@@ -283,7 +282,7 @@ public class View {
 
 			//TODO: refactor in better way, this was quick just ot get it working
 			String currentPlayerDeckImageName;
-			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			if (model.playerOneTurn())
 				currentPlayerDeckImageName = "deck_red";
 			else
 				currentPlayerDeckImageName = "deck_green";
@@ -291,7 +290,7 @@ public class View {
 
 			//TODO: refactor in better way, this was quick just ot get it working
 			int currentPlayerNumber;
-			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			if (model.playerOneTurn())
 				currentPlayerNumber = 1;
 			else
 				currentPlayerNumber = 2;
@@ -326,13 +325,13 @@ public class View {
 		font.draw(batch, "Change what dance move to consider", width, height-480);
 	}
 
-	private String whoWon(PlayerTurnSlot playerTurnSlot){
+	private String whoWon(int playerNumber){
 		String s = "";
-		switch (playerTurnSlot){
-			case ONE:
+		switch (playerNumber){
+			case 0:
 				 s = "redWinner";
 				break;
-			case TWO:
+			case 1:
 				s = "greenWinner";
 				break;
 		}
