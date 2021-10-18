@@ -162,30 +162,7 @@ public class Model {
         return currentPlayer().getHand();
     }
 
-    private int countTotalTiles(){
-        int sum = 0;
-        for(int row = 0; row < danceFloor.mapHeightInTiles; row++){
-            for(int col = 0; col < danceFloor.mapWidthInTiles; col++){
-                if(danceFloor.getType(new Coordinates(col, row)) != Type.EMPTY){
-                    sum++;
-                }
-            }
 
-        }
-        return sum;
-    }
-
-    private int countTiles(Player player){
-        int sum = 0;
-        for(int row = 0; row < danceFloor.mapHeightInTiles; row++){
-            for(int col = 0; col < danceFloor.mapWidthInTiles; col++){
-                if(danceFloor.getColor(new Coordinates(col, row)) == player.getColor()){
-                    sum++;
-                }
-            }
-        }
-        return sum;
-    }
 
     /**
      * Checks whether the game has reached the turn limit or the board is filled.
@@ -193,7 +170,7 @@ public class Model {
      */
     public boolean gameIsDone(){
         // return true when game is finish
-        if(countTotalTiles() ==54 || turnNumber == maximumTurns){
+        if(danceFloor.countTotalTiles() ==54 || turnNumber == maximumTurns){
             return true;
         }
         return false;
@@ -204,10 +181,13 @@ public class Model {
      * @return the playerTurnSlot of the player which is currently in the lead.
      */
     public int isLeading(){
-        if (countTiles(players[0]) > countTiles(players[1])){
+        int p1Tiles = danceFloor.countTiles(players[0].getColor());
+        int p2Tiles = danceFloor.countTiles(players[1].getColor());
+
+        if (p1Tiles > p2Tiles){
             return 0;
         }
-        else if (countTiles(players[0]) < countTiles(players[1])){
+        else if (p1Tiles < p2Tiles){
             return 1;
         } else {
             return 2;

@@ -141,6 +141,40 @@ public class DanceFloor{
     }
 
     /**
+     * Counts the total amount of tiles which are occupied by something.
+     * @return the tiótal amount of tiles which are occupied by.
+     */
+    protected int countTotalTiles(){
+        int sum = 0;
+        for(int row = 0; row < mapHeightInTiles; row++){
+            for(int col = 0; col < mapWidthInTiles; col++){
+                if(dfTiles[row][col].getType() != Type.EMPTY){
+                    sum++;
+                }
+            }
+
+        }
+        return sum;
+    }
+
+    /**
+     * Counts the total amount of tiles of a certain color.
+     * @param color the color to be counted
+     * @return the total amount of tiles of a certain color.
+     */
+    protected int countTiles(Color color){
+        int sum = 0;
+        for(int row = 0; row < mapHeightInTiles; row++){
+            for(int col = 0; col < mapWidthInTiles; col++){
+                if(dfTiles[row][col].getColor() == color){
+                    sum++;
+                }
+            }
+        }
+        return sum;
+    }
+
+    /**
      * A boolean for checking if the given coordinates are inside of the danceFloor.
      * @param coords the coordinates to be checked
      * @return true if the coordinates are inside, otherwise false.
