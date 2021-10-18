@@ -1,5 +1,7 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.Enums.PatternOccupant;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -8,108 +10,111 @@ import java.util.Random;
  * CardDeck stores the different piles of cards which a deck is divided into. It also handles moving the cards between
  * the different piles.
  *
- * Is used by Model,
+ * Is used by Model, Player.
  *
- * Uses Card.
+ * Uses PatternOccupant, Card.
+ *
  *
  * @author Hedy Pettersson
  * @author Jakob Persson
  */
 
 public class CardDeck {
-    // thinking about using maps with enums instead, but not sure
-    private List<Card> deck;
-    private List<Card> open = new ArrayList<>();
-    private List<Card> closed;
-    private List<Card> discarded = new ArrayList<>();
+    private final List<Card> hand = new ArrayList<>();
+    private final List<Card> pile;
+    private final List<Card> discarded = new ArrayList<>();
 
-    public int selected = 0;
-
-    // should decks be predefined? or have a random selection of cards of the right type?
+    private final static PatternOccupant E = PatternOccupant.EMPTY;
+    private final static PatternOccupant DF = PatternOccupant.DANCEFAN;
+    private final static PatternOccupant MD = PatternOccupant.MAINDANCER;
 
     /**
-     * Creates a new object with a List of cards.
-     * @param deck a list of cards.
+     * Constructor, initially opens two of the cards from the pile.
+     * @param deck a list of cards the deck will contain.
      */
-    public CardDeck(List<Card> deck) {
-        this.deck = deck;
-        // if they are predefined we should probably shuffle them before playing
-        shuffleDeck(this.deck);
+    protected CardDeck(List<Card> deck) {
+        this.pile = copyCards(deck);
+        shuffleDeck(deck);
 
-        this.closed = copyCards(this.deck);
-        // Starts with two open cards
         openCard(0);
         openCard(0);
-
     }
 
     /**
-     * Discards the selected card and adds it to the discard pile.
-     */
-    public void useCard() {
-        System.out.println("Card was used");
-        discardCard(selected);
-        openCard(selected);
-        selected = 0;
-    }
-
-    // don't need to open cards outside.
-
-    /**
-     * takes a card from the deck and puts it among the cards that can be chosen
+     * Takes the first card from the pile and puts it on hand.
+     * @param i the location which the new card will be placed in the hand.
      */
     private void openCard(int i) {
-        if (this.closed.size() == 0) {
+        if (this.pile.size() == 0) {
             addDiscCards();
         }
 
-        this.open.add(i, closed.remove(0));
+        this.hand.add(i, pile.remove(0));
     }
 
     /**
-     * removes a chosen card and moves it to the discarded pile
-     *
-     * @param i which of the chosen cards to remove
+     * Moves the selected card from the hand to the discard pile and replaces it.
+     * @param selected which of the cards on hand to use and then replace.
+     */
+    public void useCard(int selected) {
+        discardCard(selected);
+        openCard(selected);
+    }
+
+    /**
+     * Removes the selected from hand and adds it to the discarded pile.
+     * @param i which of the cards on hand is selected.
      */
     private void discardCard(int i) {
-        this.discarded.add(this.open.remove(i));
+        this.discarded.add(this.hand.remove(i));
     }
 
     /**
-     * after using up all cards this method puts them back in the pile
+     * Returns a copy of the cards on hand.
+     * @return a copy of the list of cards on hand.
+     */
+    public List<Card> getOpen() {
+        return copyCards(hand);
+    }
+
+    /**
+     * Gets the steps from the currently selected card.
+     * @return the steps from the currently selected card.
+     */
+    protected int getSteps(int selected){
+        return hand.get(selected).getSteps();
+    }
+
+    /**
+     * Gets the dance pattern of the currently selected card.
+     * @return the dance pattern of the currently selected card.
+     */
+    protected PatternOccupant[][] getPattern(int selected){
+        return hand.get(selected).getDancePattern();
+    }
+
+    /**
+     * After opening up all cards in the pile this method adds cards back from the discarded pile.
      */
     private void addDiscCards() {
         int l = this.discarded.size();
         shuffleDeck(discarded);
         for (int i = 0; i < l; i++) {
-            this.closed.add(this.discarded.remove(0));
+            this.pile.add(this.discarded.remove(0));
         }
     }
 
     /**
-     * should create a copy of all the cards in a deck.
-     *
-     * @param deck to be copied
-     * @return a copy of the deck
+     * Create a copy of all the cards in a list. Used to get immutability outside of the class.
+     * @param deck the list to be copied
+     * @return a copy of the list
      */
     private List<Card> copyCards(List<Card> deck) {
-        int l = deck.size();
-
         return new ArrayList<>(deck);
     }
 
     /**
-     * used to be able to look at what cards can be chosen
-     *
-     * @return the list of cards that can be chosen
-     */
-    public List<Card> getOpen() {
-        return open;
-    }
-
-    /**
-     * used to set some starter decks
-     *
+     * Used to get a starter deck.
      * @param i 0 for a green deck, otherwise a red deck
      * @return either a deck with green cards or red cards
      */
@@ -117,87 +122,68 @@ public class CardDeck {
         List<Card> cards = new ArrayList<>();
         if (i == 0) {
             // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {
-                    {1, 0, 1},
-                    {0, 3, 0},
-                    {1, 0, 1}};
-            cards.add(new Card(2, pattern, 3));
-            //cards.add(new Card(2,pattern,3 ));
-            //cards.add(new Card(2,pattern,3 ));
+            PatternOccupant[][] pattern = {
+                    {DF, E, DF},
+                    {DF, MD, DF},
+                    {DF, E, DF}};
+            cards.add(new Card(4, pattern, 1));
 
-            pattern = new int[][]{
-                    {1, 1, 1},
-                    {1, 3, 0},
-                    {1, 0, 1}};
-            cards.add(new Card(3, pattern, 1));
-            //cards.add(new Card(3, pattern, 1));
+            pattern = new PatternOccupant[][]{
+                    {E, DF, DF},
+                    {DF, MD, E},
+                    {DF, E, E}};
+            cards.add(new Card(7, pattern, 2));
 
-            pattern = new int[][]{
-                    {0, 1, 0},
-                    {1, 3, 1},
-                    {0, 1, 0}};
-            cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
+            pattern = new PatternOccupant[][]{
+                    {E, E, E, DF, DF, E, E},
+                    {E, E, E, DF, E, E, E},
+                    {E, E, E, DF, E, E, E},
+                    {E, E, E, MD, E, E, E},
+                    {E, E, E, E, E, E, E},
+                    {E, E, E, E, E, E, E},
+                    {E, E, E, E, E, E, E}};
+            cards.add(new Card(1, pattern, 4));
 
-            pattern = new int[][]{
-                    {0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 1},
-                    {0, 0, 3, 1, 1},
-                    {0, 0, 0, 0, 1},
-                    {0, 0, 0, 0, 0}};
-            cards.add(new Card(6, pattern, 3));
-            //cards.add(new Card(6, pattern, 3));
-
-
+            pattern = new PatternOccupant[][]{
+                    {E, E, E, E, E},
+                    {DF, E, E, E, E},
+                    {DF, DF, MD, E, E},
+                    {DF, E, E, E, E},
+                    {E, E, E, E, E}};
+            cards.add(new Card(8, pattern, 3));
         } else {
             // not allowed to write the pattern directly, must send it the long way.
-            int[][] pattern = {
-                    {1, 0, 1},
-                    {1, 3, 1},
-                    {1, 0, 1}};
-            cards.add(new Card(4, pattern, 1));
-            //cards.add(new Card(2,pattern,3 ));
-            //cards.add(new Card(2,pattern,3 ));
+            PatternOccupant[][] pattern = {
+                    {DF, E, DF},
+                    {E, MD, E},
+                    {DF, E, DF}};
+            cards.add(new Card(2, pattern, 3));
 
-            pattern = new int[][]{
-                    {0, 1, 1},
-                    {1, 3, 0},
-                    {1, 0, 0}};
-            cards.add(new Card(7, pattern, 2));
-            //cards.add(new Card(3, pattern, 1));
+            pattern = new PatternOccupant[][]{
+                    {DF, DF, DF},
+                    {DF, MD, E},
+                    {DF, E, DF}};
+            cards.add(new Card(3, pattern, 1));
 
-            pattern = new int[][]{
-                    {0, 0, 0, 1, 1, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 3, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0}};
-            cards.add(new Card(1, pattern, 4));
-            //cards.add(new Card(5, pattern, 2));
-            //cards.add(new Card(5, pattern, 2));
+            pattern = new PatternOccupant[][]{
+                    {E, DF, E},
+                    {DF, MD, DF},
+                    {E, DF, E}};
+            cards.add(new Card(5, pattern, 2));
 
-            pattern = new int[][]{
-                    {0, 0, 0, 0, 0},
-                    {1, 0, 0, 0, 0},
-                    {1, 1, 3, 0, 0},
-                    {1, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0}};
-            cards.add(new Card(8, pattern, 3));
-            //cards.add(new Card(6, pattern, 3));
+            pattern = new PatternOccupant[][]{
+                    {E, E, E, E, E},
+                    {E, E, E, E, DF},
+                    {E, E, MD, DF, DF},
+                    {E, E, E, E, DF},
+                    {E, E, E, E, E}};
+            cards.add(new Card(6, pattern, 3));
         }
-
-
         return new CardDeck(cards);
-
     }
 
     /**
-     * A shuffle method based on Fisher-Yates shuffle. So that the cards will be shuffled. Changes the original
-     * deck of cards.
-     *
+     * A shuffle method based on Fisher-Yates shuffle. Changes the original deck of cards.
      * @param cards the cards to be shuffled
      */
     // Fisher-yates shuffle https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle

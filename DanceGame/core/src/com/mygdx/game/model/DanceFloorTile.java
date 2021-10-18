@@ -1,46 +1,52 @@
 package com.mygdx.game.model;
 
-import java.io.Serializable;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 
 /**
  * DanceFloorTile keeps track of what is on that specific tile. Can change and tell other classes what is
- * currently on it.
+ * currently on it. The thing on the tile kept track of using Color and Type.
  *
  * Is used by DanceFloor.
+ *
+ * Uses Color and Type.
  *
  * @author Jakob Persson
  * @author Joar Granström
  * @author Johan Berg
+ * @author Hedy Pettersson
  */
 
-public class DanceFloorTile implements Serializable {
-    public Dancer occupant;
-
-    /**
-     * Getter for the name of the sprite on the tile.
-     * @return A string with the name of the occupant.
-     */
-    public String getOccupantName() {
-        //occupant = new Dancer().setSpriteName(spriteName);
-        return occupant.getSpriteName();
-    }
-
-    /**
-     * Gives a Dancer to the tile.
-     * @param dancer the Dancer that is occupying the tile.
-     */
-    public void setOccupant(Dancer dancer) {
-        this.occupant = dancer;
-        //this.occupant = this.occupant.setSpriteName(spriteName);
-    }
-
-    // Constructor
+public class DanceFloorTile {
+    private Color color;
+    private Type type;
 
     /**
      * Creates a new DanceFloorTile with an occupant.
-     * @param spriteName the name of the occupant.
+     * @param type the name of the occupant.
      */
-    public DanceFloorTile(String spriteName) {
-        this.occupant = new DanceFan(spriteName); // TODO: replace with empty tile or something
+    protected DanceFloorTile(Color color, Type type) {
+        this.color = color;
+        this.type = type;
     }
+
+    protected Type getType() {
+        return type;
+    }
+
+    protected Color getColor(){
+        return color;
+    }
+
+    /**
+     * Gives a floorObject to the tile.
+     * @param floorObject the floorObject that is occupying the tile.
+     */
+    protected void setOccupant(FloorObject floorObject) {
+        this.color = floorObject.getColor();
+        this.type = floorObject.getType();
+    }
+
+
+
 }

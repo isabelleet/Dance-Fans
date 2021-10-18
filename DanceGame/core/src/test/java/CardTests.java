@@ -20,11 +20,7 @@ public class CardTests {
 
     @Test
     public void gettingId() {
-        int[][] dancePattern = new int[][]{{0, 1, 0}, {0, 3, 0}, {1, 0, 1}};
 
-        Card test = new Card(42, dancePattern, 5);
-
-        assertEquals(42, test.getId());
     }
 
     @Test
@@ -32,7 +28,7 @@ public class CardTests {
         Card firstCard = deck1.getOpen().get(0);
         Card secondCard = deck1.getOpen().get(1);
         //selected card is 0 by default, that means the first card should have been replaced
-        deck1.useCard();
+        deck1.useCard(0);
         Card newFirstCard = deck1.getOpen().get(0);
         Card newSecondCard = deck1.getOpen().get(1);
 

@@ -1,12 +1,14 @@
 package com.mygdx.game.model;
-import java.io.*;
+
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 
 /**
- * DanceFloor keeps track of the board which the game is played on. It can add things to specific tiles.
+ * DanceFloor keeps track of the board which the game is played on. It can add / remove things on specific tiles.
  *
- * Is used in Model.
+ * Is used by View, Model.
  *
- * Uses DanceFloorTile, Dancer,
+ * Uses Color, Type, Coordinates, DanceFloorTile, FloorObject, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson
@@ -15,137 +17,100 @@ import java.io.*;
  * @author Isabelle Ermeryd Tankred
  */
 
-public class DanceFloor implements Serializable {
+public class DanceFloor{
 
-    public DanceFloorTile[] danceFloorTiles;
-    //TODO: maybe remove if not used?
-    private Enum<PlayerTurnSlot> whichPlayersTurnItIs;
+    private final DanceFloorTile[][] dfTiles;
 
     // Map properties
-    public int tileWidth, tileHeight,
-            mapWidthInTiles, mapHeightInTiles,
-            tileSideLength;
+    public final int tileWidth = 128;
+    public final int tileHeight = 128;
+    // for now the height and width of the danceFloor is pre-determined. In the future this might change.
+    public final int mapWidthInTiles = 9;
+    public final int mapHeightInTiles = 6;
+    public final int tileSideLength = tileHeight;
 
-    public DanceFloor(Enum<PlayerTurnSlot> whichPlayersTurnItIs) {
-        this.whichPlayersTurnItIs = whichPlayersTurnItIs;
-
-        // Read properties
-        tileWidth = 128;
-        tileHeight = 128;
-
-        tileSideLength = tileHeight;
-        mapWidthInTiles = 9;
-        mapHeightInTiles = 6;
-        this.danceFloorTiles = new DanceFloorTile[mapHeightInTiles * mapWidthInTiles];
+    // Constructor
+    protected DanceFloor() {
+        this.dfTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
+        initializeDanceFloor();
     }
 
-    // this is used to make a copy of a dancefloor, for our previews
-    // https://stackoverflow.com/a/9834683
-    // https://howtodoinjava.com/java/serialization/how-to-do-deep-cloning-using-in-memory-serialization-in-java/
-
-    /**
-     * Creates a new object with the same properties as the one that should be copied, to avoid weird pointer errors.
-     * @return A new DanceFloor with the properties of an old one.
-     * @throws Exception if something goes wrong while copying.
-     */
-    public DanceFloor deepCopy() throws Exception {
-        //Serialization of object
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(this);
-
-        //De-serialization of object
-        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-        ObjectInputStream in = new ObjectInputStream(bis);
-        DanceFloor copied = (DanceFloor) in.readObject();
-
-        //Verify that object is not corrupt
-
-        //validateNameParts(fName);
-        //validateNameParts(lName);
-
-        return copied;
+    // Constructor used to make copies of danceFloor.
+    private DanceFloor(DanceFloorTile[][] tiles){
+        this.dfTiles = tiles;
     }
-
-
-    //TODO: Use this to test end of game conditions e.g.
-   /* public DanceFloorTile[] initializeFullDanceFloor(int dancefloorWidth, int dancefloorHeight) {
-        int i;
-        for (i = 0; i < this.danceFloorTiles.length; i++) {
-
-            if (i == 11)
-                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
-            else if (i == ((this.danceFloorTiles.length * dancefloorHeight) - dancefloorWidth - 2))
-                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
-            else if (i % 2 == 0)
-                this.danceFloorTiles[i] = new DanceFloorTile("redDancer");
-            else
-                this.danceFloorTiles[i] = new DanceFloorTile("greenDancer");
-
-        }
-        return this.danceFloorTiles;
-    } */
-
-   /* public DanceFloorTile[] initializeDanceFloorWithStartPositions() {
-        int i;
-        for (i = 0; i < this.danceFloorTiles.length; i++) {
-
-            if (i == 11)
-                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
-            else if (i == ((this.mapWidthInTiles * this.mapHeightInTiles) - this.mapWidthInTiles - 2))
-                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
-
-            else
-                this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile");
-
-        }
-        return this.danceFloorTiles;
-    } */
 
     /**
      * Fills the DanceFloor with empty tiles.
-     * @return an array containing all tiles.
      */
-    public DanceFloorTile[] initializeDanceFloor() {
-        int i;
-        for (i = 0; i < this.danceFloorTiles.length; i++) {
-
-/*            if (i == 11)
-                this.danceFloorTiles[i] = new DanceFloorTile("redMainDancer");
-            else if (i == ((this.mapWidthInTiles*this.mapHeightInTiles) - this.mapWidthInTiles - 2) )
-                this.danceFloorTiles[i] = new DanceFloorTile("greenMainDancer");
-
-            else
-*/
-
-            //TODO: an empty tiles shouldn't be a dancer, fix later. Prob. dancer just one case of "object on floor"
-            // added player1 here just for the time being if it doesn't make sense
-            this.danceFloorTiles[i] = new DanceFloorTile("transparent_tile");
-
+    protected void initializeDanceFloor() {
+        for(int row = 0; row < dfTiles.length; row++) {
+            for(int col = 0; col < dfTiles[0].length; col++){
+                this.dfTiles[row][col] = new DanceFloorTile(Color.NONE, Type.EMPTY);
+            }
         }
-        return this.danceFloorTiles;
     }
 
     /**
-     * Sets the occupant of a tile to a transparent tile.
-     * @param tileIndex which tile to update.
+     * Creates and returns a copy of the danceFloor. Used to avoid pointing to the same object.
+     * @return A copy of the danceFloor.
      */
-    public void removeDancerFromTileIndex(int tileIndex) {
-        //TODO: prob not just have empty string to mean no dancer...
-        this.danceFloorTiles[tileIndex] = new DanceFloorTile("transparent_tile");
+    protected DanceFloor copy() {
+        DanceFloorTile[][] copyTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
+        for(int row = 0; row < dfTiles.length; row++){
+            for(int col = 0; col < dfTiles[0].length; col++){
+                copyTiles[row][col] = new DanceFloorTile(dfTiles[row][col].getColor(), dfTiles[row][col].getType());
+            }
+        }
+
+        return new DanceFloor(copyTiles);
     }
 
-    //TODO: not sure if should update Dance Fan, or just replace it.
-    // Depends on if Dance Fans have any data in them we want to keep even if they change which Main Dancer they're fan of
+    /**
+     * Sets the color and type of the tile to NONE and EMPTY, which is how the empty tile is represented.
+     * @param coords which tile to update.
+     */
+    protected void removeObjectFromTileIndex(Coordinates coords) {
+        this.dfTiles[coords.getY()][coords.getX()] = new DanceFloorTile(Color.NONE, Type.EMPTY);
+    }
 
     /**
      * Sets a new dancer on a tile.
-     * @param tileIndex which tile to change.
-     * @param dancer which dancer to place on the tile.
+     * @param coords which tile to change.
+     * @param floorObject which object to place on the tile.
      */
-    public void newDancerOnTile(int tileIndex, Dancer dancer) {
-        this.danceFloorTiles[tileIndex].setOccupant(dancer);
+    protected void newObjectOnTile(Coordinates coords, FloorObject floorObject) {
+        this.dfTiles[coords.getY()][coords.getX()].setOccupant(floorObject);
     }
 
+    /**
+     * Sets a mainDancer on a tile.
+     * @param mDancer the dancer to place.
+     */
+    protected void newObjectOnTile(MainDancer mDancer){
+        int x = mDancer.getCoordinates().getX();
+        int y = mDancer.getCoordinates().getY();
 
+        this.dfTiles[y][x].setOccupant(mDancer);
+    }
+
+    // Law of demeter handling
+
+    /**
+     * Returns what color the object on a specific tile has.
+     * @param coords is the coordinates of the specific tile.
+     * @return the color of the object on a specific tile.
+     */
+    public Color getColor(Coordinates coords){
+        return dfTiles[coords.getY()][coords.getX()].getColor();
+    }
+
+    /**
+     * Returns what type the object on a specific tile has.
+     * @param coords is the coordinates of the specific tile.
+     * @return the type of the object on a specific tile.
+     */
+    public Type getType(Coordinates coords){
+        return dfTiles[coords.getY()][coords.getX()].getType();
+    }
 }

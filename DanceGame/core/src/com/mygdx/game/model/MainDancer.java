@@ -1,12 +1,16 @@
 package com.mygdx.game.model;
 
-import java.io.Serializable;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 
 /**
  * MainDancer is the representation of the player on the DanceFloor and extends Dancer. It also keeps track of
  * where it exists in the preview.
  *
- * Is used in Player.
+ * Is used by Player, DanceFloor.
+ *
+ * Uses Color, Type, Coordinates, Dancer, FloorObject.
+ *
  *
  * @author Jakob Persson
  * @author Joar Granström
@@ -14,32 +18,32 @@ import java.io.Serializable;
  * @author Hedy Pettersson
  */
 
-public class MainDancer extends Dancer implements Serializable {
-
-    private int previewIndex;
+public class MainDancer extends Dancer {
+    // used to preview its position before the player confirms their move.
+    private Coordinates preCoords;
 
     /**
-     * Creates a new MainDancer.
-     * @param name name of the MainDancer.
-     * @param index which index it should start on.
+     * Constructor, creates a new MainDancer with the given color and coordinates for a specific tile.
+     * @
+     * @param coords which coordinates it should start on.
      */
-    public MainDancer(String name, int index) {
-        super(name, index);
+    protected MainDancer(Color color, Coordinates coords) {
+        super(color, Type.MD, coords);
     }
 
     /**
-     * Getter for the index used to preview the Dancers position before the player confirms their move.
-     * @return an int describing where the MainDancer is.
+     * Getter for the coordinates in the preview.
+     * @return the coordinates in the preview.
      */
-    public int getPreviewIndex() {
-        return previewIndex;
+    protected Coordinates getPreviewCoordinates() {
+        return new Coordinates(preCoords);
     }
 
     /**
-     * Setter for the index used to preview the Dancers position before the player confirms their move.
-     * @param index which index to move the MainDancer to.
+     * Setter for the coordinates in the preview.
+     * @param coords is the coordinates this has moved to in the preview.
      */
-    public void setPreviewIndex(int index) {
-        this.previewIndex = index;
+    protected void setPreviewCoordinates(Coordinates coords) {
+        this.preCoords = new Coordinates(coords);
     }
 }

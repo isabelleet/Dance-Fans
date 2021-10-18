@@ -2,8 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -20,16 +18,19 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.model.DanceFloor;
+
 import com.mygdx.game.model.Model;
-import com.mygdx.game.model.PlayerTurnSlot;
+import com.mygdx.game.model.DanceFloor;
+import com.mygdx.game.model.Coordinates;
+import com.mygdx.game.Enums.PlayerTurnSlot;
+import com.mygdx.game.Enums.*;
 
 /**
  * View, handles everything visual. Part of the MVC pattern.
  *
  * Is used by DanceFans.
  *
- * Uses Model.
+ * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Coordinates, DanceFloor, Model.
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -46,28 +47,18 @@ public class View {
 	//BitmapFont font = new BitmapFont(Gdx.files.internal("Calibri.fnt"),Gdx.files.internal("Calibri.png"),false);
 	SpriteBatch batch;
 
-	Texture selectedTile;
-
-	TextureAtlas textureAtlas;
-	TextureAtlas textureAtlasWinner;
-	Sprite greenDanceFan;
-	Sprite redDanceFan;
-	Sprite greenMainDancer;
-	Sprite redMainDancer;
-	Sprite greenDanceFanTransparent;
-	Sprite redDanceFanTransparent;
 	public Sprite selectedTile_sprite;
-	Sprite greenWinner;
-	Sprite redWinner;
+	Sprite winner;
 
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
-	// card atlas?
-	TextureAtlas textureAtlasCards;
-	final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
+	private final TextureAtlas textureAtlas = new TextureAtlas("sprites.txt");
+	private final TextureAtlas textureAtlasCards = new TextureAtlas("cardSprites.txt");
+	private final TextureAtlas textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
+	private final TextureAtlas textureAtlasWinner = new TextureAtlas("winners.txt");;
 
-	TextureAtlas textureAtlasButtons;
-	final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
+	private final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
+	private final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
 
 	// Camera and render
 	private OrthographicCamera camera;
@@ -128,36 +119,12 @@ public class View {
 		batch = new SpriteBatch();
 		initCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		initRenderer();
-		// load images for dancers and main characters
-		//https://www.codeandweb.com/texturepacker/start-download?os=mac&bits=64&download=true
-		//tiled
-		// Guide: https://www.codeandweb.com/texturepacker/tutorials/libgdx-physics
-		textureAtlas = new TextureAtlas("sprites.txt");
-		textureAtlasCards = new TextureAtlas("cardSprites.txt");
-		textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
-
-
-
-		greenDanceFan = textureAtlas.createSprite("greenDanceFan");
-		redDanceFan = textureAtlas.createSprite("redDanceFan");
-		greenMainDancer = textureAtlas.createSprite("greenMainDancer");
-		redMainDancer = textureAtlas.createSprite("redMainDancer");
-		greenDanceFanTransparent = textureAtlas.createSprite("greenDanceFanTransparent");
-		redDanceFanTransparent = textureAtlas.createSprite("redDanceFanTransparent");
-
 
 		// load images for helper UI
-		//selectedTile = new Texture(Gdx.files.internal("selectionBorder.png"));
 		selectedTile_sprite = textureAtlas.createSprite("selectionBorder");
 		selectedTile_sprite.setPosition(0, 0);
 
 		addSprites();
-
-
-		//# Which things to draw Where
-
-		// Instantiation of the render for the map object
-
 	}
 
 	private void addSprites() {
@@ -187,7 +154,7 @@ public class View {
 	private void drawSprite(String name, float x, float y) {
 		Sprite sprite = sprites.get(name);
 		sprite.setPosition(x, y);
-		if (name.contains("DanceFanTransparent")) {
+		if (name.contains("Transparent")) {
 			sprite.setAlpha(0.5f);
 		}
 		sprite.draw(batch);
@@ -223,27 +190,18 @@ public class View {
 
 		batch.begin();
 
-
-
-		// Draw Dance Floor and things on it
-		// TODO: Make this prettier but added this to draw from top left corner so one can think about it like a matrix
-		// [STARTS DRAWING HERE] [] [] []
-		// ...
-		// [] [] [] [STARTS DRAWING HERE]
-		int distanceFromBottomToTop = (danceFloor.mapHeightInTiles - 1) * danceFloor.tileSideLength;
-		for (int rowIndex = 0; rowIndex < danceFloor.mapWidthInTiles; rowIndex++){
-			for (int columnIndex = 0; columnIndex < danceFloor.mapHeightInTiles; columnIndex++){
-				int currentIndexInDanceFloorArray = rowIndex + (columnIndex * danceFloor.mapWidthInTiles);
-				String spriteName = danceFloor.danceFloorTiles[currentIndexInDanceFloorArray].getOccupantName();
-			    drawSprite(spriteName, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex));
-				if (currentIndexInDanceFloorArray == model.selectionOnTileIndex)
-				batch.draw(selectedTile_sprite, danceFloor.tileSideLength * rowIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * columnIndex) );
-
-
+		int distanceFromBottomToTop = (danceFloor.mapHeightInTiles - 1 ) * danceFloor.tileSideLength;
+		for (int colIndex = 0; colIndex < danceFloor.mapWidthInTiles; colIndex++){
+			for (int rowIndex = 0; rowIndex < danceFloor.mapHeightInTiles; rowIndex++){
+				Coordinates coordsInDanceFloor = new Coordinates(colIndex, rowIndex);
+				Color color = danceFloor.getColor(coordsInDanceFloor);
+				Type type = danceFloor.getType(coordsInDanceFloor);
+			    drawSprite(stringDancer(color, type), danceFloor.tileSideLength * colIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * rowIndex));
+				if (coordsInDanceFloor.getX() == model.selectedCoordinates.getX() && coordsInDanceFloor.getY() == model.selectedCoordinates.getY()){
+					batch.draw(selectedTile_sprite, danceFloor.tileSideLength * colIndex, distanceFromBottomToTop-(danceFloor.tileSideLength * rowIndex) );
+				}
 			}
-
 		}
-
 
 		//TODO: Draw UI that help player play
 
@@ -259,112 +217,56 @@ public class View {
 		// batch for drawing cards
 		batch.begin();
 
-
-		String strWinner= model.isWinner();
-		font.draw(batch, strWinner, width , height-40);
-		textureAtlasWinner = new TextureAtlas("winners.txt");
-
-
-		 if(model.isWinner().equals(" green is winner ")){
-			 greenWinner = textureAtlasWinner.createSprite("greenWinner");
-			 greenWinner.setPosition( 160,600);
-			 greenWinner.draw(batch);
-			 if(model.numberTurns()==11){
-			 model.startNewGame();}
-			// sprites.remove(5);
-
-
-		 }
-		if(model.numberTurns()==11){
-			model.startNewGame();}
-
-		 if(model.isWinner().equals(" red is winner ")){
-			 redWinner = textureAtlasWinner.createSprite("redWinner");
-			 redWinner.setPosition(  160,  600);
-			 redWinner.draw(batch);
-			 if(model.numberTurns()==11){
-				 model.startNewGame();}
-			// sprites.remove(5);
-
-
-		 }
-
-		int turnNumbers=model.numberTurns()+1;
-		String s = turnNumbers + "    rounds played";
-		if(turnNumbers<=10) {
-			font.draw(batch, s, width, height-40);
+		if(model.gameIsDone()){
+			String strWinner = whoWon(model.isLeading());
+			winner = textureAtlasWinner.createSprite(strWinner);
+			winner.setPosition( 160,600);
+			winner.draw(batch);
 		}
 
-
-
-
-		font.draw(batch, "Win by having the most dance fans", width, height-100) ;
-		font.draw(batch, "(squares in the same color as your main dancer)", width, height-120);
-		font.draw(batch, "when the dance floor is full, or when the song has ended.", width, height-140) ;
-
-
-		//TODO: if enter is pressed, show it as feedback?
-		//TODO: show active when it is possible to press button to get an effect
-		//TODO: show inactive when not possible to press button to get an effect
-		font.draw(batch, "Controls", width+210, height-180);
-
-		font.draw(batch, "Move your Main Dancer",  (width), height-270);
 
 		drawButton("emojione-monotone_keycap-downArrow", width+210, height-308);
 		drawButton("emojione-monotone_keycap-upArrow", width+210 , height-260);
 		drawButton("emojione-monotone_keycap-leftArrow", width+162 , height-308);
 		drawButton("emojione-monotone_keycap-rightArrow", width+258 , height-308);
-
-		font.draw(batch, "Confirm you planned dance move", width, height-370);
 		drawButton("emojione-monotone_keycap-enter", width+210, height-420);
 
-		//int maxCardSlots = 7;
-		//for(int i = 0; i < maxCardSlots; i++){
-		//	String numberButton = "emojione-monotone_keycap-" + i;
-		//	drawButton(numberButton, 150, i*150);
-		//}
-
-		font.draw(batch, "Change what dance move to consider", width, height-480);
+		displayText();
 
 		int spacing = 195;
 		int cardsBottomY = 40;
 		int xAdjustment = 85;
 
-		if(!model.gameIsDone()) {
-			drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
-			drawButton("emojione-monotone_keycap-2", 2 * spacing + xAdjustment, 10);
-		}
-		//drawButton("emojione-monotone_keycap-3", 3*spacing + xAdjustment, 10);
-		//drawButton("emojione-monotone_keycap-4", 4*spacing + xAdjustment, 10);
-		//drawButton("emojione-monotone_keycap-5", 5*spacing + xAdjustment, 10);
-		//drawButton("emojione-monotone_keycap-6", 6*spacing , cardsBottomY);
-		//drawButton("emojione-monotone_keycap-7", 7*spacing , cardsBottomY);
-		//TODO: have keys up to 7 but probably not needed now
-
 
 
 		if(!model.gameIsDone()){
-		// Draw current players cards
-		String cardback_spriteName_currentPlayer;
-		if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
-			cardback_spriteName_currentPlayer = "cardback_red";
-		else
-			cardback_spriteName_currentPlayer = "cardback_green";
+			drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
+			drawButton("emojione-monotone_keycap-2", 2 * spacing + xAdjustment, 10);
 
-		for(int i = 0; i < model.currentlyOpenCards().size(); i++){
-			String card;
-			if (model.hasPlayerStartedTheirTurn == false){
-				card = cardback_spriteName_currentPlayer;
-				drawButton(card, i* spacing + 220, cardsBottomY);
-				break;
+			// Draw current players cards
+			String cardback;
+
+			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE){
+				cardback = "cardback_red";
 			}
-			else if(i == model.currentPlayer().getCardDeck().selected){
-				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=True";
-			} else{
-				card = "id=" + model.currentlyOpenCards().get(i).getId() + ", selected=False";
+			else{
+				cardback = "cardback_green";
 			}
-			drawCard(card, i* spacing + 220, cardsBottomY);
-		}}
+			for(int i = 0; i < model.cardsOnHand().size(); i++){
+				String card;
+				if (!model.hasPlayerStartedTheirTurn){
+					card = cardback;
+					drawButton(card, i* spacing + 220, cardsBottomY);
+					break;
+				}
+				else if(i == model.selectedCard){
+					card = "id=" + model.cardsOnHand().get(i).getId() + ", selected=True";
+				} else{
+					card = "id=" + model.cardsOnHand().get(i).getId() + ", selected=False";
+				}
+				drawCard(card, i* spacing + 220, cardsBottomY);
+			}
+		}
 
 
 		//TODO: refactor in better way, this was quick just ot get it working
@@ -375,15 +277,13 @@ public class View {
 			else
 				startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
 
-			if (model.hasPlayerStartedTheirTurn == false) {
+			if (!model.hasPlayerStartedTheirTurn) {
 				drawButton(startTurnUIForCurrentPlayer, xAdjustment, cardsBottomY + 110);
 			}
 
 			//TODO: refactor in better way, this was quick just ot get it working
 			String currentPlayerDeckImageName;
 			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
-
-
 				currentPlayerDeckImageName = "deck_red";
 			else
 				currentPlayerDeckImageName = "deck_green";
@@ -402,6 +302,66 @@ public class View {
 
 		batch.end();
 
+	}
+
+	private void displayText(){
+		int turnNumbers= model.numberTurns()+1;
+		String s = turnNumbers + "    rounds played";
+		font.draw(batch, s, width, height-40);
+
+		font.draw(batch, "Win by having the most dance fans", width, height-100) ;
+		font.draw(batch, "(squares in the same color as your main dancer)", width, height-120);
+		font.draw(batch, "when the dance floor is full, or when the song has ended.", width, height-140) ;
+
+
+		//TODO: if enter is pressed, show it as feedback?
+		//TODO: show active when it is possible to press button to get an effect
+		//TODO: show inactive when not possible to press button to get an effect
+		font.draw(batch, "Controls", width+210, height-180);
+
+		font.draw(batch, "Move your Main Dancer",  (width), height-270);
+
+		font.draw(batch, "Confirm you planned dance move", width, height-370);
+
+		font.draw(batch, "Change what dance move to consider", width, height-480);
+	}
+
+	private String whoWon(PlayerTurnSlot playerTurnSlot){
+		String s = "";
+		switch (playerTurnSlot){
+			case ONE:
+				 s = "redWinner";
+				break;
+			case TWO:
+				s = "greenWinner";
+				break;
+		}
+		return s;
+	}
+
+	private String stringDancer(Color color, Type type){
+		String s = "";
+		switch (color){
+			case RED:
+				s = "red";
+				break;
+			case GREEN:
+				s = "green";
+				break;
+		}
+		switch (type){
+			case MD:
+				s += "MainDancer";
+				return s;
+			case DF:
+				s += "DanceFan";
+				return s;
+			case TRANSDF:
+				s += "DanceFanTransparent";
+				return s;
+			default:
+				return "transparent_tile";
+		}
 	}
 
 	/**

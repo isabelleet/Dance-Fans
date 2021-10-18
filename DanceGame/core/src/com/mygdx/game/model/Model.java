@@ -1,4 +1,9 @@
 package com.mygdx.game.model;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.PatternOccupant;
+import com.mygdx.game.Enums.PlayerTurnSlot;
+import com.mygdx.game.Enums.Type;
+
 import java.lang.Math;
 
 import java.util.ArrayList;
@@ -10,7 +15,7 @@ import java.util.List;
  *
  * Is used by Controller, DanceFans, View.
  *
- * Uses CardDeck, DanceFloor, Player.
+ * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFloor, Player.
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -23,21 +28,21 @@ import java.util.List;
 public class Model {
 
     private Player[] players;
-    public Enum<PlayerTurnSlot> whichPlayersTurnItIs;
+    public PlayerTurnSlot whichPlayersTurnItIs;
+    private int turnNumber = 0;
+    private final int maximumTurns = 20;
     public Boolean hasPlayerStartedTheirTurn;
     public DanceFloor danceFloor;
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
     // When the move is confirmed, make danceFloor become previewDanceFloor.
-    // TODO: to make a simple undo is to just store all the previous states of danceFloor etc
     public DanceFloor previewDanceFloor;
-    // TODO: test so selectionOnTileIndex is never outside of danceFloor
-    public int selectionOnTileIndex;
-    //private MainDancer playerOne;
-    //private MainDancer playerTwo;
-    List<Integer> tileIndexes = new ArrayList();
+    public Coordinates selectedCoordinates;
+    public int selectedCard = 0;
+
+    List<Coordinates> tileCoords = new ArrayList();
+
     public Model(){
     }
-
 
     public Player currentPlayer(){
         if (this.whichPlayersTurnItIs == PlayerTurnSlot.ONE)
@@ -52,153 +57,106 @@ public class Model {
     public void startNewGame(){
         turnNumber = 0;
 
-
         this.players = new Player[2];
 
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer("redMainDancer", 50), CardDeck.initialDeck(1), new DanceFan("redDanceFan"), new DanceFan("redDanceFanTransparent"));
-        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer("greenMainDancer", 0), CardDeck.initialDeck(0), new DanceFan("greenDanceFan"), new DanceFan("greenDanceFanTransparent"));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Color.RED, new Coordinates(2,4)), CardDeck.initialDeck(0));
+        Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer(Color.GREEN, new Coordinates(0,0)), CardDeck.initialDeck(1));
 
         this.players[0] = player1;
         this.players[1] = player2;
 
-        this.danceFloor = new DanceFloor(whichPlayersTurnItIs);
-
-        danceFloor.initializeDanceFloor();
+        this.danceFloor = new DanceFloor();
 
         // Player ONE starts
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
-        this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
-        System.out.println("selection tile on " + danceFloor.mapWidthInTiles);
+        this.selectedCoordinates = currentPlayer().getCoordinates();
 
-
-        danceFloor.newDancerOnTile(player1.getMainDancer().getIndex(), player1.getMainDancer());
-        danceFloor.newDancerOnTile(player2.getMainDancer().getIndex(), player2.getMainDancer());
+        this.danceFloor.newObjectOnTile(player1.getMainDancer());
+        this.danceFloor.newObjectOnTile(player2.getMainDancer());
 
         // Initialize previewdance floor
-        try {
-        this.previewDanceFloor = this.danceFloor.deepCopy();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.previewDanceFloor = this.danceFloor.copy();
 
         //The first turn the cards are drawn right away.
         this.hasPlayerStartedTheirTurn = true;
+        //TODO: temporary way to display the preview immediately
+        resetDancer();
     }
-
 
     /**
      * Updates the state of the DanceFloor to match the state of the PreviewDanceFloor and changes whose turn it is.
-     * @throws ArrayIndexOutOfBoundsException If something went wrong with while copying the previewDanceFloor.
      */
-    public void playerConfirmedDanceMove() throws ArrayIndexOutOfBoundsException {
+    public void playerConfirmedDanceMove() {
+        currentPlayer().useCard(selectedCard);
+        selectedCard = 0;
 
-        try {
-            // check if move is allowed
-            // E.g. can't move to location where another main Dancer already stands
-            // Can only move as far away as card allows
-            // etc
-            // update model based on the card, where the selection cursor on the dancefloor currently is
-            //this.danceFloor = previewDanceFloor;
-
-            // Update tiles of the previewed transparent dancefans to dancefans when the player ends the turn
-            for (int i = 0; i < tileIndexes.size(); i++) {
-                this.previewDanceFloor.newDancerOnTile(tileIndexes.get(i), currentPlayer().getDanceFan());
-            }
-
-            System.out.println();
-
-            this.danceFloor = previewDanceFloor.deepCopy();
-            this.currentPlayer().getMainDancer().setIndex(this.currentPlayer().getMainDancer().getPreviewIndex());
-
-            changeWhichPlayersTurnItIs();
-            this.selectionOnTileIndex = currentPlayer().getMainDancer().getIndex();
-            this.hasPlayerStartedTheirTurn = false;
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Update tiles of the previewed transparent dancefans to dancefans when the player ends the turn
+        for (int i = 0; i < tileCoords.size(); i++) {
+            this.previewDanceFloor.newObjectOnTile(tileCoords.get(i), currentPlayer().getDanceFan());
         }
+
+        this.danceFloor = previewDanceFloor.copy();
+        this.currentPlayer().setCoordinates(this.currentPlayer().getPreviewCoordinates());
+
+        changeWhichPlayersTurnItIs();
+        this.selectedCoordinates = currentPlayer().getCoordinates();
+        this.hasPlayerStartedTheirTurn = false;
     }
 
-    int turnNumber=0;
-    // No need to make this more sophisticated until potential decision to add more players.
-
     /**
-     * Changes whose turn it is.
+     * Changes which players turn it is.
      */
     public void changeWhichPlayersTurnItIs(){
-
         turnNumber++;
 
         if (whichPlayersTurnItIs == PlayerTurnSlot.ONE) {
             this.whichPlayersTurnItIs = PlayerTurnSlot.TWO;
-            System.out.println("Player 2, it's your turn!");
         }
         else {
             this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
-            System.out.println("Player 1, it's your turn!");
         }
     }
 
-
-
-    // Since the game might have a clock for your turn, the timer doesn't start until you draw your cards.
-
     /**
-     * Sets hasPlayerStartedTheirTurn to true and draws cards.
+     * Sets hasPlayerStartedTheirTurn to true.
      */
     public void playerDrewCardsToStartTurn(){
         this.hasPlayerStartedTheirTurn = true;
-        currentPlayer().getCardDeck().useCard();
+        //TODO: uses resetDancer to get the preview to display immediately
+        resetDancer();
     }
 
-    // TODO: Not sure in which class this should be, since it should only update previewDancerFloor, not danceFloor.
-    // the danceFloor (not previewDanceFloor) is only updated as copy of previewDanceFloor at end of a turn,
-    // so all of this is for previewDanceFloor only
+    /**
+     * moves the current players mainDancer back to the position it had at the start of the players turn.
+     */
+    public void resetDancer(){
+        selectedCoordinates = currentPlayer().getCoordinates();
+        moveMainDancerOfCurrentPlayerToCoords(selectedCoordinates);
+    }
 
     /**
-     * Moves the MainDancer of the player whose turn it is currently to the specified index supplied to the method.
-     * @param indexMovedTo - Which index the MainDancer should be moved to.
-     * @throws Exception DeepCopies the DanceFloor which can generate an ArrayOutOfBoundsException.
+     * Moves the MainDancer of the player whose turn it is currently to the specified coordinates.
+     * @param coordsMovedTo - Which index the MainDancer should be moved to.
      */
-    public void moveMainDancerOfCurrentPlayerToIndex(int indexMovedTo) throws Exception {
-
+    public void moveMainDancerOfCurrentPlayerToCoords(Coordinates coordsMovedTo){
         // Clear list before the player moves so only the last preview indexes are stored in the list
-        tileIndexes.clear();
+        tileCoords.clear();
+        Coordinates mdCoords = currentPlayer().getCoordinates();
 
         // Reset the preview to the last state of the dancefloor and maindancer positions
-
         // Sets currentplayers maindancer preview index to last turns index
-        currentPlayer().getMainDancer().setPreviewIndex(currentPlayer().getMainDancer().getIndex());
+        currentPlayer().setPreviewCoordinates(mdCoords);
+
         //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
+        this.previewDanceFloor = danceFloor.copy();
+        // Update index on dancefloor for main dancer preview, according to input
+        this.currentPlayer().setPreviewCoordinates(coordsMovedTo);
+        // Update dancefloor
+        previewDanceFloor.removeObjectFromTileIndex(mdCoords);
+        previewDanceFloor.removeObjectFromTileIndex(currentPlayer().getPreviewCoordinates());
+        previewDanceFloor.newObjectOnTile(coordsMovedTo, currentPlayer().getMainDancer());
 
-        int mainDancerTileIndex = currentPlayer().getMainDancer().getIndex();
-
-        try {
-
-            this.previewDanceFloor = danceFloor.deepCopy();
-               // Check for player collision
-              if (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexMovedTo)
-              || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexMovedTo))) {
-                // Update index on dancefloor for main dancer preview, according to input
-                  this.currentPlayer().getMainDancer().setPreviewIndex(indexMovedTo);
-                // Update dancefloor
-                previewDanceFloor.removeDancerFromTileIndex(mainDancerTileIndex);
-                previewDanceFloor.newDancerOnTile(indexMovedTo, currentPlayer().getMainDancer());
-            }
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-        //TODO: reset where mainDancerIndex is from danceFloor: currentPlayer().getMainDancer().setIndex(something);
-
-        //TODO: show ghost/grayed out dancer at first position, to help player recall where they started the dance move from?
-
-        System.out.println("mainDancerPreviewIndex: " + currentPlayer().getMainDancer().getPreviewIndex());
-        System.out.println("mainDancerIndex: " + currentPlayer().getMainDancer().getIndex());
-        System.out.println("Dancer on selection tile:" +  danceFloor.danceFloorTiles[indexMovedTo].occupant);
-
-
-        this.addDanceFansFromPattern(currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getDancePattern());
+        this.addDanceFansFromPattern(currentPlayer().getPattern(selectedCard));
     }
 
     // visuell förklaring: https://miro.com/app/board/o9J_luo5ozI=/
@@ -208,272 +166,123 @@ public class Model {
      * Displays previews of the DanceFans around the MainDancer from the card supplied as a parameter.
      * @param pattern A matrix that represents the 8 tiles around a MainDancer and contains which tiles should have DanceFans added and which are unmodified.
      */
-    public void addDanceFansFromPattern(int[][] pattern){
-        System.out.println("mainDancerPreviewIndex: " + currentPlayer().getMainDancer().getPreviewIndex());
-        System.out.println("mainDancerDancefloorIndex: " + currentPlayer().getMainDancer().getIndex());
-        int tileIndex = 0;
-
-        int mainDancerDanceFloorIndex = currentPlayer().getMainDancer().getPreviewIndex();
-        int[] mainDancerCoords = indexToCoords(mainDancerDanceFloorIndex);
-        System.out.println("column: " + mainDancerCoords[0]);
-        System.out.println("row: " + mainDancerCoords[1]);
+    public void addDanceFansFromPattern(PatternOccupant[][] pattern){
+        Coordinates mdCoords = currentPlayer().getPreviewCoordinates();
 
         // loop through the pattern to find where the main dancer is and get the offset from top left corner of pattern
-        int mainDancerOffsetInColumnIndex = 0;
-        int mainDancerOffsetInRowIndex = 0;
+        int mdOffsetInCol = 0;
+        int mdOffsetInRow = 0;
 
-        {
-            int rowIndex, columnIndex = 0;
-            for (rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
-                for (columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
-                    if (pattern[rowIndex][columnIndex] == 3) {
-                        System.out.println("pattern.length" + pattern.length);
-                        System.out.println("pattern[rowIndex].length" + pattern[rowIndex].length);
-                        System.out.println("maindancer column: " + columnIndex + " maindancer row: " + rowIndex);
-                        mainDancerOffsetInColumnIndex = columnIndex;
-                        mainDancerOffsetInRowIndex = rowIndex;
-                        break;
-                    }
+        for (int row = 0; row < pattern.length; row++) {
+            for (int col = 0; col < pattern[0].length; col++) {
+                if (pattern[row][col] == PatternOccupant.MAINDANCER) {
+                    mdOffsetInCol = col;
+                    mdOffsetInRow = row;
+                    break;
                 }
             }
         }
-        //
 
 
         // loop through pattern to read where dance fans should be placed, then write onto dance floor
         // I just scopes instead of new names for rowIndex and columnIndex
-        {
-            for (int rowIndex = 0; rowIndex < pattern.length; rowIndex++) {
-                for (int columnIndex = 0; columnIndex < pattern[0].length; columnIndex++) {
 
-                    if (pattern[rowIndex][columnIndex] == 1) {
-                        int columnInDanceFloor = mainDancerCoords[0] - mainDancerOffsetInColumnIndex + columnIndex;
-                        int rowInDanceFloor = mainDancerCoords[1] - mainDancerOffsetInRowIndex + rowIndex;
-                        tileIndex = tileIndexFromCoordinatesInTiles(columnInDanceFloor, rowInDanceFloor);
-                        System.out.println("mainDancerColumn: " + mainDancerCoords[0]);
-                        System.out.println("mainDancerOffsetInColumnIndex: " + mainDancerOffsetInColumnIndex);
-                        System.out.println("rowIndex: " + rowIndex);
+        for (int row = 0; row < pattern.length; row++) {
+            for (int col = 0; col < pattern[0].length; col++) {
 
+                if (pattern[row][col] == PatternOccupant.DANCEFAN) {
+                    int colInDanceFloor = mdCoords.getX() - mdOffsetInCol + col;
+                    int rowInDanceFloor = mdCoords.getY() - mdOffsetInRow + row;
+                    Coordinates danceFanCoord = new Coordinates(colInDanceFloor, rowInDanceFloor);
 
-                        // Logic to check if dancer in pattern would be outside of the dancefloor edges
-                        if (
-                                 ( columnInDanceFloor < danceFloor.mapWidthInTiles)
-                            &&   ( columnInDanceFloor >= 0)
-                            &&   ( rowInDanceFloor < danceFloor.mapHeightInTiles)
-                            &&   ( rowInDanceFloor >= 0)
-                            //TODO: Maybe not check spritenames but Id or something!
-                            && !"redMainDancer".equals(previewDanceFloor.danceFloorTiles[tileIndex].getOccupantName())
-                            && !"greenMainDancer".equals(previewDanceFloor.danceFloorTiles[tileIndex].getOccupantName())
+                    // Logic to check if dancer in pattern would be outside of the dancefloor
+                    // or overlap with another maindancer
+                    if (insideDanceFloor(danceFanCoord) &&
+                            !(Type.MD == previewDanceFloor.getType(danceFanCoord))){
 
-                        )
-                        {
-                            // Store indexes in a list to use them when the player ends their turn
-                            tileIndexes.add(tileIndex);
-                            // Show transparent DanceFans based on the card before the turn ends
-                            previewDanceFloor.newDancerOnTile(tileIndex, currentPlayer().getTransparentDanceFan());
-
-                        }
+                        // Store indexes in a list to use them when the player ends their turn
+                        tileCoords.add(danceFanCoord);
+                        // Show transparent DanceFans based on the card before the turn ends
+                        previewDanceFloor.newObjectOnTile(danceFanCoord, currentPlayer().getTransparentDanceFan());
                     }
                 }
             }
         }
     }
 
+    /**
+     * Moves the current players main dancer a certain amount of steps in x and y direction.
+     * @param x how much to move the player along x
+     * @param y how much to move the player along y
+     */
+    public void moveSelection(int x, int y){
+        int moveLimit = currentPlayer().getSteps(selectedCard);
+        Coordinates newCoords = new Coordinates(selectedCoordinates.getX() + x, selectedCoordinates.getY() + y);
 
-    private DanceFloorTile[][] convertToMatrix(DanceFloorTile[] danceFloorArray){
-        DanceFloorTile[][] danceFloorMatrix = new DanceFloorTile[danceFloor.mapWidthInTiles][danceFloor.mapHeightInTiles];
-        for(int i = 0; i < danceFloorArray.length; i++){
-            danceFloorMatrix[i % danceFloor.mapWidthInTiles][i / danceFloor.mapWidthInTiles] = danceFloorArray[i];
+        if (insideDanceFloor(newCoords) && (distanceToMainDancer(newCoords) <= moveLimit)
+                && (!(collisionOtherPlayer(newCoords))))
+        {
+            selectedCoordinates = newCoords;
+            moveMainDancerOfCurrentPlayerToCoords(newCoords);
         }
-        return danceFloorMatrix;
-    }
-
-
-    // since we start from top left, end at bottom right row and column is probably more fitting than x y. Since y would be upside down.
-    // rename to arrayIndexToMatrixIndexes or something?
-    private int[] indexToCoords(int index){
-        int[] coords = new int[2];
-        int column = index % danceFloor.mapWidthInTiles;
-        int row = index / danceFloor.mapWidthInTiles;
-        coords[0] = column;
-        coords[1] = row;
-        return coords;
-    }
-
-    private int moveDistanceFromMainDancer(int index){
-        int[] coordsToCheck = indexToCoords(index);
-        int[] startIndexFromLastMove = indexToCoords(this.currentPlayer().getMainDancer().getIndex());
-        int distance = Math.abs(startIndexFromLastMove[0] - coordsToCheck[0]) + Math.abs(startIndexFromLastMove[1] - coordsToCheck[1]);
-        return distance;
     }
 
     /**
-     * Selects which direction the MainDancer should move in depending on the parameter. Makes sure the MainDancer can't move outside of the DanceFloor.
-     * @param keycode Supplied from Controller, tells which button has been pressed.
-     * @throws Exception ArrayIndexOutOfBoundsException if something goes wrong while copying the DanceFloor.
+     * Getter of the cards currently on hand for the current player.
+     * @return a list of the cards on hand for the current player.
      */
-    public void moveSelection(int keycode) throws Exception {
-
-        // TODO: update this to selected card, not first card in deck
-        int selectedCardMoveDistanceLimit = currentPlayer().getCardDeck().getOpen().get(currentPlayer().getCardDeck().selected).getSteps();
-
-        //TODO: also needs to check if there is another Main Dancer on the tile you try to move to, shouldn't be able
-        // to go there then!
-        switch (keycode){
-            //case Input.Keys.UP:
-            case 19:
-                //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX(), selectionOnTileIndex.getY() + h);
-                int indexUp = selectionOnTileIndex - danceFloor.mapWidthInTiles;
-
-                // Move up, If selectionOnTile is not in the top row
-                // also checks for player collision
-                if ((selectionOnTileIndex > (danceFloor.mapWidthInTiles - 1 ))
-                    && (moveDistanceFromMainDancer(selectionOnTileIndex - danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
-                        && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexUp)
-                        || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexUp)))
-                )
-
-                {
-                    int updatedIndex = selectionOnTileIndex - danceFloor.mapWidthInTiles;
-                    selectionOnTileIndex = updatedIndex;
-                    //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
-                    // TODO: only move if within tile is within reach based on dance move card move distance prop.
-                    moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
-                }
-                break;
-
-
-           // case Input.Keys.DOWN:
-            case 20:
-
-                //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() , selectionOnTileIndex.getY() - h);
-                int indexDown = selectionOnTileIndex + danceFloor.mapWidthInTiles;
-
-                // Move down, If selectionOnTile is not in the bottom row
-                // also checks for player collision
-                if ((selectionOnTileIndex < (danceFloor.mapWidthInTiles * (danceFloor.mapHeightInTiles - 1) ))
-                    && (moveDistanceFromMainDancer(selectionOnTileIndex + danceFloor.mapWidthInTiles) <= selectedCardMoveDistanceLimit)
-                        && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexDown)
-                        || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexDown)))
-                )
-                {
-
-
-                    int updatedIndex = selectionOnTileIndex + danceFloor.mapWidthInTiles;
-                    selectionOnTileIndex = updatedIndex;
-                    //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
-                    // TODO: only move if within tile is within reach based on dance move card move distance prop.
-                    moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
-                }
-                break;
-
-            //case Input.Keys.LEFT:
-            case 21:
-                //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() - w,selectionOnTileIndex.getY());
-                int indexLeft = selectionOnTileIndex - 1;
-
-                // Move left, If selectionOnTile is not in the leftmost column
-                // also checks for player collision
-                if (
-                    ((selectionOnTileIndex) % danceFloor.mapWidthInTiles != 0 )
-                    && (moveDistanceFromMainDancer(selectionOnTileIndex - 1) <= selectedCardMoveDistanceLimit)
-                        && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexLeft)
-                        || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexLeft)))
-                )
-
-                {
-
-                    int updatedIndex = selectionOnTileIndex - 1;
-                    selectionOnTileIndex = updatedIndex;
-                    //TODO: maybe later if you have multiple main dancers per player, you also check which is selected here.
-                    // TODO: only move if within tile is within reach based on dance move card move distance prop.
-                    moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
-                }
-                break;
-
-            // case Input.Keys.RIGHT:
-            case 22:
-                //selectionOnTileIndex.setPosition(selectionOnTileIndex.getX() + w, selectionOnTileIndex.getY());
-                int indexRight = selectionOnTileIndex + 1;
-
-                // Move right, If selectionOnTile is not in the rightmost column
-                // also checks for player collision
-                if (
-                    ((selectionOnTileIndex ) % danceFloor.mapWidthInTiles !=  danceFloor.mapWidthInTiles - 1)
-                    && (moveDistanceFromMainDancer(selectionOnTileIndex + 1) <= selectedCardMoveDistanceLimit)
-                            && (!((whichPlayersTurnItIs == PlayerTurnSlot.ONE && players[1].getMainDancer().getIndex() == indexRight)
-                            || (whichPlayersTurnItIs == PlayerTurnSlot.TWO && players[0].getMainDancer().getIndex() == indexRight)))
-                )
-
-                {
-                    int updatedIndex  = selectionOnTileIndex + 1;
-                    selectionOnTileIndex = updatedIndex;
-                    //TODO: add like the other above
-                    moveMainDancerOfCurrentPlayerToIndex(updatedIndex);
-                }
-                break;
-        }
-        System.out.println(selectionOnTileIndex);
+    public List<Card> cardsOnHand(){
+        return currentPlayer().getHand();
     }
 
-    // E.g. get column 4 from row 2 to get the index in the array.
-    private int tileIndexFromCoordinatesInTiles(int x, int y){
-        int heightInTiles = danceFloor.mapHeightInTiles;
-        int widthInTiles = danceFloor.mapWidthInTiles;
-
-        System.out.println("height " + heightInTiles + " width " + widthInTiles);
-
-        return y * widthInTiles + x;
-    }
-
-    public List<Card> currentlyOpenCards(){
-        return currentPlayer().getCardDeck().getOpen();
-    }
-
-    private int countRedTiles(){
-        int i = 0;
-        for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
-            if(dft.occupant.getSpriteName().equals("redDanceFan")||dft.occupant.getSpriteName().equals("redMainDancer"))
-                i++;
+    private int countTotalTiles(){
+        int sum = 0;
+        for(int row = 0; row < danceFloor.mapHeightInTiles; row++){
+            for(int col = 0; col < danceFloor.mapWidthInTiles; col++){
+                if(danceFloor.getType(new Coordinates(col, row)) != Type.EMPTY){
+                    sum++;
+                }
+            }
 
         }
-        return i;
+        return sum;
     }
 
-    private int countGreenTiles(){                       // number of green occupants
-        int i=0 ;
-        for(DanceFloorTile dft: previewDanceFloor.danceFloorTiles){
-            if(dft.occupant.getSpriteName().equals("greenDanceFan")||dft.occupant.getSpriteName().equals("greenMainDancer")){
-                i++;
+    private int countTiles(Player player){
+        int sum = 0;
+        for(int row = 0; row < danceFloor.mapHeightInTiles; row++){
+            for(int col = 0; col < danceFloor.mapWidthInTiles; col++){
+                if(danceFloor.getColor(new Coordinates(col, row)) == player.getColor()){
+                    sum++;
+                }
             }
         }
-        return i;
+        return sum;
     }
 
     /**
      * Checks whether the game has reached the turn limit or the board is filled.
      * @return true or false.
      */
-
     public boolean gameIsDone(){
         // return true when game is finish
-        if(countGreenTiles()+countRedTiles()==54    ||  numberTurns()==10){
+        if(countTotalTiles() ==54 || turnNumber == maximumTurns){
             return true;
         }
         return false;
     }
 
-
-
-    public String isWinner(){
-        if (turnNumber==20||countRedTiles()+countGreenTiles()==54){
-            if (countGreenTiles() > countRedTiles()){
-                return " green is winner ";
-            }
-            else{
-                return " red is winner ";
-            }
-        } return "";
+    /**
+     * Returns the playerTurnSlot representing which player is currently in the lead.
+     * @return the playerTurnSlot of the player which is currently in the lead.
+     */
+    public PlayerTurnSlot isLeading(){
+        if (countTiles(players[0]) > countTiles(players[1])){
+            return players[0].playerTurnSlot;
+        }
+        else{
+            return players[1].playerTurnSlot;
+        }
     }
 
     /**
@@ -481,11 +290,35 @@ public class Model {
      * @return which turn it is.
      */
     public int numberTurns(){
-
         return turnNumber/2;
     }
 
+    // private helper methods
 
+    private boolean insideDanceFloor(Coordinates coords){
+        return ( coords.getX()< danceFloor.mapWidthInTiles)
+                &&   ( coords.getX() >= 0)
+                &&   ( coords.getY() < danceFloor.mapHeightInTiles)
+                &&   ( coords.getY() >= 0);
+    }
 
+    private boolean collisionOtherPlayer(Coordinates coordinates){
+        for(Player player: players){
+
+            if(player != currentPlayer() &&
+                    player.getMainDancer().getCoordinates().getX() == coordinates.getX()
+                    && player.getMainDancer().getCoordinates().getY() == coordinates.getY()){
+                System.out.println("collision!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int distanceToMainDancer(Coordinates coords){
+        Coordinates startCoordsFromLastMove = currentPlayer().getMainDancer().getCoordinates();
+        int distance = Math.abs(startCoordsFromLastMove.getX() - coords.getX()) + Math.abs(startCoordsFromLastMove.getY() - coords.getY());
+        return distance;
+    }
 
 }

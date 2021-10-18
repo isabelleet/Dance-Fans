@@ -1,12 +1,19 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.PatternOccupant;
+import com.mygdx.game.Enums.PlayerTurnSlot;
+import com.mygdx.game.Enums.Type;
+
+import java.util.List;
+
 /**
  * Player combines the different things a player should have, such as a MainDancer,
  * a danceFan (as well as a transparent version of it), and a CardDeck.
  *
  * Is used in Model.
  *
- * Uses DanceFan, MainDancer.
+ * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFan, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson
@@ -16,58 +23,124 @@ package com.mygdx.game.model;
 
 public class Player {
 
-    public Enum<PlayerTurnSlot> playerTurnSlot;
+    public PlayerTurnSlot playerTurnSlot;
     // Timer left (if you use some clock that is saved between turns, so you sometimes can do fast turns and sometimes long.
-    private MainDancer mainDancer;
-    private CardDeck cardDeck;
-    private DanceFan danceFan;
-    private DanceFan transparentDanceFan;
+    private final MainDancer mainDancer;
+    private final CardDeck cardDeck;
+    private final DanceFan danceFan;
+    private final DanceFan transDanceFan;
 
     /**
-     * Cretes a new Player object.
+     * Creates a new Player object.
      * @param playerTurnSlot if the player goes first or second.
      * @param mainDancer the players MainDancer.
      * @param cardDeck the players deck of cards.
-     * @param danceFan the type of fans the player wants.
-     * @param transparentDanceFan the dancefans used to preview a dancemove.
      */
-    public Player(Enum<PlayerTurnSlot> playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck, DanceFan danceFan, DanceFan transparentDanceFan) {
+    protected Player(PlayerTurnSlot playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck) {
         this.playerTurnSlot = playerTurnSlot;
         this.mainDancer = mainDancer;
         this.cardDeck = cardDeck;
-        this.danceFan = danceFan;
-        this.transparentDanceFan = transparentDanceFan;
+        this.danceFan = new DanceFan(mainDancer.getColor(), Type.DF, new Coordinates(0,0));
+        this.transDanceFan = new DanceFan(mainDancer.getColor(), Type.TRANSDF, new Coordinates(0,0));
     }
 
     /**
-     * Getter for the players MainDancer object.
+     * Getter for the players MainDancer.
      * @return a MainDancer.
      */
-    public MainDancer getMainDancer() {
+    protected MainDancer getMainDancer() {
         return mainDancer;
     }
 
     /**
-     * Getter for the players deck of cards.
-     * @return a CardDeck.
+     * Getter for the players DanceFan.
+     * @return a copy of the DanceFan.
      */
-    public CardDeck getCardDeck() {
-        return cardDeck;
-    }
-
-    /**
-     * Getter for the players DanceFans.
-     * @return a DanceFan.
-     */
-    public DanceFan getDanceFan() {
-        return danceFan;
+    protected DanceFan getDanceFan() {
+        return new DanceFan(danceFan.getColor(), danceFan.getType(), danceFan.getCoordinates());
     }
 
     /**
      * Getter for the players DanceFans used to preview moves.
-     * @return a DanceFan.
+     * @return a copy of the DanceFan.
      */
-    public DanceFan getTransparentDanceFan() {
-        return transparentDanceFan;
+    protected DanceFan getTransparentDanceFan() {
+        return new DanceFan(transDanceFan.getColor(), transDanceFan.getType(), transDanceFan.getCoordinates());
+    }
+
+    // law of demeter handling
+
+    /**
+     * Getter of the mainDancers color.
+     * @return the color of the mainDancer.
+     */
+    protected  Color getColor(){
+        return mainDancer.getColor();
+    }
+
+    /**
+     * Getter of the mainDancers coordinates
+     * @return the coordinates of the mainDancer.
+     */
+    protected  Coordinates getCoordinates(){
+        return mainDancer.getCoordinates();
+    }
+
+    /**
+     * Getter of the mainDancers preview Coordinates.
+     * @return the coordinates of the mainDancer in the preview.
+     */
+    protected  Coordinates getPreviewCoordinates(){
+        return mainDancer.getPreviewCoordinates();
+    }
+
+    /**
+     * Setter of the mainDancers coordinates.
+     * @param coords the coordinates to change to.
+     */
+    protected void setCoordinates(Coordinates coords){
+        mainDancer.setCoordinates(coords);
+    }
+
+    /**
+     * Setter of the mainDancers coordinates.
+     * @param coords the coordinates to change to.
+     */
+    protected  void setPreviewCoordinates(Coordinates coords){
+        mainDancer.setPreviewCoordinates(coords);
+    }
+
+    /**
+     * A getter for how many steps a player can take with the selected card.
+     * @param selected which of the cards on hand one wants to get the steps from
+     * @return an int with the amount of steps a player can take.
+     */
+    protected int getSteps(int selected){
+        return cardDeck.getSteps(selected);
+    }
+
+    /**
+     * Gets the dance pattern from the card selected
+     * @param selected which of the cards on hand one wants to get the dance pattern from
+     * @return the dance patter of the selected card
+     */
+    protected  PatternOccupant[][] getPattern(int selected){
+        return cardDeck.getPattern(selected);
+    }
+
+    /**
+     * Gets the cards a player can currently use.
+     * @return the cards a player can currently use.
+     */
+    protected List<Card> getHand(){
+        return cardDeck.getOpen();
+    }
+
+    /**
+     * Uses the card selected in the cardDeck.
+     * @param selected which card on hand one wants to use
+     */
+    protected void useCard(int selected){
+        cardDeck.useCard(selected);
     }
 }

@@ -1,31 +1,34 @@
 package com.mygdx.game.model;
 
-import java.io.Serializable;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 
 /**
  * DanceFan extends Dancer, and represents the dancers on the dance floor which are not controlled by the player
  * directly. There might be more functionality added in the future.
  *
- * Is used in PLayer.
+ * Is used by Player.
+ *
+ * Uses Color, Type, Coordinates, Dancer, FloorObject.
  *
  * @author Jakob Persson
  * @author Johan Berg
+ * @author Hedy Pettersson
  */
 
-public class DanceFan extends Dancer implements Serializable {
-    private String spriteName = "";
+public class DanceFan extends Dancer {
 
-    public void setSpriteName(String name) {
-        this.spriteName = name;
+    /**
+     * Constructor, needs a color and coordinates. Type is already decided since it is a danceFan.
+     * @param color
+     * @param coords
+     */
+    protected DanceFan(Color color, Type type, Coordinates coords) {
+        super(color, type, coords);
     }
 
-    // Constructor
-    public DanceFan(String spriteName) {
-        super(spriteName);
-    }
-
-    public void move() {
-        //TODO: Add functionality that makes a dancer able to move
+    public DanceFan(DanceFan danceFan){
+        super(danceFan.getColor(), danceFan.getType(), danceFan.getCoordinates());
     }
 
 }
