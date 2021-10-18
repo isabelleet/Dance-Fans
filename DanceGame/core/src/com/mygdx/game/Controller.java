@@ -61,6 +61,7 @@ public class Controller implements InputProcessor {
         }
         if(keycode == Input.Keys.ENTER && !model.gameIsDone()) {
             System.out.println("Player clicked enter to confirm Dance move");
+            // Maybe move this logic to model inside playerConfirmedDanceMove instead?
             if (model.hasPlayerStartedTheirTurn) {
                 model.playerConfirmedDanceMove();
             }
@@ -72,6 +73,8 @@ public class Controller implements InputProcessor {
             if (model.hasPlayerStartedTheirTurn) {
                 int x = 0;
                 int y = 0;
+                // Joar: Not sure the logic should be in controller,
+                //       prob. send enum UP, DOWN, LEFT, RIGHT to model function instead
                 switch (keycode){
                     case Input.Keys.UP:
                         y = -1;

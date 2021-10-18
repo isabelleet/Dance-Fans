@@ -1,4 +1,4 @@
-package com.mygdx.game.Enums;
+package com.mygdx.game.model.Enums;
 
 /**
  * A enum used to keep track of which color dancers have / which player dancers belong to. As of now we have red and

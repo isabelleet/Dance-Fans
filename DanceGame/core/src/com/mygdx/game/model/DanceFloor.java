@@ -1,7 +1,7 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.Enums.Color;
-import com.mygdx.game.Enums.Type;
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.Type;
 
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add / remove things on specific tiles.

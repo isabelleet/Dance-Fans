@@ -1,4 +1,4 @@
-package com.mygdx.game.Enums;
+package com.mygdx.game.model.Enums;
 
 /**
  * Used to keep track of one aspect of a FloorObject. Might change in the future, but implemented to get rid of

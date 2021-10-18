@@ -1,8 +1,8 @@
 package com.mygdx.game.model;
-import com.mygdx.game.Enums.Color;
-import com.mygdx.game.Enums.PatternOccupant;
-import com.mygdx.game.Enums.PlayerTurnSlot;
-import com.mygdx.game.Enums.Type;
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.PatternOccupant;
+import com.mygdx.game.model.Enums.PlayerTurnSlot;
+import com.mygdx.game.model.Enums.Type;
 
 import java.lang.Math;
 
@@ -29,8 +29,8 @@ public class Model {
 
     private Player[] players;
     public PlayerTurnSlot whichPlayersTurnItIs;
-    private int turnNumber = 0;
-    private final int maximumTurns = 20;
+    public int turnNumber = 0;
+    public final int maximumTurns = 20;
     public Boolean hasPlayerStartedTheirTurn;
     public DanceFloor danceFloor;
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor

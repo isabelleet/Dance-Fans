@@ -22,8 +22,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Coordinates;
-import com.mygdx.game.Enums.PlayerTurnSlot;
-import com.mygdx.game.Enums.*;
+import com.mygdx.game.model.Enums.PlayerTurnSlot;
+import com.mygdx.game.model.Enums.*;
 
 /**
  * View, handles everything visual. Part of the MVC pattern.

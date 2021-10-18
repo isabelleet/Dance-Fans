@@ -1,6 +1,6 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.Enums.PatternOccupant;
+import com.mygdx.game.model.Enums.PatternOccupant;
 
 import java.util.ArrayList;
 import java.util.List;

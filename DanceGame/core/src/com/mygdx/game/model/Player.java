@@ -1,9 +1,9 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.Enums.Color;
-import com.mygdx.game.Enums.PatternOccupant;
-import com.mygdx.game.Enums.PlayerTurnSlot;
-import com.mygdx.game.Enums.Type;
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.PatternOccupant;
+import com.mygdx.game.model.Enums.PlayerTurnSlot;
+import com.mygdx.game.model.Enums.Type;
 
 import java.util.List;
 
@@ -74,7 +74,7 @@ public class Player {
      * Getter of the mainDancers color.
      * @return the color of the mainDancer.
      */
-    protected  Color getColor(){
+    public  Color getColor(){
         return mainDancer.getColor();
     }
 
@@ -90,7 +90,7 @@ public class Player {
      * Getter of the mainDancers preview Coordinates.
      * @return the coordinates of the mainDancer in the preview.
      */
-    protected  Coordinates getPreviewCoordinates(){
+    public  Coordinates getPreviewCoordinates(){
         return mainDancer.getPreviewCoordinates();
     }
 

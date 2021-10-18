@@ -1,7 +1,7 @@
 package com.mygdx.game.model;
 
-import com.mygdx.game.Enums.Color;
-import com.mygdx.game.Enums.Type;
+import com.mygdx.game.model.Enums.Color;
+import com.mygdx.game.model.Enums.Type;
 
 /**
  * MainDancer is the representation of the player on the DanceFloor and extends Dancer. It also keeps track of
