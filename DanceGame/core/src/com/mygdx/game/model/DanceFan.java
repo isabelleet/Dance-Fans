@@ -7,7 +7,7 @@ import com.mygdx.game.Enums.Type;
  * DanceFan extends Dancer, and represents the dancers on the dance floor which are not controlled by the player
  * directly. There might be more functionality added in the future.
  *
- * Is used by Player.
+ * Is used by Player, DanceFloor.
  *
  * Uses Color, Type, Coordinates, Dancer, FloorObject.
  *

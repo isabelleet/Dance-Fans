@@ -12,7 +12,7 @@ import java.util.List;
  *
  * Is used by View, Model.
  *
- * Uses Color, Type, Coordinates, DanceFloorTile, FloorObject, MainDancer.
+ * Uses Color, Type, PatternOccupant., Coordinates, DanceDan, DanceFloorTile, FloorObject, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson
@@ -105,8 +105,6 @@ public class DanceFloor{
      * @param pattern the pattern which new fans are to be added
      */
     protected void addDanceFansFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern){
-        // loop through the pattern to find where the main dancer is and get the offset from top left corner of pattern
-
         Coordinates offset = offsetCoordinates(pattern);
 
         for (int row = 0; row < pattern.length; row++) {
@@ -117,11 +115,7 @@ public class DanceFloor{
                     int rowInDanceFloor = mdCoords.getY() - offset.getY() + row;
                     Coordinates danceFanCoord = new Coordinates(colInDanceFloor, rowInDanceFloor);
 
-                    if (insideDanceFloor(danceFanCoord) &&
-                            !(Type.MD == this.getType(danceFanCoord))){
-
-                        // Store indexes in a list to use them when the player ends their turn
-                        // Show transparent DanceFans based on the card before the turn ends
+                    if (insideDanceFloor(danceFanCoord) && !(Type.MD == this.getType(danceFanCoord))){
                         this.newObjectOnTile(danceFanCoord, transDF);
                     }
                 }
@@ -146,6 +140,18 @@ public class DanceFloor{
         return coordinatesList;
     }
 
+    /**
+     * A boolean for checking if the given coordinates are inside of the danceFloor.
+     * @param coords the coordinates to be checked
+     * @return true if the coordinates are inside, otherwise false.
+     */
+    public boolean insideDanceFloor(Coordinates coords){
+        return ( coords.getX()< mapWidthInTiles)
+                &&   ( coords.getX() >= 0)
+                &&   ( coords.getY() < mapHeightInTiles)
+                &&   ( coords.getY() >= 0);
+    }
+
     // private helper methods
 
     private Coordinates offsetCoordinates(PatternOccupant[][] pattern){
@@ -163,13 +169,6 @@ public class DanceFloor{
         }
 
         return new Coordinates(offsetX, offsetY);
-    }
-
-    public boolean insideDanceFloor(Coordinates coords){
-        return ( coords.getX()< mapWidthInTiles)
-                &&   ( coords.getX() >= 0)
-                &&   ( coords.getY() < mapHeightInTiles)
-                &&   ( coords.getY() >= 0);
     }
 
     // Law of demeter handling
