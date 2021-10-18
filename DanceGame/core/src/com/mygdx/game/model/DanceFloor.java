@@ -1,7 +1,11 @@
 package com.mygdx.game.model;
 
 import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.PatternOccupant;
 import com.mygdx.game.Enums.Type;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add / remove things on specific tiles.
@@ -92,6 +96,80 @@ public class DanceFloor{
         int y = mDancer.getCoordinates().getY();
 
         this.dfTiles[y][x].setOccupant(mDancer);
+    }
+
+    /**
+     * Adds transparent dance fans to the danceFloor according to a given pattern and in a certain location.
+     * @param mdCoords coordinates of the mainDancer
+     * @param transDF the type of transparent danceFan to draw
+     * @param pattern the pattern which new fans are to be added
+     */
+    protected void addDanceFansFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern){
+        // loop through the pattern to find where the main dancer is and get the offset from top left corner of pattern
+
+        Coordinates offset = offsetCoordinates(pattern);
+
+        for (int row = 0; row < pattern.length; row++) {
+            for (int col = 0; col < pattern[0].length; col++) {
+
+                if (pattern[row][col] == PatternOccupant.DANCEFAN) {
+                    int colInDanceFloor = mdCoords.getX() - offset.getX() + col;
+                    int rowInDanceFloor = mdCoords.getY() - offset.getY() + row;
+                    Coordinates danceFanCoord = new Coordinates(colInDanceFloor, rowInDanceFloor);
+
+                    if (insideDanceFloor(danceFanCoord) &&
+                            !(Type.MD == this.getType(danceFanCoord))){
+
+                        // Store indexes in a list to use them when the player ends their turn
+                        // Show transparent DanceFans based on the card before the turn ends
+                        this.newObjectOnTile(danceFanCoord, transDF);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Gets a list of the coordinates for all transparent dancers in the dance floor.
+     * @return a list with the coordinates of all the transparent dancers.
+     */
+    protected List<Coordinates> getTransparentCoordinates(){
+        List<Coordinates> coordinatesList = new ArrayList<>();
+        for(int row = 0; row < mapHeightInTiles; row++){
+            for(int col = 0; col < mapWidthInTiles; col++){
+                if(dfTiles[row][col].getType() == Type.TRANSDF){
+                    Coordinates coordinates = new Coordinates(col, row);
+                    coordinatesList.add(coordinates);
+                }
+            }
+        }
+        return coordinatesList;
+    }
+
+    // private helper methods
+
+    private Coordinates offsetCoordinates(PatternOccupant[][] pattern){
+        int offsetX = 0;
+        int offsetY = 0;
+
+        for (int row = 0; row < pattern.length; row++) {
+            for (int col = 0; col < pattern[0].length; col++) {
+                if (pattern[row][col] == PatternOccupant.MAINDANCER) {
+                    offsetX = col;
+                    offsetY = row;
+                    break;
+                }
+            }
+        }
+
+        return new Coordinates(offsetX, offsetY);
+    }
+
+    public boolean insideDanceFloor(Coordinates coords){
+        return ( coords.getX()< mapWidthInTiles)
+                &&   ( coords.getX() >= 0)
+                &&   ( coords.getY() < mapHeightInTiles)
+                &&   ( coords.getY() >= 0);
     }
 
     // Law of demeter handling

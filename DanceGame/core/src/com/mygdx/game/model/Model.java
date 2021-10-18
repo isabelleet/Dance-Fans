@@ -156,58 +156,8 @@ public class Model {
         previewDanceFloor.removeObjectFromTileIndex(currentPlayer().getPreviewCoordinates());
         previewDanceFloor.newObjectOnTile(coordsMovedTo, currentPlayer().getMainDancer());
 
-        this.addDanceFansFromPattern(currentPlayer().getPattern(selectedCard));
-    }
-
-    // visuell förklaring: https://miro.com/app/board/o9J_luo5ozI=/
-    // d = 1, M = 3, blank = 0 i bilderna.
-
-    /**
-     * Displays previews of the DanceFans around the MainDancer from the card supplied as a parameter.
-     * @param pattern A matrix that represents the 8 tiles around a MainDancer and contains which tiles should have DanceFans added and which are unmodified.
-     */
-    public void addDanceFansFromPattern(PatternOccupant[][] pattern){
-        Coordinates mdCoords = currentPlayer().getPreviewCoordinates();
-
-        // loop through the pattern to find where the main dancer is and get the offset from top left corner of pattern
-        int mdOffsetInCol = 0;
-        int mdOffsetInRow = 0;
-
-        for (int row = 0; row < pattern.length; row++) {
-            for (int col = 0; col < pattern[0].length; col++) {
-                if (pattern[row][col] == PatternOccupant.MAINDANCER) {
-                    mdOffsetInCol = col;
-                    mdOffsetInRow = row;
-                    break;
-                }
-            }
-        }
-
-
-        // loop through pattern to read where dance fans should be placed, then write onto dance floor
-        // I just scopes instead of new names for rowIndex and columnIndex
-
-        for (int row = 0; row < pattern.length; row++) {
-            for (int col = 0; col < pattern[0].length; col++) {
-
-                if (pattern[row][col] == PatternOccupant.DANCEFAN) {
-                    int colInDanceFloor = mdCoords.getX() - mdOffsetInCol + col;
-                    int rowInDanceFloor = mdCoords.getY() - mdOffsetInRow + row;
-                    Coordinates danceFanCoord = new Coordinates(colInDanceFloor, rowInDanceFloor);
-
-                    // Logic to check if dancer in pattern would be outside of the dancefloor
-                    // or overlap with another maindancer
-                    if (insideDanceFloor(danceFanCoord) &&
-                            !(Type.MD == previewDanceFloor.getType(danceFanCoord))){
-
-                        // Store indexes in a list to use them when the player ends their turn
-                        tileCoords.add(danceFanCoord);
-                        // Show transparent DanceFans based on the card before the turn ends
-                        previewDanceFloor.newObjectOnTile(danceFanCoord, currentPlayer().getTransparentDanceFan());
-                    }
-                }
-            }
-        }
+        this.previewDanceFloor.addDanceFansFromPattern(currentPlayer().getPreviewCoordinates(), currentPlayer().getTransparentDanceFan(), currentPlayer().getPattern(selectedCard));
+        tileCoords = previewDanceFloor.getTransparentCoordinates();
     }
 
     /**
@@ -219,7 +169,7 @@ public class Model {
         int moveLimit = currentPlayer().getSteps(selectedCard);
         Coordinates newCoords = new Coordinates(selectedCoordinates.getX() + x, selectedCoordinates.getY() + y);
 
-        if (insideDanceFloor(newCoords) && (distanceToMainDancer(newCoords) <= moveLimit)
+        if (danceFloor.insideDanceFloor(newCoords) && (distanceToMainDancer(newCoords) <= moveLimit)
                 && (!(collisionOtherPlayer(newCoords))))
         {
             selectedCoordinates = newCoords;
@@ -291,15 +241,6 @@ public class Model {
      */
     public int numberTurns(){
         return turnNumber/2;
-    }
-
-    // private helper methods
-
-    private boolean insideDanceFloor(Coordinates coords){
-        return ( coords.getX()< danceFloor.mapWidthInTiles)
-                &&   ( coords.getX() >= 0)
-                &&   ( coords.getY() < danceFloor.mapHeightInTiles)
-                &&   ( coords.getY() >= 0);
     }
 
     private boolean collisionOtherPlayer(Coordinates coordinates){

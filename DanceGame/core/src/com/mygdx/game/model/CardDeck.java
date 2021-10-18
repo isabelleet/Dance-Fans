@@ -34,7 +34,7 @@ public class CardDeck {
      */
     protected CardDeck(List<Card> deck) {
         this.pile = copyCards(deck);
-        shuffleDeck(deck);
+        shuffleDeck(this.pile);
 
         openCard(0);
         openCard(0);
