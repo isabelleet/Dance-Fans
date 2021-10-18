@@ -49,7 +49,7 @@ public class Model {
     }
 
     /**
-     * Initializes everything needed to start a new game, sets up Players, the DanceFloor and sets player 1's turn.
+     * Initializes everything needed to start a new game, sets up Players, the DanceFloor. Player 1 starts.
      */
     public void startNewGame(){
         turnNumber = 0;
@@ -64,13 +64,12 @@ public class Model {
 
         this.danceFloor = new DanceFloor();
 
-        // Player ONE starts
         this.selectedCoordinates = currentPlayer().getCoordinates();
 
         this.danceFloor.newObjectOnTile(player1.getMainDancer());
         this.danceFloor.newObjectOnTile(player2.getMainDancer());
 
-        // Initialize previewdance floor
+        // Initialize previewDanceFloor
         this.previewDanceFloor = this.danceFloor.copy();
 
         //The first turn the cards are drawn right away.
@@ -130,23 +129,12 @@ public class Model {
     public void moveMainDancerOfCurrentPlayerToCoords(Coordinates coordsMovedTo){
         // Clear list before the player moves so only the last preview indexes are stored in the list
         tileCoords.clear();
-        Coordinates mdCoords = currentPlayer().getCoordinates();
 
-        // Reset the preview to the last state of the dancefloor and maindancer positions
-        // Sets currentplayers maindancer preview index to last turns index
-        currentPlayer().setPreviewCoordinates(mdCoords);
-
-        //each time we try a new preview, previewDanceFloor should reset to dancerfloor from previous completed turn.
+        currentPlayer().setPreviewCoordinates(currentPlayer().getCoordinates());
         this.previewDanceFloor = danceFloor.copy();
-        // Update index on dancefloor for main dancer preview, according to input
-        this.currentPlayer().setPreviewCoordinates(coordsMovedTo);
-        // Update dancefloor
-        previewDanceFloor.removeObjectFromTileIndex(mdCoords);
-        previewDanceFloor.removeObjectFromTileIndex(currentPlayer().getPreviewCoordinates());
-        previewDanceFloor.newObjectOnTile(coordsMovedTo, currentPlayer().getMainDancer());
+        currentPlayer().setPreviewCoordinates(coordsMovedTo);
 
-        this.previewDanceFloor.addDanceFansFromPattern(currentPlayer().getPreviewCoordinates(), currentPlayer().getTransparentDanceFan(), currentPlayer().getPattern(selectedCard));
-        tileCoords = previewDanceFloor.getTransparentCoordinates();
+        updatePreview();
     }
 
     /**
@@ -260,6 +248,16 @@ public class Model {
         Coordinates startCoordsFromLastMove = currentPlayer().getMainDancer().getCoordinates();
         int distance = Math.abs(startCoordsFromLastMove.getX() - coords.getX()) + Math.abs(startCoordsFromLastMove.getY() - coords.getY());
         return distance;
+    }
+
+    private void updatePreview(){
+        Player player = currentPlayer();
+        previewDanceFloor.removeObjectFromTileIndex(player.getCoordinates());
+        previewDanceFloor.removeObjectFromTileIndex(player.getPreviewCoordinates());
+        previewDanceFloor.newObjectOnTile(player.getPreviewCoordinates(), player.getMainDancer());
+
+        this.previewDanceFloor.addDFromPattern(player.getPreviewCoordinates(), player.getTransparentDanceFan(), player.getPattern(selectedCard));
+        tileCoords = previewDanceFloor.getTransparentCoordinates();
     }
 
 }

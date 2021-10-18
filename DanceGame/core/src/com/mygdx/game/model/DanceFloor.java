@@ -104,7 +104,7 @@ public class DanceFloor{
      * @param transDF the type of transparent danceFan to draw
      * @param pattern the pattern which new fans are to be added
      */
-    protected void addDanceFansFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern){
+    protected void addDFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern){
         Coordinates offset = offsetCoordinates(pattern);
 
         for (int row = 0; row < pattern.length; row++) {
