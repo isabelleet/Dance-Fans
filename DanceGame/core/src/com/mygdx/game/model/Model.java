@@ -56,16 +56,17 @@ public class Model {
      */
     public void startNewGame(){
         turnNumber = 0;
+        this.danceFloor = new DanceFloor();
 
         this.players = new Player[2];
 
-        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Color.RED, new Coordinates(2,4)), CardDeck.initialDeck(0));
+        Player player1 = new Player(PlayerTurnSlot.ONE, new MainDancer(Color.RED, new Coordinates(danceFloor.mapWidthInTiles-1, danceFloor.mapHeightInTiles-1)), CardDeck.initialDeck(0));
         Player player2 = new Player(PlayerTurnSlot.TWO, new MainDancer(Color.GREEN, new Coordinates(0,0)), CardDeck.initialDeck(1));
 
         this.players[0] = player1;
         this.players[1] = player2;
 
-        this.danceFloor = new DanceFloor();
+
 
         // Player ONE starts
         this.whichPlayersTurnItIs = PlayerTurnSlot.ONE;
@@ -266,7 +267,7 @@ public class Model {
      */
     public boolean gameIsDone(){
         // return true when game is finish
-        if(countTotalTiles() ==54 || turnNumber == maximumTurns){
+        if(countTotalTiles() ==54 || turnNumber >= maximumTurns){
             return true;
         }
         return false;

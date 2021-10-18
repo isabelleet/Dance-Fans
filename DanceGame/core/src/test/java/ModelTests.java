@@ -74,7 +74,7 @@ public class ModelTests {
 
         Coordinates updatedMainDancerCoordinates = model.currentPlayer().getPreviewCoordinates();
 
-        assertEquals(new Coordinates(mainDancerCoordinates.getX() + 1,mainDancerCoordinates.getY()), updatedMainDancerCoordinates);
+        assertEquals(mainDancerCoordinates.getX() + 1, updatedMainDancerCoordinates.getX());
 
     }
 
@@ -85,7 +85,7 @@ public class ModelTests {
         //TODO: Check on dancefloor too? Or other test for this?
 
         // Move main dancer to some other tile
-        Coordinates stepUpAndRightOfMainDancer = new Coordinates(mainDancerCoordinates.getX() + 50, mainDancerCoordinates.getY() + 1);
+        Coordinates stepUpAndRightOfMainDancer = new Coordinates(mainDancerCoordinates.getX() + 1, mainDancerCoordinates.getY() + 1);
 
         model.moveMainDancerOfCurrentPlayerToCoords(stepUpAndRightOfMainDancer);
 
@@ -99,26 +99,32 @@ public class ModelTests {
     }
 
     // Check so not possible to move outside of dancefloor
+    // The test is currently relying on that the start position for the first main dancer is located in the bottom right
     @Test
-
     public void mainDancerCanNotMoveOutsideOfDanceFloor_Right(){
 
-        // n
         Coordinates mainDancerCoordinates = model.currentPlayer().getPreviewCoordinates();
 
-        // n + 1
-        // We initialize it to something that's unlikely going to be the same as mainDancerCoordinates,
-        // even if we change mainDancer start position
-        Coordinates updatedMainDancerCoordinates = new Coordinates(mainDancerCoordinates.getX() - 1, mainDancerCoordinates.getY() + 1);
+        model.moveSelection(1, 0);
 
-        Boolean isNotInSameLocationAsBefore = !mainDancerCoordinates.equals(updatedMainDancerCoordinates);
-        int safetyMaxCount = 0;
-        while (isNotInSameLocationAsBefore && safetyMaxCount < 100) {
-            //move until can't move more to the right, because stopped by
-            model.moveSelection(1, 0);
-            safetyMaxCount += 1;
-        }
-        assertEquals(mainDancerCoordinates, updatedMainDancerCoordinates);
+        Coordinates updatedMainDancerCoordinates = model.currentPlayer().getPreviewCoordinates();
+
+        assertEquals(mainDancerCoordinates.getX(), updatedMainDancerCoordinates.getX());
+        assertEquals(mainDancerCoordinates.getY(), updatedMainDancerCoordinates.getY());
+    }
+
+    @Test
+    public void mainDancerCanNotMoveOutsideOfDanceFloor_Down(){
+
+        Coordinates mainDancerCoordinates = model.currentPlayer().getPreviewCoordinates();
+
+        // +y direction is apparently downward currently
+        model.moveSelection(0, 1);
+
+        Coordinates updatedMainDancerCoordinates = model.currentPlayer().getPreviewCoordinates();
+
+        assertEquals(mainDancerCoordinates.getX(), updatedMainDancerCoordinates.getX());
+        assertEquals(mainDancerCoordinates.getY(), updatedMainDancerCoordinates.getY());
     }
 
 
@@ -217,7 +223,7 @@ public class ModelTests {
     @Test
     public void gameEndsAfterMaximumTurnsLimit(){
 
-        for (int i = 0; i < (model.maximumTurns * 2) + 5; i++) {
+        for (int i = 0; i < (model.maximumTurns ) + 1; i++) {
 
             model.playerDrewCardsToStartTurn();
             if (model.hasPlayerStartedTheirTurn) {
