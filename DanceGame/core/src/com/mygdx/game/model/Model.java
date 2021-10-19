@@ -280,6 +280,9 @@ public class Model {
         if (countTiles(players[0]) > countTiles(players[1])){
             return players[0].playerTurnSlot;
         }
+        else if(countTiles(players[0]) == countTiles(players[1])){
+            return players[1].playerTurnSlot;
+        }
         else{
             return players[1].playerTurnSlot;
         }

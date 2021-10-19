@@ -1,0 +1,19 @@
+instructions.png
+size: 1864, 1846
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+instructionAlt1
+  rotate: false
+  xy: 1, 1
+  size: 1262, 1296
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+instructionAlt2
+  rotate: false
+  xy: 1265, 1
+  size: 598, 1844
+  orig: 601, 1844
+  offset: 0, 0
+  index: -1
