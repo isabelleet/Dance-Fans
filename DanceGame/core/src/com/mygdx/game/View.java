@@ -22,7 +22,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.model.Model;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Coordinates;
-import com.mygdx.game.Enums.PlayerTurnSlot;
 import com.mygdx.game.Enums.*;
 
 /**
@@ -30,7 +29,7 @@ import com.mygdx.game.Enums.*;
  *
  * Is used by DanceFans.
  *
- * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Coordinates, DanceFloor, Model.
+ * Uses Color, Type, Coordinates, DanceFloor, Model.
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -246,7 +245,7 @@ public class View {
 			// Draw current players cards
 			String cardback;
 
-			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE){
+			if (model.playerOneTurn()){
 				cardback = "cardback_red";
 			}
 			else{
@@ -272,7 +271,7 @@ public class View {
 		//TODO: refactor in better way, this was quick just ot get it working
 		String startTurnUIForCurrentPlayer;
 		if(!model.gameIsDone()) {
-			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			if (model.playerOneTurn())
 				startTurnUIForCurrentPlayer = "startTurn_keyboard_redPlayer";
 			else
 				startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
@@ -283,7 +282,7 @@ public class View {
 
 			//TODO: refactor in better way, this was quick just ot get it working
 			String currentPlayerDeckImageName;
-			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			if (model.playerOneTurn())
 				currentPlayerDeckImageName = "deck_red";
 			else
 				currentPlayerDeckImageName = "deck_green";
@@ -291,11 +290,10 @@ public class View {
 
 			//TODO: refactor in better way, this was quick just ot get it working
 			int currentPlayerNumber;
-			if (model.currentPlayer().playerTurnSlot == PlayerTurnSlot.ONE)
+			if (model.playerOneTurn())
 				currentPlayerNumber = 1;
 			else
 				currentPlayerNumber = 2;
-
 			drawButton(currentPlayerDeckImageName, 10, cardsBottomY);
 			font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width, height - 20);
 		}
@@ -306,33 +304,29 @@ public class View {
 
 	private void displayText(){
 		int turnNumbers= model.numberTurns()+1;
-		String s = turnNumbers + "    rounds played";
-		font.draw(batch, s, width, height-40);
+		String s = "Round:  " + turnNumbers;
+		font.draw(batch, s, width, height-50);
 
 		font.draw(batch, "Win by having the most dance fans", width, height-100) ;
 		font.draw(batch, "(squares in the same color as your main dancer)", width, height-120);
 		font.draw(batch, "when the dance floor is full, or when the song has ended.", width, height-140) ;
 
-
 		//TODO: if enter is pressed, show it as feedback?
 		//TODO: show active when it is possible to press button to get an effect
 		//TODO: show inactive when not possible to press button to get an effect
 		font.draw(batch, "Controls", width+210, height-180);
-
 		font.draw(batch, "Move your Main Dancer",  (width), height-270);
-
 		font.draw(batch, "Confirm you planned dance move", width, height-370);
-
 		font.draw(batch, "Change what dance move to consider", width, height-480);
 	}
 
-	private String whoWon(PlayerTurnSlot playerTurnSlot){
+	private String whoWon(int playerNumber){
 		String s = "";
-		switch (playerTurnSlot){
-			case ONE:
+		switch (playerNumber){
+			case 0:
 				 s = "redWinner";
 				break;
-			case TWO:
+			case 1:
 				s = "greenWinner";
 				break;
 		}
