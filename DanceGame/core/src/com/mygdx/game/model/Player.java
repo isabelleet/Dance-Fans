@@ -2,7 +2,6 @@ package com.mygdx.game.model;
 
 import com.mygdx.game.Enums.Color;
 import com.mygdx.game.Enums.PatternOccupant;
-import com.mygdx.game.Enums.PlayerTurnSlot;
 import com.mygdx.game.Enums.Type;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
  *
  * Is used in Model.
  *
- * Uses Color, PatternOccupant, PlayerTurnSlot, Type, Card, CardDeck, Coordinates, DanceFan, MainDancer.
+ * Uses Color, PatternOccupant, Type, Card, CardDeck, Coordinates, DanceFan, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson
@@ -22,9 +21,6 @@ import java.util.List;
  */
 
 public class Player {
-
-    public PlayerTurnSlot playerTurnSlot;
-    // Timer left (if you use some clock that is saved between turns, so you sometimes can do fast turns and sometimes long.
     private final MainDancer mainDancer;
     private final CardDeck cardDeck;
     private final DanceFan danceFan;
@@ -32,12 +28,10 @@ public class Player {
 
     /**
      * Creates a new Player object.
-     * @param playerTurnSlot if the player goes first or second.
      * @param mainDancer the players MainDancer.
      * @param cardDeck the players deck of cards.
      */
-    protected Player(PlayerTurnSlot playerTurnSlot, MainDancer mainDancer, CardDeck cardDeck) {
-        this.playerTurnSlot = playerTurnSlot;
+    protected Player(MainDancer mainDancer, CardDeck cardDeck) {
         this.mainDancer = mainDancer;
         this.cardDeck = cardDeck;
         this.danceFan = new DanceFan(mainDancer.getColor(), Type.DF, new Coordinates(0,0));

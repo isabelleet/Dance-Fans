@@ -1,14 +1,18 @@
 package com.mygdx.game.model;
 
 import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.PatternOccupant;
 import com.mygdx.game.Enums.Type;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add / remove things on specific tiles.
  *
  * Is used by View, Model.
  *
- * Uses Color, Type, Coordinates, DanceFloorTile, FloorObject, MainDancer.
+ * Uses Color, Type, PatternOccupant., Coordinates, DanceDan, DanceFloorTile, FloorObject, MainDancer.
  *
  * @author Joar Granström
  * @author Jakob Persson
@@ -104,6 +108,113 @@ public class DanceFloor{
         int y = mDancer.getCoordinates().getY();
 
         this.dfTiles[y][x].setOccupant(mDancer);
+    }
+
+    /**
+     * Adds transparent dance fans to the danceFloor according to a given pattern and in a certain location.
+     * @param mdCoords coordinates of the mainDancer
+     * @param transDF the type of transparent danceFan to draw
+     * @param pattern the pattern which new fans are to be added
+     */
+    protected void addDFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern){
+        Coordinates offset = offsetCoordinates(pattern);
+
+        for (int row = 0; row < pattern.length; row++) {
+            for (int col = 0; col < pattern[0].length; col++) {
+
+                if (pattern[row][col] == PatternOccupant.DANCEFAN) {
+                    int colInDanceFloor = mdCoords.getX() - offset.getX() + col;
+                    int rowInDanceFloor = mdCoords.getY() - offset.getY() + row;
+                    Coordinates danceFanCoord = new Coordinates(colInDanceFloor, rowInDanceFloor);
+
+                    if (insideDanceFloor(danceFanCoord) && !(Type.MD == this.getType(danceFanCoord))){
+                        this.newObjectOnTile(danceFanCoord, transDF);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Gets a list of the coordinates for all transparent dancers in the dance floor.
+     * @return a list with the coordinates of all the transparent dancers.
+     */
+    protected List<Coordinates> getTransparentCoordinates(){
+        List<Coordinates> coordinatesList = new ArrayList<>();
+        for(int row = 0; row < mapHeightInTiles; row++){
+            for(int col = 0; col < mapWidthInTiles; col++){
+                if(dfTiles[row][col].getType() == Type.TRANSDF){
+                    Coordinates coordinates = new Coordinates(col, row);
+                    coordinatesList.add(coordinates);
+                }
+            }
+        }
+        return coordinatesList;
+    }
+
+    /**
+     * Counts the total amount of tiles which are occupied by something.
+     * @return the tiótal amount of tiles which are occupied by.
+     */
+    protected int countTotalTiles(){
+        int sum = 0;
+        for(int row = 0; row < mapHeightInTiles; row++){
+            for(int col = 0; col < mapWidthInTiles; col++){
+                if(dfTiles[row][col].getType() != Type.EMPTY){
+                    sum++;
+                }
+            }
+
+        }
+        return sum;
+    }
+
+    /**
+     * Counts the total amount of tiles of a certain color.
+     * @param color the color to be counted
+     * @return the total amount of tiles of a certain color.
+     */
+    protected int countTiles(Color color){
+        int sum = 0;
+        for(int row = 0; row < mapHeightInTiles; row++){
+            for(int col = 0; col < mapWidthInTiles; col++){
+                if(dfTiles[row][col].getColor() == color){
+                    sum++;
+                }
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * A boolean for checking if the given coordinates are inside of the danceFloor.
+     * @param coords the coordinates to be checked
+     * @return true if the coordinates are inside, otherwise false.
+     */
+    public boolean insideDanceFloor(Coordinates coords){
+        return ( coords.getX()< mapWidthInTiles)
+                &&   ( coords.getX() >= 0)
+                &&   ( coords.getY() < mapHeightInTiles)
+                &&   ( coords.getY() >= 0);
+    }
+
+    // private helper methods
+
+    private Coordinates offsetCoordinates(PatternOccupant[][] pattern){
+        int offsetX = 0;
+        int offsetY = 0;
+
+        for (int row = 0; row < pattern.length; row++) {
+            for (int col = 0; col < pattern[0].length; col++) {
+                if (pattern[row][col] == PatternOccupant.MAINDANCER) {
+                    offsetX = col;
+                    offsetY = row;
+                    break;
+                }
+            }
+        }
+
+        return new Coordinates(offsetX, offsetY);
     }
 
     // Law of demeter handling
