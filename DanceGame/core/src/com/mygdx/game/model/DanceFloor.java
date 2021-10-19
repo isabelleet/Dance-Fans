@@ -21,7 +21,7 @@ import java.util.List;
  * @author Isabelle Ermeryd Tankred
  */
 
-public class DanceFloor{
+public class DanceFloor {
 
     private final DanceFloorTile[][] dfTiles;
 
@@ -224,4 +224,5 @@ public class DanceFloor{
     public Type getType(Coordinates coords){
         return dfTiles[coords.getY()][coords.getX()].getType();
     }
+
 }
