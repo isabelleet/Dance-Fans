@@ -6,4 +6,6 @@ public interface IDancefloorIterator {
 
     boolean hasMore();
 
+    
+
 }

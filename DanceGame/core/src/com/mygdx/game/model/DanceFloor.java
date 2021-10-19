@@ -145,16 +145,7 @@ public class DanceFloor {
      * @return the tiótal amount of tiles which are occupied by.
      */
     protected int countTotalTiles(){
-        int sum = 0;
-        for(int row = 0; row < mapHeightInTiles; row++){
-            for(int col = 0; col < mapWidthInTiles; col++){
-                if(dfTiles[row][col].getType() != Type.EMPTY){
-                    sum++;
-                }
-            }
-
-        }
-        return sum;
+        return countTiles(Color.RED) + countTiles(Color.GREEN);
     }
 
     /**
@@ -164,11 +155,12 @@ public class DanceFloor {
      */
     protected int countTiles(Color color){
         int sum = 0;
-        for(int row = 0; row < mapHeightInTiles; row++){
-            for(int col = 0; col < mapWidthInTiles; col++){
-                if(dfTiles[row][col].getColor() == color){
-                    sum++;
-                }
+
+        DanceFloorIterator iterator  = iterator();
+
+        while (iterator.hasMore()){
+            if(iterator.getNext().getColor() == color){
+                sum++;
             }
         }
         return sum;
@@ -203,6 +195,10 @@ public class DanceFloor {
         }
 
         return new Coordinates(offsetX, offsetY);
+    }
+
+    protected DanceFloorIterator iterator(){
+        return new DanceFloorIterator(dfTiles);
     }
 
     // Law of demeter handling

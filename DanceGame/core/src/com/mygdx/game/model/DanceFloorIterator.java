@@ -7,16 +7,16 @@ public class DanceFloorIterator implements IDancefloorIterator{
     private final DanceFloorTile[][] dfTiles;
     private int current = 0;
 
-    DanceFloorIterator(int height, int width, DanceFloorTile[][] dfTiles){
-        this.mapHeightInTiles = height;
-        this.mapWidthInTiles = width;
+    DanceFloorIterator(DanceFloorTile[][] dfTiles){
+        this.mapHeightInTiles = dfTiles.length;
+        this.mapWidthInTiles = dfTiles[0].length;
         this.dfTiles = dfTiles;
     }
 
     @Override
     public DanceFloorTile getNext() {
-        int col = current / mapWidthInTiles;
-        int row = current % mapWidthInTiles;
+        int row = current / mapWidthInTiles;
+        int col = current % mapWidthInTiles;
 
         if(hasMore()){
             current++;
@@ -29,6 +29,6 @@ public class DanceFloorIterator implements IDancefloorIterator{
 
     @Override
     public boolean hasMore() {
-        return current < mapHeightInTiles*mapWidthInTiles - 1;
+        return current < mapHeightInTiles * mapWidthInTiles;
     }
 }
