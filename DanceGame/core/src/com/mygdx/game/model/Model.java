@@ -27,6 +27,8 @@ import java.util.List;
 
 public class Model {
 
+
+
     private Player[] players;
     public PlayerTurnSlot whichPlayersTurnItIs;
     private int turnNumber = 0;
@@ -276,15 +278,17 @@ public class Model {
      * Returns the playerTurnSlot representing which player is currently in the lead.
      * @return the playerTurnSlot of the player which is currently in the lead.
      */
-    public PlayerTurnSlot isLeading(){
-        if (countTiles(players[0]) > countTiles(players[1])){
-            return players[0].playerTurnSlot;
+    public int isLeading(){
+        int p1Tiles = danceFloor.countTiles(players[0].getColor());
+        int p2Tiles = danceFloor.countTiles(players[1].getColor());
+
+        if (p1Tiles > p2Tiles){
+            return 0;
         }
-        else if(countTiles(players[0]) == countTiles(players[1])){
-            return players[1].playerTurnSlot;
-        }
-        else{
-            return players[1].playerTurnSlot;
+        else if (p1Tiles < p2Tiles){
+            return 1;
+        } else {
+            return 2;
         }
     }
 

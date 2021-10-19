@@ -54,6 +54,7 @@ public class View {
 
 
 
+
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
 	private final TextureAtlas textureAtlas = new TextureAtlas("sprites.txt");
@@ -62,6 +63,7 @@ public class View {
 	private final TextureAtlas textureAtlasWinner = new TextureAtlas("winners.txt");
 	private final TextureAtlas textureAtlasBackground = new TextureAtlas("background.txt");
 	private final TextureAtlas textureAtlasInstructions = new TextureAtlas("instructions.txt");
+
 
 
 	private final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
@@ -338,15 +340,17 @@ public class View {
 
 	}
 
-	private String whoWon(PlayerTurnSlot playerTurnSlot){
+	private String whoWon(int playerNumber){
 		String s = "";
-		switch (playerTurnSlot){
-			case ONE:
-				 s = "redWinner";
+		switch (playerNumber){
+			case 0:
+				s = "redWinner";
 				break;
-			case TWO:
+			case 1:
 				s = "greenWinner";
 				break;
+			case 2:
+				s = "stalemate";
 		}
 		return s;
 	}
