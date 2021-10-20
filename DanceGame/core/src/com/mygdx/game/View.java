@@ -96,12 +96,12 @@ public class View {
     private void initCamera(int width, int height){
         // Set up the camera
 		float aspectRatio = (float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
-        camera = new OrthographicCamera(1600, 800);
+        camera = new OrthographicCamera(1600, 900);
 		camera.position.set(width, 0, 0);
 		camera.zoom = 2;
 
 
-		viewport = new FitViewport(1600, 800,  camera);
+		viewport = new FitViewport(1600, 900,  camera);
 		viewport.apply();
 
     }
@@ -204,7 +204,7 @@ public class View {
 		Gdx.gl.glClearColor(218f, 187f, 145f, 225f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		instructions = textureAtlasInstructions.createSprite("instructionAlt1");
-		batch.draw(instructions,800,100,500,650);
+		batch.draw(instructions,width+50,height-442,420,432);
 
 		int distanceFromBottomToTop = (danceFloor.mapHeightInTiles - 1 ) * danceFloor.tileSideLength;
 		for (int colIndex = 0; colIndex < danceFloor.mapWidthInTiles; colIndex++){
@@ -255,6 +255,7 @@ public class View {
 		if(!model.gameIsDone()){
 			drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
 			drawButton("emojione-monotone_keycap-2", 2 * spacing + xAdjustment, 10);
+			drawButton("emojione-monotone_keycap-3", 3 * spacing + xAdjustment, 10);
 
 			// Draw current players cards
 			String cardback;
@@ -293,7 +294,7 @@ public class View {
 				startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
 
 			if (!model.hasPlayerStartedTheirTurn) {
-				drawButton(startTurnUIForCurrentPlayer, xAdjustment, cardsBottomY + 110);
+				drawButton(startTurnUIForCurrentPlayer, -55, cardsBottomY + 220);
 			}
 
 			//TODO: refactor in better way, this was quick just ot get it working
@@ -312,16 +313,9 @@ public class View {
 				currentPlayerNumber = 2;
 			drawButton(currentPlayerDeckImageName, 10, cardsBottomY);
 			font.setColor(com.badlogic.gdx.graphics.Color.BLACK);
-			font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width, height - 20);
-
-
-
+			font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", 20, height-30);
 		}
-
-
-
 		batch.end();
-
 	}
 
 	private void displayText(){
@@ -329,10 +323,11 @@ public class View {
 		if(!model.gameIsDone()) {
 			int turnNumbers = model.numberTurns() + 1;
 			String s = turnNumbers + "    rounds played";
-			font.draw(batch, s, width, height - 40);
+			font.draw(batch, s, 20, height-10);
+			int turnsLeft=model.getMaximumTurns()/2-turnNumbers+1;
+			String t = turnsLeft + " ";
+			font.draw(batch,t,width+322, height-382);
 		}
-
-		
 
 
 		//TODO: if enter is pressed, show it as feedback?

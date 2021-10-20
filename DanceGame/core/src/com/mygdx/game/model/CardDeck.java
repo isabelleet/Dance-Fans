@@ -17,6 +17,7 @@ import java.util.Random;
  *
  * @author Hedy Pettersson
  * @author Jakob Persson
+ * @author Isabelle Ermeryd Tankred
  */
 
 public class CardDeck {
@@ -36,6 +37,7 @@ public class CardDeck {
         this.pile = copyCards(deck);
         shuffleDeck(this.pile);
 
+        openCard(0);
         openCard(0);
         openCard(0);
     }

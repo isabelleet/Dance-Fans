@@ -241,5 +241,8 @@ public class Model {
         previewDanceFloor.addDFromPattern(player.getPreviewCoordinates(), player.getTransparentDanceFan(), player.getPattern(selectedCard));
         tileCoords = previewDanceFloor.getTransparentCoordinates();
     }
+    public int getMaximumTurns(){
+        return maximumTurns;
+    }
 
 }

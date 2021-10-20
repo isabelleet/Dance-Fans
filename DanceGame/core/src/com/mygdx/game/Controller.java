@@ -52,6 +52,12 @@ public class Controller implements InputProcessor {
             return true;
         }
 
+        if(keycode == Input.Keys.NUM_3 && !model.gameIsDone()){
+            model.selectedCard = 2;
+            model.resetDancer();
+            return true;
+        }
+
         if(keycode == Input.Keys.D && !model.gameIsDone()) {
             model.playerDrewCardsToStartTurn();
             return true;
