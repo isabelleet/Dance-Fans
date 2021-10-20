@@ -25,6 +25,8 @@ import java.util.List;
 
 public class Model {
 
+
+
     private Player[] players;
     private int turnNumber = 0;
     private final int maximumTurns = 20;

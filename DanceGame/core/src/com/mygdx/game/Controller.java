@@ -33,14 +33,12 @@ public class Controller implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
-        if(keycode == Input.Keys.NUM_0){
+        if(model.gameIsDone()){
+        if(keycode == Input.Keys.D){
             model.startNewGame();
             return true;
-        }
+        }}
 
-        if(keycode == Input.Keys.N){
-            System.exit(0);
-        }
       
         if(keycode == Input.Keys.NUM_1 && !model.gameIsDone()){
             model.selectedCard = 0;

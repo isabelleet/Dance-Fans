@@ -48,13 +48,22 @@ public class View {
 
 	public Sprite selectedTile_sprite;
 	Sprite winner;
+	public Sprite background;
+	public Sprite instructions;
+
+
+
 
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
 	private final TextureAtlas textureAtlas = new TextureAtlas("sprites.txt");
 	private final TextureAtlas textureAtlasCards = new TextureAtlas("cardSprites.txt");
 	private final TextureAtlas textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
-	private final TextureAtlas textureAtlasWinner = new TextureAtlas("winners.txt");;
+	private final TextureAtlas textureAtlasWinner = new TextureAtlas("winners.txt");
+	private final TextureAtlas textureAtlasBackground = new TextureAtlas("background.txt");
+	private final TextureAtlas textureAtlasInstructions = new TextureAtlas("instructions.txt");
+
+
 
 	private final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
 	private final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
@@ -189,6 +198,14 @@ public class View {
 
 		batch.begin();
 
+		background = textureAtlasBackground.createSprite("background");
+		//background.draw(batch);
+		batch.draw(background,0,0);
+		Gdx.gl.glClearColor(218f, 187f, 145f, 225f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		instructions = textureAtlasInstructions.createSprite("instructionAlt1");
+		batch.draw(instructions,800,100,500,650);
+
 		int distanceFromBottomToTop = (danceFloor.mapHeightInTiles - 1 ) * danceFloor.tileSideLength;
 		for (int colIndex = 0; colIndex < danceFloor.mapWidthInTiles; colIndex++){
 			for (int rowIndex = 0; rowIndex < danceFloor.mapHeightInTiles; rowIndex++){
@@ -204,8 +221,8 @@ public class View {
 
 		//TODO: Draw UI that help player play
 
-		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.7f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
 
 		camera.update();
 		mapRenderer.setView(camera);
@@ -216,25 +233,22 @@ public class View {
 		// batch for drawing cards
 		batch.begin();
 
+
 		if(model.gameIsDone()){
 			String strWinner = whoWon(model.isLeading());
 			winner = textureAtlasWinner.createSprite(strWinner);
-			winner.setPosition( 160,600);
+
+			winner.setPosition( 160,300);
 			winner.draw(batch);
 		}
 
-
-		drawButton("emojione-monotone_keycap-downArrow", width+210, height-308);
-		drawButton("emojione-monotone_keycap-upArrow", width+210 , height-260);
-		drawButton("emojione-monotone_keycap-leftArrow", width+162 , height-308);
-		drawButton("emojione-monotone_keycap-rightArrow", width+258 , height-308);
-		drawButton("emojione-monotone_keycap-enter", width+210, height-420);
 
 		displayText();
 
 		int spacing = 195;
 		int cardsBottomY = 40;
 		int xAdjustment = 85;
+
 
 
 
@@ -268,6 +282,8 @@ public class View {
 		}
 
 
+
+
 		//TODO: refactor in better way, this was quick just ot get it working
 		String startTurnUIForCurrentPlayer;
 		if(!model.gameIsDone()) {
@@ -295,40 +311,47 @@ public class View {
 			else
 				currentPlayerNumber = 2;
 			drawButton(currentPlayerDeckImageName, 10, cardsBottomY);
+			font.setColor(com.badlogic.gdx.graphics.Color.BLACK);
 			font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width, height - 20);
+
+
+
 		}
+
+
 
 		batch.end();
 
 	}
 
 	private void displayText(){
-		int turnNumbers= model.numberTurns()+1;
-		String s = "Round:  " + turnNumbers;
-		font.draw(batch, s, width, height-50);
 
-		font.draw(batch, "Win by having the most dance fans", width, height-100) ;
-		font.draw(batch, "(squares in the same color as your main dancer)", width, height-120);
-		font.draw(batch, "when the dance floor is full, or when the song has ended.", width, height-140) ;
+		if(!model.gameIsDone()) {
+			int turnNumbers = model.numberTurns() + 1;
+			String s = turnNumbers + "    rounds played";
+			font.draw(batch, s, width, height - 40);
+		}
+
+		
+
 
 		//TODO: if enter is pressed, show it as feedback?
 		//TODO: show active when it is possible to press button to get an effect
 		//TODO: show inactive when not possible to press button to get an effect
-		font.draw(batch, "Controls", width+210, height-180);
-		font.draw(batch, "Move your Main Dancer",  (width), height-270);
-		font.draw(batch, "Confirm you planned dance move", width, height-370);
-		font.draw(batch, "Change what dance move to consider", width, height-480);
+
 	}
 
 	private String whoWon(int playerNumber){
 		String s = "";
 		switch (playerNumber){
 			case 0:
-				 s = "redWinner";
+				s = "redWinner";
 				break;
 			case 1:
 				s = "greenWinner";
 				break;
+			case 2:
+				s = "stalemate";
 		}
 		return s;
 	}

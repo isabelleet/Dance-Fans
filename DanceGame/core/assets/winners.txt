@@ -1,19 +1,26 @@
-winners.png
-size: 566, 123
-format: RGBA8888
+Winners.png
+size: 750, 1170
+format: RGBA4444
 filter: Linear,Linear
 repeat: none
 greenWinner
   rotate: false
   xy: 1, 1
-  size: 281, 121
-  orig: 281, 121
+  size: 748, 388
+  orig: 748, 388
   offset: 0, 0
   index: -1
 redWinner
   rotate: false
-  xy: 284, 1
-  size: 281, 121
-  orig: 281, 121
+  xy: 1, 391
+  size: 748, 388
+  orig: 748, 388
+  offset: 0, 0
+  index: -1
+stalemate
+  rotate: false
+  xy: 1, 781
+  size: 748, 388
+  orig: 748, 388
   offset: 0, 0
   index: -1
