@@ -30,6 +30,9 @@ public class MainDancer extends Dancer {
     protected MainDancer(Color color, Coordinates coords) {
         super(color, Type.MD, coords);
     }
+    protected MainDancer(Color color, Type type, Coordinates coords) {
+        super(color, type, coords);
+    }
 
     /**
      * Getter for the coordinates in the preview.

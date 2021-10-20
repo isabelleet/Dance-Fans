@@ -168,14 +168,10 @@ public class Model {
      * Checks whether the game has reached the turn limit or the board is filled.
      * @return true or false.
      */
-    public boolean gameIsDone(){
+    public boolean gameIsDone() {
         // return true when game is finish
-        if(danceFloor.countTotalTiles() ==54 || turnNumber == maximumTurns){
-            return true;
-        }
-        return false;
+        return (danceFloor.countTotalTiles() == 54 || turnNumber == maximumTurns);
     }
-
     /**
      * Returns the playerTurnSlot representing which player is currently in the lead.
      * @return the playerTurnSlot of the player which is currently in the lead.
@@ -215,8 +211,8 @@ public class Model {
         for(Player player: players){
 
             if(player != currentPlayer() &&
-                    player.getMainDancer().getCoordinates().getX() == coordinates.getX()
-                    && player.getMainDancer().getCoordinates().getY() == coordinates.getY()){
+                    player.getCoordinates().getX() == coordinates.getX()
+                    && player.getCoordinates().getY() == coordinates.getY()){
                 System.out.println("collision!");
                 return true;
             }
@@ -225,18 +221,22 @@ public class Model {
     }
 
     private int distanceToMainDancer(Coordinates coords){
-        Coordinates startCoordsFromLastMove = currentPlayer().getMainDancer().getCoordinates();
-        int distance = Math.abs(startCoordsFromLastMove.getX() - coords.getX()) + Math.abs(startCoordsFromLastMove.getY() - coords.getY());
-        return distance;
+        Coordinates startCoordsFromLastMove = currentPlayer().getCoordinates();
+        return Math.abs(startCoordsFromLastMove.getX() - coords.getX()) + Math.abs(startCoordsFromLastMove.getY() - coords.getY());
     }
 
-    private void updatePreview(){
+    private void updatePreview() {
         Player player = currentPlayer();
-        previewDanceFloor.newObjectOnTile(player.getCoordinates(), player.getDanceFan());
+
+        if (danceFloor.getType(player.getCoordinates()) == Type.MDDF) {
+            previewDanceFloor.newObjectOnTile(player.getCoordinates(), player.getDanceFan());
+        } else {
+            previewDanceFloor.removeObjectFromTileIndex(player.getCoordinates());
+        }
         previewDanceFloor.removeObjectFromTileIndex(player.getPreviewCoordinates());
         previewDanceFloor.newObjectOnTile(player.getPreviewCoordinates(), player.getMainDancer());
 
-        this.previewDanceFloor.addDFromPattern(player.getPreviewCoordinates(), player.getTransparentDanceFan(), player.getPattern(selectedCard));
+        previewDanceFloor.addDFromPattern(player.getPreviewCoordinates(), player.getTransparentDanceFan(), player.getPattern(selectedCard));
         tileCoords = previewDanceFloor.getTransparentCoordinates();
     }
 
