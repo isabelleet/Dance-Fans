@@ -1,4 +1,4 @@
-Winners.png
+winners.png
 size: 750, 1170
 format: RGBA4444
 filter: Linear,Linear
