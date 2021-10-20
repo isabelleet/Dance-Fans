@@ -117,11 +117,11 @@ public class DanceFloor{
 
                     if (insideDanceFloor(danceFanCoord) && !(Type.MD == this.getType(danceFanCoord) || Type.MDDF == this.getType(danceFanCoord))){
                         this.newObjectOnTile(danceFanCoord, transDF);
-                        this.newObjectOnTile(mdCoords, (new MainDancer(getColor(mdCoords), Type.MDDF, mdCoords)));
                     }
                 }
             }
         }
+        this.newObjectOnTile(mdCoords, (new MainDancer(getColor(mdCoords), Type.MDDF, mdCoords)));
     }
 
     /**
