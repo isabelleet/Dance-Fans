@@ -313,7 +313,7 @@ public class View {
 				currentPlayerNumber = 2;
 			drawButton(currentPlayerDeckImageName, 10, cardsBottomY);
 			font.setColor(com.badlogic.gdx.graphics.Color.BLACK);
-			font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", width -350, height-30);
+			font.draw(batch, "Player " + currentPlayerNumber + "'s turn.", 20, height-30);
 		}
 		batch.end();
 	}
@@ -323,7 +323,7 @@ public class View {
 		if(!model.gameIsDone()) {
 			int turnNumbers = model.numberTurns() + 1;
 			String s = turnNumbers + "    rounds played";
-			font.draw(batch, s, width-350, height-10);
+			font.draw(batch, s, 20, height-10);
 			int turnsLeft=model.getMaximumTurns()/2-turnNumbers+1;
 			String t = turnsLeft + " ";
 			font.draw(batch,t,width+322, height-382);
