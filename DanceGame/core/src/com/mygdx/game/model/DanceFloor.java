@@ -87,18 +87,6 @@ public class DanceFloor{
         this.dfTiles[coords.getY()][coords.getX()].setOccupant(floorObject);
     }
 
-    protected int countTiles(Color color){
-        int sum = 0;
-        for(int row = 0; row < mapHeightInTiles; row++){
-            for(int col = 0; col < mapWidthInTiles; col++){
-                if(dfTiles[row][col].getColor() == color){
-                    sum++;
-                }
-            }
-        }
-        return sum;
-    }
-
     /**
      * Sets a mainDancer on a tile.
      * @param mDancer the dancer to place.
