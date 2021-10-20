@@ -345,7 +345,6 @@ public class View {
 		}
 		switch (type){
 			case MD:
-			case MDDF:
 				s += "MainDancer";
 				return s;
 			case DF:

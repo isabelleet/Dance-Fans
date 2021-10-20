@@ -9,5 +9,5 @@ package com.mygdx.game.Enums;
  * @author Hedy Pettersson
  */
 public enum Type {
-    MD, DF, TRANSDF, EMPTY, MDDF
+    MD, DF, TRANSDF, EMPTY
 }

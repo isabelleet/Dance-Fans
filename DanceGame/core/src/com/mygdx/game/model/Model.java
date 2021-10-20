@@ -228,7 +228,7 @@ public class Model {
     private void updatePreview() {
         Player player = currentPlayer();
 
-        if (danceFloor.getType(player.getCoordinates()) == Type.MDDF) {
+        if (turnNumber > 1) {
             previewDanceFloor.newObjectOnTile(player.getCoordinates(), player.getDanceFan());
         } else {
             previewDanceFloor.removeObjectFromTileIndex(player.getCoordinates());

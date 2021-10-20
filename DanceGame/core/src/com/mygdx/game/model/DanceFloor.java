@@ -115,13 +115,12 @@ public class DanceFloor{
                     int rowInDanceFloor = mdCoords.getY() - offset.getY() + row;
                     Coordinates danceFanCoord = new Coordinates(colInDanceFloor, rowInDanceFloor);
 
-                    if (insideDanceFloor(danceFanCoord) && !(Type.MD == this.getType(danceFanCoord) || Type.MDDF == this.getType(danceFanCoord))){
+                    if (insideDanceFloor(danceFanCoord) && !(Type.MD == this.getType(danceFanCoord))){
                         this.newObjectOnTile(danceFanCoord, transDF);
                     }
                 }
             }
         }
-        this.newObjectOnTile(mdCoords, (new MainDancer(getColor(mdCoords), Type.MDDF, mdCoords)));
     }
 
     /**
