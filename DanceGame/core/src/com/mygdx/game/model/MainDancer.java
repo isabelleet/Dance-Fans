@@ -6,11 +6,10 @@ import com.mygdx.game.Enums.Type;
 /**
  * MainDancer is the representation of the player on the DanceFloor and extends Dancer. It also keeps track of
  * where it exists in the preview.
- *
+ * <p>
  * Is used by Player, DanceFloor.
- *
+ * <p>
  * Uses Color, Type, Coordinates, Dancer, FloorObject.
- *
  *
  * @author Jakob Persson
  * @author Joar Granström
@@ -24,8 +23,9 @@ public class MainDancer extends Dancer {
 
     /**
      * Constructor, creates a new MainDancer with the given color and coordinates for a specific tile.
-     * @
+     *
      * @param coords which coordinates it should start on.
+     * @
      */
     protected MainDancer(Color color, Coordinates coords) {
         super(color, Type.MD, coords);
@@ -33,6 +33,7 @@ public class MainDancer extends Dancer {
 
     /**
      * Getter for the coordinates in the preview.
+     *
      * @return the coordinates in the preview.
      */
     protected Coordinates getPreviewCoordinates() {
@@ -41,6 +42,7 @@ public class MainDancer extends Dancer {
 
     /**
      * Setter for the coordinates in the preview.
+     *
      * @param coords is the coordinates this has moved to in the preview.
      */
     protected void setPreviewCoordinates(Coordinates coords) {

@@ -1,4 +1,5 @@
 package com.mygdx.game.model;
+
 import com.mygdx.game.Enums.Color;
 import com.mygdx.game.Enums.Type;
 
@@ -10,9 +11,9 @@ import java.util.List;
 /**
  * Model combines many of the other classes in the package, and is what is accessed from outside of the package.
  * It can start new games, calculate if someone has won, move the MainDancer:s around.
- *
+ * <p>
  * Is used by Controller, DanceFans, View.
- *
+ * <p>
  * Uses Color, Type, Card, CardDeck, Coordinates, DanceFloor, Player.
  *
  * @author Joar Granström
@@ -24,7 +25,6 @@ import java.util.List;
  */
 
 public class Model {
-
 
 
     private Player[] players;
@@ -40,10 +40,10 @@ public class Model {
 
     List<Coordinates> tileCoords = new ArrayList();
 
-    public Model(){
+    public Model() {
     }
 
-    public Player currentPlayer(){
+    public Player currentPlayer() {
         if (playerOneTurn())
             return this.players[0];
         else
@@ -53,13 +53,13 @@ public class Model {
     /**
      * Initializes everything needed to start a new game, sets up Players, the DanceFloor. Player 1 starts.
      */
-    public void startNewGame(){
+    public void startNewGame() {
         turnNumber = 0;
 
         this.players = new Player[2];
 
-        Player player1 = new Player(new MainDancer(Color.RED, new Coordinates(2,4)), CardDeck.initialDeck(0));
-        Player player2 = new Player(new MainDancer(Color.GREEN, new Coordinates(0,0)), CardDeck.initialDeck(1));
+        Player player1 = new Player(new MainDancer(Color.RED, new Coordinates(2, 4)), CardDeck.initialDeck(0));
+        Player player2 = new Player(new MainDancer(Color.GREEN, new Coordinates(0, 0)), CardDeck.initialDeck(1));
 
         this.players[0] = player1;
         this.players[1] = player2;
@@ -103,14 +103,14 @@ public class Model {
     /**
      * Changes which players turn it is.
      */
-    public void changeWhichPlayersTurnItIs(){
+    public void changeWhichPlayersTurnItIs() {
         turnNumber++;
     }
 
     /**
      * Sets hasPlayerStartedTheirTurn to true.
      */
-    public void playerDrewCardsToStartTurn(){
+    public void playerDrewCardsToStartTurn() {
         this.hasPlayerStartedTheirTurn = true;
         //TODO: uses resetDancer to get the preview to display immediately
         resetDancer();
@@ -119,16 +119,17 @@ public class Model {
     /**
      * moves the current players mainDancer back to the position it had at the start of the players turn.
      */
-    public void resetDancer(){
+    public void resetDancer() {
         selectedCoordinates = currentPlayer().getCoordinates();
         moveMainDancerOfCurrentPlayerToCoords(selectedCoordinates);
     }
 
     /**
      * Moves the MainDancer of the player whose turn it is currently to the specified coordinates.
+     *
      * @param coordsMovedTo - Which index the MainDancer should be moved to.
      */
-    public void moveMainDancerOfCurrentPlayerToCoords(Coordinates coordsMovedTo){
+    public void moveMainDancerOfCurrentPlayerToCoords(Coordinates coordsMovedTo) {
         // Clear list before the player moves so only the last preview indexes are stored in the list
         tileCoords.clear();
 
@@ -141,16 +142,16 @@ public class Model {
 
     /**
      * Moves the current players main dancer a certain amount of steps in x and y direction.
+     *
      * @param x how much to move the player along x
      * @param y how much to move the player along y
      */
-    public void moveSelection(int x, int y){
+    public void moveSelection(int x, int y) {
         int moveLimit = currentPlayer().getSteps(selectedCard);
         Coordinates newCoords = new Coordinates(selectedCoordinates.getX() + x, selectedCoordinates.getY() + y);
 
         if (danceFloor.insideDanceFloor(newCoords) && (distanceToMainDancer(newCoords) <= moveLimit)
-                && (!(collisionOtherPlayer(newCoords))))
-        {
+                && (!(collisionOtherPlayer(newCoords)))) {
             selectedCoordinates = newCoords;
             moveMainDancerOfCurrentPlayerToCoords(newCoords);
         }
@@ -158,34 +159,36 @@ public class Model {
 
     /**
      * Getter of the cards currently on hand for the current player.
+     *
      * @return a list of the cards on hand for the current player.
      */
-    public List<Card> cardsOnHand(){
+    public List<Card> cardsOnHand() {
         return currentPlayer().getHand();
     }
 
 
-
     /**
      * Checks whether the game has reached the turn limit or the board is filled.
+     *
      * @return true or false.
      */
     public boolean gameIsDone() {
         // return true when game is finish
         return (danceFloor.countTotalTiles() == 54 || turnNumber == maximumTurns);
     }
+
     /**
      * Returns the playerTurnSlot representing which player is currently in the lead.
+     *
      * @return the playerTurnSlot of the player which is currently in the lead.
      */
-    public int isLeading(){
+    public int isLeading() {
         int p1Tiles = danceFloor.countTiles(players[0].getColor());
         int p2Tiles = danceFloor.countTiles(players[1].getColor());
 
-        if (p1Tiles > p2Tiles){
+        if (p1Tiles > p2Tiles) {
             return 0;
-        }
-        else if (p1Tiles < p2Tiles){
+        } else if (p1Tiles < p2Tiles) {
             return 1;
         } else {
             return 2;
@@ -195,26 +198,28 @@ public class Model {
     /**
      * Returns a boolean depending on which player's turn it is. If we want more players we would use modulus and
      * the index in players probably.
+     *
      * @return true if it is player one's turn, otherwise false.
      */
-    public boolean playerOneTurn(){
+    public boolean playerOneTurn() {
         return turnNumber % players.length == 0;
     }
 
     /**
      * Getter for the turn number.
+     *
      * @return which turn it is.
      */
-    public int numberTurns(){
-        return turnNumber/2;
+    public int numberTurns() {
+        return turnNumber / 2;
     }
 
-    private boolean collisionOtherPlayer(Coordinates coordinates){
-        for(Player player: players){
+    private boolean collisionOtherPlayer(Coordinates coordinates) {
+        for (Player player : players) {
 
-            if(player != currentPlayer() &&
+            if (player != currentPlayer() &&
                     player.getCoordinates().getX() == coordinates.getX()
-                    && player.getCoordinates().getY() == coordinates.getY()){
+                    && player.getCoordinates().getY() == coordinates.getY()) {
                 System.out.println("collision!");
                 return true;
             }
@@ -222,7 +227,7 @@ public class Model {
         return false;
     }
 
-    private int distanceToMainDancer(Coordinates coords){
+    private int distanceToMainDancer(Coordinates coords) {
         Coordinates startCoordsFromLastMove = currentPlayer().getCoordinates();
         return Math.abs(startCoordsFromLastMove.getX() - coords.getX()) + Math.abs(startCoordsFromLastMove.getY() - coords.getY());
     }
@@ -241,7 +246,8 @@ public class Model {
         previewDanceFloor.addDFromPattern(player.getPreviewCoordinates(), player.getTransparentDanceFan(), player.getPattern(selectedCard));
         tileCoords = previewDanceFloor.getTransparentCoordinates();
     }
-    public int getMaximumTurns(){
+
+    public int getMaximumTurns() {
         return maximumTurns;
     }
 

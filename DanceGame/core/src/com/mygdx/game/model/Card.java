@@ -5,9 +5,9 @@ import com.mygdx.game.Enums.PatternOccupant;
 /**
  * Card combines amount of steps a player can move with a pattern for how the dance floor will change.
  * It also has an id in order to match it up with the correct image.
- *
+ * <p>
  * Is used in CardDeck, Model, Player.
- *
+ * <p>
  * Uses PatternOccupant.
  *
  * @author Joar Granström
@@ -23,9 +23,10 @@ public class Card {
 
     /**
      * Constructor, creates a new card object.
-     * @param id position of the card in the deck.
+     *
+     * @param id           position of the card in the deck.
      * @param dancePattern an array containing the information needed to know which tiles should be changed when the card is used.
-     * @param steps how far the player is allowed to move when using the card.
+     * @param steps        how far the player is allowed to move when using the card.
      */
     public Card(int id, PatternOccupant[][] dancePattern, int steps) {
         this.id = id;
@@ -35,6 +36,7 @@ public class Card {
 
     /**
      * Getter for a cards id.
+     *
      * @return an int of the cards id.
      */
     public int getId() {
@@ -43,6 +45,7 @@ public class Card {
 
     /**
      * Getter for a cards dancePattern.
+     *
      * @return a copy of the matrix of the dancePattern.
      */
     protected PatternOccupant[][] getDancePattern() {
@@ -51,6 +54,7 @@ public class Card {
 
     /**
      * Getter for the amount of steps on that card.
+     *
      * @return an int of the amount of steps.
      */
     protected int getSteps() {
@@ -59,12 +63,13 @@ public class Card {
 
     /**
      * Used to make the patterns of the cards immutable.
+     *
      * @return a copy of the dance pattern the card has.
      */
-    private PatternOccupant[][] copy(){
+    private PatternOccupant[][] copy() {
         PatternOccupant[][] copy = new PatternOccupant[dancePattern.length][dancePattern[0].length];
-        for(int row = 0; row < dancePattern.length; row++){
-            for(int col = 0; col < dancePattern[0].length; col++){
+        for (int row = 0; row < dancePattern.length; row++) {
+            for (int col = 0; col < dancePattern[0].length; col++) {
                 copy[row][col] = dancePattern[row][col];
             }
         }

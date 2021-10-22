@@ -6,9 +6,9 @@ import com.mygdx.game.model.Model;
 
 /**
  * DanceFans is the application which connects all the MVC.
- *
+ * <p>
  * Is used in DesktopLauncher.
- *
+ * <p>
  * Uses View, Controller, Model.
  *
  * @author Joar Granström

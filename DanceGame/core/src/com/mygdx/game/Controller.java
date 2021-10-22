@@ -6,9 +6,9 @@ import com.mygdx.game.model.Model;
 
 /**
  * Controller, calls on methods in model depending on what has been inputted. Part of the MVC pattern.
- *
+ * <p>
  * Is used in DanceFans.
- *
+ * <p>
  * Uses Model.
  *
  * @author Joar Granström
@@ -21,49 +21,52 @@ import com.mygdx.game.model.Model;
 public class Controller implements InputProcessor {
 
     Model model;
-    public Controller(Model model){
+
+    public Controller(Model model) {
         this.model = model;
     }
 
     /**
      * Checks which key was pressed and tells the model what the user wants to do.
+     *
      * @param keycode the key that was pressed.
      * @return returns true when the input has been processed, otherwise returns false.
      */
     @Override
     public boolean keyDown(int keycode) {
 
-        if(model.gameIsDone()){
-        if(keycode == Input.Keys.D){
-            model.startNewGame();
-            return true;
-        }}
+        if (model.gameIsDone()) {
+            if (keycode == Input.Keys.D) {
+                model.startNewGame();
+                return true;
+            }
+        }
 
-      
-        if(keycode == Input.Keys.NUM_1 && !model.gameIsDone()){
+
+        if (keycode == Input.Keys.NUM_1 && !model.gameIsDone()) {
             model.selectedCard = 0;
             model.resetDancer();
             return true;
         }
 
-        if(keycode == Input.Keys.NUM_2 && !model.gameIsDone()){
+        if (keycode == Input.Keys.NUM_2 && !model.gameIsDone()) {
             model.selectedCard = 1;
             model.resetDancer();
             return true;
         }
 
-        if(keycode == Input.Keys.NUM_3 && !model.gameIsDone()){
+        if (keycode == Input.Keys.NUM_3 && !model.gameIsDone()) {
             model.selectedCard = 2;
             model.resetDancer();
             return true;
         }
 
-        if(keycode == Input.Keys.D && !model.gameIsDone()) {
+        if (keycode == Input.Keys.D && !model.gameIsDone()) {
             model.playerDrewCardsToStartTurn();
             return true;
-          
+
         }
-        if(keycode == Input.Keys.ENTER && !model.gameIsDone()) {
+        if (keycode == Input.Keys.ENTER && !model.gameIsDone()) {
             System.out.println("Player clicked enter to confirm Dance move");
             if (model.hasPlayerStartedTheirTurn) {
                 model.playerConfirmedDanceMove();
@@ -72,11 +75,11 @@ public class Controller implements InputProcessor {
         }
 
         //movement of the player
-        if(keycode <= 22 && keycode >= 19 && !model.gameIsDone()) {
+        if (keycode <= 22 && keycode >= 19 && !model.gameIsDone()) {
             if (model.hasPlayerStartedTheirTurn) {
                 int x = 0;
                 int y = 0;
-                switch (keycode){
+                switch (keycode) {
                     case Input.Keys.UP:
                         y = -1;
                         break;
@@ -90,7 +93,7 @@ public class Controller implements InputProcessor {
                         x = 1;
                         break;
                 }
-                    model.moveSelection(x, y);
+                model.moveSelection(x, y);
                 return true;
             }
         }

@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * Player combines the different things a player should have, such as a MainDancer,
  * a danceFan (as well as a transparent version of it), and a CardDeck.
- *
+ * <p>
  * Is used in Model.
- *
+ * <p>
  * Uses Color, PatternOccupant, Type, Card, CardDeck, Coordinates, DanceFan, MainDancer.
  *
  * @author Joar Granström
@@ -28,18 +28,20 @@ public class Player {
 
     /**
      * Creates a new Player object.
+     *
      * @param mainDancer the players MainDancer.
-     * @param cardDeck the players deck of cards.
+     * @param cardDeck   the players deck of cards.
      */
     protected Player(MainDancer mainDancer, CardDeck cardDeck) {
         this.mainDancer = mainDancer;
         this.cardDeck = cardDeck;
-        this.danceFan = new DanceFan(mainDancer.getColor(), Type.DF, new Coordinates(0,0));
-        this.transDanceFan = new DanceFan(mainDancer.getColor(), Type.TRANSDF, new Coordinates(0,0));
+        this.danceFan = new DanceFan(mainDancer.getColor(), Type.DF, new Coordinates(0, 0));
+        this.transDanceFan = new DanceFan(mainDancer.getColor(), Type.TRANSDF, new Coordinates(0, 0));
     }
 
     /**
      * Getter for the players MainDancer.
+     *
      * @return a MainDancer.
      */
     protected MainDancer getMainDancer() {
@@ -48,6 +50,7 @@ public class Player {
 
     /**
      * Getter for the players DanceFan.
+     *
      * @return a copy of the DanceFan.
      */
     protected DanceFan getDanceFan() {
@@ -56,6 +59,7 @@ public class Player {
 
     /**
      * Getter for the players DanceFans used to preview moves.
+     *
      * @return a copy of the DanceFan.
      */
     protected DanceFan getTransparentDanceFan() {
@@ -66,75 +70,84 @@ public class Player {
 
     /**
      * Getter of the mainDancers color.
+     *
      * @return the color of the mainDancer.
      */
-    protected  Color getColor(){
+    protected Color getColor() {
         return mainDancer.getColor();
     }
 
     /**
      * Getter of the mainDancers coordinates
+     *
      * @return the coordinates of the mainDancer.
      */
-    protected  Coordinates getCoordinates(){
+    protected Coordinates getCoordinates() {
         return mainDancer.getCoordinates();
     }
 
     /**
      * Getter of the mainDancers preview Coordinates.
+     *
      * @return the coordinates of the mainDancer in the preview.
      */
-    protected  Coordinates getPreviewCoordinates(){
+    protected Coordinates getPreviewCoordinates() {
         return mainDancer.getPreviewCoordinates();
     }
 
     /**
      * Setter of the mainDancers coordinates.
+     *
      * @param coords the coordinates to change to.
      */
-    protected void setCoordinates(Coordinates coords){
+    protected void setCoordinates(Coordinates coords) {
         mainDancer.setCoordinates(coords);
     }
 
     /**
      * Setter of the mainDancers coordinates.
+     *
      * @param coords the coordinates to change to.
      */
-    protected  void setPreviewCoordinates(Coordinates coords){
+    protected void setPreviewCoordinates(Coordinates coords) {
         mainDancer.setPreviewCoordinates(coords);
     }
 
     /**
      * A getter for how many steps a player can take with the selected card.
+     *
      * @param selected which of the cards on hand one wants to get the steps from
      * @return an int with the amount of steps a player can take.
      */
-    protected int getSteps(int selected){
+    protected int getSteps(int selected) {
         return cardDeck.getSteps(selected);
     }
 
     /**
      * Gets the dance pattern from the card selected
+     *
      * @param selected which of the cards on hand one wants to get the dance pattern from
      * @return the dance patter of the selected card
      */
-    protected  PatternOccupant[][] getPattern(int selected){
+    protected PatternOccupant[][] getPattern(int selected) {
         return cardDeck.getPattern(selected);
     }
 
     /**
      * Gets the cards a player can currently use.
+     *
      * @return the cards a player can currently use.
      */
-    protected List<Card> getHand(){
+    protected List<Card> getHand() {
         return cardDeck.getOpen();
     }
 
     /**
      * Uses the card selected in the cardDeck.
+     *
      * @param selected which card on hand one wants to use
      */
-    protected void useCard(int selected){
+    protected void useCard(int selected) {
         cardDeck.useCard(selected);
     }
 }
