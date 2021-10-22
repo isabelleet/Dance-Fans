@@ -9,9 +9,9 @@ import java.util.List;
 
 /**
  * DanceFloor keeps track of the board which the game is played on. It can add / remove things on specific tiles.
- *
+ * <p>
  * Is used by View, Model.
- *
+ * <p>
  * Uses Color, Type, PatternOccupant., Coordinates, DanceDan, DanceFloorTile, FloorObject, MainDancer.
  *
  * @author Joar Granström
@@ -21,7 +21,7 @@ import java.util.List;
  * @author Isabelle Ermeryd Tankred
  */
 
-public class DanceFloor{
+public class DanceFloor {
 
     private final DanceFloorTile[][] dfTiles;
 
@@ -40,7 +40,7 @@ public class DanceFloor{
     }
 
     // Constructor used to make copies of danceFloor.
-    private DanceFloor(DanceFloorTile[][] tiles){
+    private DanceFloor(DanceFloorTile[][] tiles) {
         this.dfTiles = tiles;
     }
 
@@ -48,8 +48,8 @@ public class DanceFloor{
      * Fills the DanceFloor with empty tiles.
      */
     protected void initializeDanceFloor() {
-        for(int row = 0; row < dfTiles.length; row++) {
-            for(int col = 0; col < dfTiles[0].length; col++){
+        for (int row = 0; row < dfTiles.length; row++) {
+            for (int col = 0; col < dfTiles[0].length; col++) {
                 this.dfTiles[row][col] = new DanceFloorTile(Color.NONE, Type.EMPTY);
             }
         }
@@ -57,12 +57,13 @@ public class DanceFloor{
 
     /**
      * Creates and returns a copy of the danceFloor. Used to avoid pointing to the same object.
+     *
      * @return A copy of the danceFloor.
      */
     protected DanceFloor copy() {
         DanceFloorTile[][] copyTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
-        for(int row = 0; row < dfTiles.length; row++){
-            for(int col = 0; col < dfTiles[0].length; col++){
+        for (int row = 0; row < dfTiles.length; row++) {
+            for (int col = 0; col < dfTiles[0].length; col++) {
                 copyTiles[row][col] = new DanceFloorTile(dfTiles[row][col].getColor(), dfTiles[row][col].getType());
             }
         }
@@ -72,6 +73,7 @@ public class DanceFloor{
 
     /**
      * Sets the color and type of the tile to NONE and EMPTY, which is how the empty tile is represented.
+     *
      * @param coords which tile to update.
      */
     protected void removeObjectFromTileIndex(Coordinates coords) {
@@ -80,7 +82,8 @@ public class DanceFloor{
 
     /**
      * Sets a new dancer on a tile.
-     * @param coords which tile to change.
+     *
+     * @param coords      which tile to change.
      * @param floorObject which object to place on the tile.
      */
     protected void newObjectOnTile(Coordinates coords, FloorObject floorObject) {
@@ -89,9 +92,10 @@ public class DanceFloor{
 
     /**
      * Sets a mainDancer on a tile.
+     *
      * @param mDancer the dancer to place.
      */
-    protected void newObjectOnTile(MainDancer mDancer){
+    protected void newObjectOnTile(MainDancer mDancer) {
         int x = mDancer.getCoordinates().getX();
         int y = mDancer.getCoordinates().getY();
 
@@ -100,11 +104,12 @@ public class DanceFloor{
 
     /**
      * Adds transparent dance fans to the danceFloor according to a given pattern and in a certain location.
+     *
      * @param mdCoords coordinates of the mainDancer
-     * @param transDF the type of transparent danceFan to draw
-     * @param pattern the pattern which new fans are to be added
+     * @param transDF  the type of transparent danceFan to draw
+     * @param pattern  the pattern which new fans are to be added
      */
-    protected void addDFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern){
+    protected void addDFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern) {
         Coordinates offset = offsetCoordinates(pattern);
 
         for (int row = 0; row < pattern.length; row++) {
@@ -115,7 +120,7 @@ public class DanceFloor{
                     int rowInDanceFloor = mdCoords.getY() - offset.getY() + row;
                     Coordinates danceFanCoord = new Coordinates(colInDanceFloor, rowInDanceFloor);
 
-                    if (insideDanceFloor(danceFanCoord) && !(Type.MD == this.getType(danceFanCoord))){
+                    if (insideDanceFloor(danceFanCoord) && !(Type.MD == this.getType(danceFanCoord))) {
                         this.newObjectOnTile(danceFanCoord, transDF);
                     }
                 }
@@ -125,13 +130,14 @@ public class DanceFloor{
 
     /**
      * Gets a list of the coordinates for all transparent dancers in the dance floor.
+     *
      * @return a list with the coordinates of all the transparent dancers.
      */
-    protected List<Coordinates> getTransparentCoordinates(){
+    protected List<Coordinates> getTransparentCoordinates() {
         List<Coordinates> coordinatesList = new ArrayList<>();
-        for(int row = 0; row < mapHeightInTiles; row++){
-            for(int col = 0; col < mapWidthInTiles; col++){
-                if(dfTiles[row][col].getType() == Type.TRANSDF){
+        for (int row = 0; row < mapHeightInTiles; row++) {
+            for (int col = 0; col < mapWidthInTiles; col++) {
+                if (dfTiles[row][col].getType() == Type.TRANSDF) {
                     Coordinates coordinates = new Coordinates(col, row);
                     coordinatesList.add(coordinates);
                 }
@@ -142,13 +148,14 @@ public class DanceFloor{
 
     /**
      * Counts the total amount of tiles which are occupied by something.
+     *
      * @return the tiótal amount of tiles which are occupied by.
      */
-    protected int countTotalTiles(){
+    protected int countTotalTiles() {
         int sum = 0;
-        for(int row = 0; row < mapHeightInTiles; row++){
-            for(int col = 0; col < mapWidthInTiles; col++){
-                if(dfTiles[row][col].getType() != Type.EMPTY){
+        for (int row = 0; row < mapHeightInTiles; row++) {
+            for (int col = 0; col < mapWidthInTiles; col++) {
+                if (dfTiles[row][col].getType() != Type.EMPTY) {
                     sum++;
                 }
             }
@@ -159,14 +166,15 @@ public class DanceFloor{
 
     /**
      * Counts the total amount of tiles of a certain color.
+     *
      * @param color the color to be counted
      * @return the total amount of tiles of a certain color.
      */
-    protected int countTiles(Color color){
+    protected int countTiles(Color color) {
         int sum = 0;
-        for(int row = 0; row < mapHeightInTiles; row++){
-            for(int col = 0; col < mapWidthInTiles; col++){
-                if(dfTiles[row][col].getColor() == color){
+        for (int row = 0; row < mapHeightInTiles; row++) {
+            for (int col = 0; col < mapWidthInTiles; col++) {
+                if (dfTiles[row][col].getColor() == color) {
                     sum++;
                 }
             }
@@ -176,19 +184,20 @@ public class DanceFloor{
 
     /**
      * A boolean for checking if the given coordinates are inside of the danceFloor.
+     *
      * @param coords the coordinates to be checked
      * @return true if the coordinates are inside, otherwise false.
      */
-    public boolean insideDanceFloor(Coordinates coords){
-        return ( coords.getX()< mapWidthInTiles)
-                &&   ( coords.getX() >= 0)
-                &&   ( coords.getY() < mapHeightInTiles)
-                &&   ( coords.getY() >= 0);
+    public boolean insideDanceFloor(Coordinates coords) {
+        return (coords.getX() < mapWidthInTiles)
+                && (coords.getX() >= 0)
+                && (coords.getY() < mapHeightInTiles)
+                && (coords.getY() >= 0);
     }
 
     // private helper methods
 
-    private Coordinates offsetCoordinates(PatternOccupant[][] pattern){
+    private Coordinates offsetCoordinates(PatternOccupant[][] pattern) {
         int offsetX = 0;
         int offsetY = 0;
 
@@ -209,19 +218,21 @@ public class DanceFloor{
 
     /**
      * Returns what color the object on a specific tile has.
+     *
      * @param coords is the coordinates of the specific tile.
      * @return the color of the object on a specific tile.
      */
-    public Color getColor(Coordinates coords){
+    public Color getColor(Coordinates coords) {
         return dfTiles[coords.getY()][coords.getX()].getColor();
     }
 
     /**
      * Returns what type the object on a specific tile has.
+     *
      * @param coords is the coordinates of the specific tile.
      * @return the type of the object on a specific tile.
      */
-    public Type getType(Coordinates coords){
+    public Type getType(Coordinates coords) {
         return dfTiles[coords.getY()][coords.getX()].getType();
     }
 }

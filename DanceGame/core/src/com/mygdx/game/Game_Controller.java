@@ -2,14 +2,14 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.game.model.Model;
+import com.mygdx.game.model.Game_Model;
 
 /**
  * Controller, calls on methods in model depending on what has been inputted. Part of the MVC pattern.
- *
+ * <p>
  * Is used in DanceFans.
- *
- * Uses Model.
+ * <p>
+ * Uses Game_Model.
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -18,65 +18,68 @@ import com.mygdx.game.model.Model;
  * @author David Salmo
  */
 
-public class Controller implements InputProcessor {
+public class Game_Controller implements InputProcessor {
 
-    Model model;
-    public Controller(Model model){
-        this.model = model;
+    Game_Model gameModel;
+
+    public Game_Controller(Game_Model gameModel) {
+        this.gameModel = gameModel;
     }
 
     /**
      * Checks which key was pressed and tells the model what the user wants to do.
+     *
      * @param keycode the key that was pressed.
      * @return returns true when the input has been processed, otherwise returns false.
      */
     @Override
     public boolean keyDown(int keycode) {
 
-        if(model.gameIsDone()){
-        if(keycode == Input.Keys.D){
-            model.startNewGame();
-            return true;
-        }}
+        if (gameModel.isGameDone()) {
+            if (keycode == Input.Keys.D) {
+                gameModel.startNewGame();
+                return true;
+            }
+        }
 
-      
-        if(keycode == Input.Keys.NUM_1 && !model.gameIsDone()){
-            model.selectedCard = 0;
-            model.resetDancer();
+
+        if (keycode == Input.Keys.NUM_1 && !gameModel.isGameDone()) {
+            gameModel.selectedCard = 0;
+            gameModel.resetDancer();
             return true;
         }
 
-        if(keycode == Input.Keys.NUM_2 && !model.gameIsDone()){
-            model.selectedCard = 1;
-            model.resetDancer();
+        if (keycode == Input.Keys.NUM_2 && !gameModel.isGameDone()) {
+            gameModel.selectedCard = 1;
+            gameModel.resetDancer();
             return true;
         }
 
-        if(keycode == Input.Keys.NUM_3 && !model.gameIsDone()){
-            model.selectedCard = 2;
-            model.resetDancer();
+        if (keycode == Input.Keys.NUM_3 && !gameModel.isGameDone()) {
+            gameModel.selectedCard = 2;
+            gameModel.resetDancer();
             return true;
         }
 
-        if(keycode == Input.Keys.D && !model.gameIsDone()) {
-            model.playerDrewCardsToStartTurn();
+        if (keycode == Input.Keys.D && !gameModel.isGameDone()) {
+            gameModel.playerDrewCardsToStartTurn();
             return true;
-          
+
         }
-        if(keycode == Input.Keys.ENTER && !model.gameIsDone()) {
+        if (keycode == Input.Keys.ENTER && !gameModel.isGameDone()) {
             System.out.println("Player clicked enter to confirm Dance move");
-            if (model.hasPlayerStartedTheirTurn) {
-                model.playerConfirmedDanceMove();
+            if (gameModel.getHasPlayerStartedTheirTurn()) {
+                gameModel.playerConfirmedDanceMove();
             }
             return true;
         }
 
         //movement of the player
-        if(keycode <= 22 && keycode >= 19 && !model.gameIsDone()) {
-            if (model.hasPlayerStartedTheirTurn) {
+        if (keycode <= 22 && keycode >= 19 && !gameModel.isGameDone()) {
+            if (gameModel.getHasPlayerStartedTheirTurn()) {
                 int x = 0;
                 int y = 0;
-                switch (keycode){
+                switch (keycode) {
                     case Input.Keys.UP:
                         y = -1;
                         break;
@@ -90,7 +93,7 @@ public class Controller implements InputProcessor {
                         x = 1;
                         break;
                 }
-                    model.moveSelection(x, y);
+                gameModel.moveSelection(x, y);
                 return true;
             }
         }

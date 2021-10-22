@@ -9,11 +9,10 @@ import java.util.Random;
 /**
  * CardDeck stores the different piles of cards which a deck is divided into. It also handles moving the cards between
  * the different piles.
- *
+ * <p>
  * Is used by Model, Player.
- *
+ * <p>
  * Uses PatternOccupant, Card.
- *
  *
  * @author Hedy Pettersson
  * @author Jakob Persson
@@ -31,6 +30,7 @@ public class CardDeck {
 
     /**
      * Constructor, initially opens two of the cards from the pile.
+     *
      * @param deck a list of cards the deck will contain.
      */
     protected CardDeck(List<Card> deck) {
@@ -44,6 +44,7 @@ public class CardDeck {
 
     /**
      * Takes the first card from the pile and puts it on hand.
+     *
      * @param i the location which the new card will be placed in the hand.
      */
     private void openCard(int i) {
@@ -56,6 +57,7 @@ public class CardDeck {
 
     /**
      * Moves the selected card from the hand to the discard pile and replaces it.
+     *
      * @param selected which of the cards on hand to use and then replace.
      */
     public void useCard(int selected) {
@@ -65,6 +67,7 @@ public class CardDeck {
 
     /**
      * Removes the selected from hand and adds it to the discarded pile.
+     *
      * @param i which of the cards on hand is selected.
      */
     private void discardCard(int i) {
@@ -73,6 +76,7 @@ public class CardDeck {
 
     /**
      * Returns a copy of the cards on hand.
+     *
      * @return a copy of the list of cards on hand.
      */
     public List<Card> getOpen() {
@@ -81,17 +85,19 @@ public class CardDeck {
 
     /**
      * Gets the steps from the currently selected card.
+     *
      * @return the steps from the currently selected card.
      */
-    protected int getSteps(int selected){
+    protected int getSteps(int selected) {
         return hand.get(selected).getSteps();
     }
 
     /**
      * Gets the dance pattern of the currently selected card.
+     *
      * @return the dance pattern of the currently selected card.
      */
-    protected PatternOccupant[][] getPattern(int selected){
+    protected PatternOccupant[][] getPattern(int selected) {
         return hand.get(selected).getDancePattern();
     }
 
@@ -108,6 +114,7 @@ public class CardDeck {
 
     /**
      * Create a copy of all the cards in a list. Used to get immutability outside of the class.
+     *
      * @param deck the list to be copied
      * @return a copy of the list
      */
@@ -117,6 +124,7 @@ public class CardDeck {
 
     /**
      * Used to get a starter deck.
+     *
      * @param i 0 for a green deck, otherwise a red deck
      * @return either a deck with green cards or red cards
      */
@@ -186,6 +194,7 @@ public class CardDeck {
 
     /**
      * A shuffle method based on Fisher-Yates shuffle. Changes the original deck of cards.
+     *
      * @param cards the cards to be shuffled
      */
     // Fisher-yates shuffle https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
