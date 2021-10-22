@@ -149,8 +149,8 @@ public class Game_Model {
         int moveLimit = currentPlayer().getSteps(selectedCard);
         Coordinates newCoords = new Coordinates(selectedCoordinates.getX() + x, selectedCoordinates.getY() + y);
         boolean collision = collisionOtherPlayer(newCoords);
-        if (danceFloor.insideDanceFloor(newCoords) && (distanceToMainDancer(newCoords) <= moveLimit)
-                && (!(collision))) {
+        if (danceFloor.insideDanceFloor(newCoords) && !(collision) && (distanceToMainDancer(newCoords) <= moveLimit))
+        {
             selectedCoordinates = newCoords;
             moveMainDancerOfCurrentPlayerToCoords(newCoords);
         }

@@ -312,6 +312,14 @@ public class ModelTests {
         assertNotEquals(model.currentPlayer().getCoordinates(), initCoords);
     }
 
+    @Test
+    public void moveSelectionTest(){
+        Coordinates coords = model.currentPlayer().getCoordinates();
+        model.moveSelection(coords.getX()-1, coords.getY());
+
+        assertEquals(model.currentPlayer().getCoordinates().getX(), coords.getX());
+    }
+
 
     //List of tests one could do:
 
