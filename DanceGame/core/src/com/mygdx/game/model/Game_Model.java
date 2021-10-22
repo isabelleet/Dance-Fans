@@ -1,7 +1,6 @@
 package com.mygdx.game.model;
 
 import com.mygdx.game.Enums.Color;
-import com.mygdx.game.Enums.Type;
 
 import java.lang.Math;
 
@@ -24,27 +23,27 @@ import java.util.List;
  * @author Isabelle Ermeryd Tankred
  */
 
-public class Model {
+public class Game_Model {
 
 
     private Player[] players;
     private int turnNumber = 0;
     private final int maximumTurns = 20;
-    public Boolean hasPlayerStartedTheirTurn;
-    public DanceFloor danceFloor;
+    private Boolean hasPlayerStartedTheirTurn;
+    private DanceFloor danceFloor;
     // When the player moves around selection marker to understand their moves, we only update and show previewDanceFloor
     // When the move is confirmed, make danceFloor become previewDanceFloor.
-    public DanceFloor previewDanceFloor;
-    public Coordinates selectedCoordinates;
+    private DanceFloor previewDanceFloor;
+    private Coordinates selectedCoordinates;
     public int selectedCard = 0;
 
     List<Coordinates> tileCoords = new ArrayList();
 
-    public Model() {
+    public Game_Model() {
     }
 
     public Player currentPlayer() {
-        if (playerOneTurn())
+        if (isItPlayerOnesTurn())
             return this.players[0];
         else
             return this.players[1];
@@ -162,7 +161,7 @@ public class Model {
      *
      * @return a list of the cards on hand for the current player.
      */
-    public List<Card> cardsOnHand() {
+    public List<Card> getCardsOnHand() {
         return currentPlayer().getHand();
     }
 
@@ -172,7 +171,7 @@ public class Model {
      *
      * @return true or false.
      */
-    public boolean gameIsDone() {
+    public boolean isGameDone() {
         // return true when game is finish
         return (danceFloor.countTotalTiles() == 54 || turnNumber == maximumTurns);
     }
@@ -182,7 +181,7 @@ public class Model {
      *
      * @return the playerTurnSlot of the player which is currently in the lead.
      */
-    public int isLeading() {
+    public int whichPlayerIsLeading() {
         int p1Tiles = danceFloor.countTiles(players[0].getColor());
         int p2Tiles = danceFloor.countTiles(players[1].getColor());
 
@@ -201,8 +200,26 @@ public class Model {
      *
      * @return true if it is player one's turn, otherwise false.
      */
-    public boolean playerOneTurn() {
+    public boolean isItPlayerOnesTurn() {
         return turnNumber % players.length == 0;
+    }
+
+    /**
+     * Returns the boolean of if a player has started their turn
+     *
+     * @return true if the player has started their turn, false otherwise.
+     */
+    public Boolean getHasPlayerStartedTheirTurn() {
+        return hasPlayerStartedTheirTurn;
+    }
+
+    /**
+     * Returns the selected coordinates.
+     *
+     * @return the selected coordinates.
+     */
+    public Coordinates getSelectedCoordinates() {
+        return selectedCoordinates;
     }
 
     /**
@@ -210,8 +227,35 @@ public class Model {
      *
      * @return which turn it is.
      */
-    public int numberTurns() {
+    public int getTurns() {
         return turnNumber / 2;
+    }
+
+    /**
+     * Getter for the maximum turn number.
+     *
+     * @return the maximum turns.
+     */
+    public int getMaximumTurns() {
+        return maximumTurns;
+    }
+
+    /**
+     * Getter for the danceFloor.
+     *
+     * @return danceFloor.
+     */
+    public DanceFloor getDanceFloor() {
+        return danceFloor;
+    }
+
+    /**
+     * Getter for the previewDanceFloor.
+     *
+     * @return the previewDanceFloor.
+     */
+    public DanceFloor getPreviewDanceFloor() {
+        return previewDanceFloor;
     }
 
     private boolean collisionOtherPlayer(Coordinates coordinates) {
@@ -245,10 +289,6 @@ public class Model {
 
         previewDanceFloor.addDFromPattern(player.getPreviewCoordinates(), player.getTransparentDanceFan(), player.getPattern(selectedCard));
         tileCoords = previewDanceFloor.getTransparentCoordinates();
-    }
-
-    public int getMaximumTurns() {
-        return maximumTurns;
     }
 
 }

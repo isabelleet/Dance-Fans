@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.mygdx.game.model.Model;
+import com.mygdx.game.model.Game_Model;
 
 /**
  * DanceFans is the application which connects all the MVC.
@@ -27,9 +27,9 @@ public class DanceFans extends ApplicationAdapter {
     // activeGameSession?
     //
 
-    public Model gameState;
-    public View view;
-    public Controller controller;
+    public Game_Model gameState;
+    public Main_Game_View mainGameView;
+    public Game_Controller gameController;
 
     // https://libgdx.badlogicgames.com/ci/nightlies/docs/api/com/badlogic/gdx/ApplicationListener.html
 
@@ -38,15 +38,15 @@ public class DanceFans extends ApplicationAdapter {
      */
     @Override
     public void create() {
-        gameState = new Model();
+        gameState = new Game_Model();
         gameState.startNewGame();
-        view = new View();
-        view.create(gameState);
+        mainGameView = new Main_Game_View();
+        mainGameView.create(gameState);
         //Possible camera fix, but MVC is more importante!
         //Init renderer
-        controller = new Controller(gameState);
+        gameController = new Game_Controller(gameState);
         // controller.init();
-        Gdx.input.setInputProcessor(this.controller);
+        Gdx.input.setInputProcessor(this.gameController);
     }
 
     /**
@@ -57,7 +57,7 @@ public class DanceFans extends ApplicationAdapter {
      */
     @Override
     public void resize(int width, int height) {
-        view.viewport.update(width, height);
+        mainGameView.viewport.update(width, height);
     }
 
     /**
@@ -65,7 +65,7 @@ public class DanceFans extends ApplicationAdapter {
      */
     @Override
     public void render() {
-        view.render(gameState.previewDanceFloor);
+        mainGameView.render(gameState.getPreviewDanceFloor());
         //System.out.println(view.selectedTile_sprite.getX());
     }
 
@@ -74,7 +74,7 @@ public class DanceFans extends ApplicationAdapter {
      */
     @Override
     public void dispose() {
-        view.dispose();
+        mainGameView.dispose();
         // TODO: maybe need to dispose data in model too? Not sure how
         //gameState.dispose(); // ??? Kanske ska vara så med?
     }

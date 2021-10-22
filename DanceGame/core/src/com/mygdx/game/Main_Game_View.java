@@ -20,7 +20,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import com.mygdx.game.model.Model;
+import com.mygdx.game.model.Game_Model;
 import com.mygdx.game.model.DanceFloor;
 import com.mygdx.game.model.Coordinates;
 import com.mygdx.game.Enums.*;
@@ -30,7 +30,7 @@ import com.mygdx.game.Enums.*;
  * <p>
  * Is used by DanceFans.
  * <p>
- * Uses Color, Type, Coordinates, DanceFloor, Model.
+ * Uses Color, Type, Coordinates, DanceFloor, Game_Model.
  *
  * @author Joar Granström
  * @author Hedy Pettersson
@@ -40,7 +40,7 @@ import com.mygdx.game.Enums.*;
  * @author Isabelle Ermeryd Tankred
  */
 
-public class View {
+public class Main_Game_View {
 
     BitmapFont font = new BitmapFont();
     //TODO: maybe add custom font
@@ -74,7 +74,7 @@ public class View {
     float width = (Gdx.graphics.getWidth() / 2);
     float height = (Gdx.graphics.getHeight());
 
-    private Model model;
+    private Game_Model gameModel;
 
     private AssetManager manager;
     private TiledMap map;
@@ -114,11 +114,11 @@ public class View {
     /**
      * Initializes TextureAtlases for buttons, cards and dancers, creates a sprite for each object that should be displayed. Also gives view a Model to draw things from.
      *
-     * @param model The model object created on startup.
+     * @param gameModel The model object created on startup.
      */
-    public void create(Model model) {
+    public void create(Game_Model gameModel) {
 
-        this.model = model;
+        this.gameModel = gameModel;
         initManagers();
 
         //# Things to draw
@@ -212,7 +212,7 @@ public class View {
                 Color color = danceFloor.getColor(coordsInDanceFloor);
                 Type type = danceFloor.getType(coordsInDanceFloor);
                 drawSprite(stringDancer(color, type), danceFloor.tileSideLength * colIndex, distanceFromBottomToTop - (danceFloor.tileSideLength * rowIndex));
-                if (coordsInDanceFloor.getX() == model.selectedCoordinates.getX() && coordsInDanceFloor.getY() == model.selectedCoordinates.getY()) {
+                if (coordsInDanceFloor.getX() == gameModel.getSelectedCoordinates().getX() && coordsInDanceFloor.getY() == gameModel.getSelectedCoordinates().getY()) {
                     batch.draw(selectedTile_sprite, danceFloor.tileSideLength * colIndex, distanceFromBottomToTop - (danceFloor.tileSideLength * rowIndex));
                 }
             }
@@ -231,8 +231,8 @@ public class View {
         batch.begin();
 
 
-        if (model.gameIsDone()) {
-            String strWinner = whoWon(model.isLeading());
+        if (gameModel.isGameDone()) {
+            String strWinner = whoWon(gameModel.whichPlayerIsLeading());
             winner = textureAtlasWinner.createSprite(strWinner);
 
             winner.setPosition(160, 300);
@@ -247,7 +247,7 @@ public class View {
         int xAdjustment = 85;
 
 
-        if (!model.gameIsDone()) {
+        if (!gameModel.isGameDone()) {
             drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
             drawButton("emojione-monotone_keycap-2", 2 * spacing + xAdjustment, 10);
             drawButton("emojione-monotone_keycap-3", 3 * spacing + xAdjustment, 10);
@@ -255,21 +255,21 @@ public class View {
             // Draw current players cards
             String cardback;
 
-            if (model.playerOneTurn()) {
+            if (gameModel.isItPlayerOnesTurn()) {
                 cardback = "cardback_red";
             } else {
                 cardback = "cardback_green";
             }
-            for (int i = 0; i < model.cardsOnHand().size(); i++) {
+            for (int i = 0; i < gameModel.getCardsOnHand().size(); i++) {
                 String card;
-                if (!model.hasPlayerStartedTheirTurn) {
+                if (!gameModel.getHasPlayerStartedTheirTurn()) {
                     card = cardback;
                     drawButton(card, i * spacing + 220, cardsBottomY);
                     break;
-                } else if (i == model.selectedCard) {
-                    card = "id=" + model.cardsOnHand().get(i).getId() + ", selected=True";
+                } else if (i == gameModel.selectedCard) {
+                    card = "id=" + gameModel.getCardsOnHand().get(i).getId() + ", selected=True";
                 } else {
-                    card = "id=" + model.cardsOnHand().get(i).getId() + ", selected=False";
+                    card = "id=" + gameModel.getCardsOnHand().get(i).getId() + ", selected=False";
                 }
                 drawCard(card, i * spacing + 220, cardsBottomY);
             }
@@ -278,19 +278,19 @@ public class View {
 
         //TODO: refactor in better way, this was quick just ot get it working
         String startTurnUIForCurrentPlayer;
-        if (!model.gameIsDone()) {
-            if (model.playerOneTurn())
+        if (!gameModel.isGameDone()) {
+            if (gameModel.isItPlayerOnesTurn())
                 startTurnUIForCurrentPlayer = "startTurn_keyboard_redPlayer";
             else
                 startTurnUIForCurrentPlayer = "startTurn_keyboard_greenPlayer";
 
-            if (!model.hasPlayerStartedTheirTurn) {
+            if (!gameModel.getHasPlayerStartedTheirTurn()) {
                 drawButton(startTurnUIForCurrentPlayer, -55, cardsBottomY + 220);
             }
 
             //TODO: refactor in better way, this was quick just ot get it working
             String currentPlayerDeckImageName;
-            if (model.playerOneTurn())
+            if (gameModel.isItPlayerOnesTurn())
                 currentPlayerDeckImageName = "deck_red";
             else
                 currentPlayerDeckImageName = "deck_green";
@@ -298,7 +298,7 @@ public class View {
 
             //TODO: refactor in better way, this was quick just ot get it working
             int currentPlayerNumber;
-            if (model.playerOneTurn())
+            if (gameModel.isItPlayerOnesTurn())
                 currentPlayerNumber = 1;
             else
                 currentPlayerNumber = 2;
@@ -311,11 +311,11 @@ public class View {
 
     private void displayText() {
 
-        if (!model.gameIsDone()) {
-            int turnNumbers = model.numberTurns() + 1;
+        if (!gameModel.isGameDone()) {
+            int turnNumbers = gameModel.getTurns() + 1;
             String s = turnNumbers + "    rounds played";
             font.draw(batch, s, 20, height - 10);
-            int turnsLeft = model.getMaximumTurns() / 2 - turnNumbers + 1;
+            int turnsLeft = gameModel.getMaximumTurns() / 2 - turnNumbers + 1;
             String t = turnsLeft + " ";
             font.draw(batch, t, width + 322, height - 382);
         }
