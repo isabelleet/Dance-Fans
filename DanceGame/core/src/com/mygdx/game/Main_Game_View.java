@@ -2,28 +2,27 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
-
-import java.util.HashMap;
-
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import com.mygdx.game.model.Game_Model;
-import com.mygdx.game.model.DanceFloor;
+import com.mygdx.game.Enums.Color;
+import com.mygdx.game.Enums.Type;
 import com.mygdx.game.model.Coordinates;
-import com.mygdx.game.Enums.*;
+import com.mygdx.game.model.DanceFloor;
+import com.mygdx.game.model.Game_Model;
+
+import java.util.HashMap;
 
 /**
  * View, handles everything visual. Part of the MVC pattern.
@@ -42,38 +41,29 @@ import com.mygdx.game.Enums.*;
 
 public class Main_Game_View {
 
-    BitmapFont font = new BitmapFont();
-    //TODO: maybe add custom font
-    //BitmapFont font = new BitmapFont(Gdx.files.internal("Calibri.fnt"),Gdx.files.internal("Calibri.png"),false);
-    SpriteBatch batch;
-
-    public Sprite selectedTile_sprite;
-    Sprite winner;
-    public Sprite background;
-    public Sprite instructions;
-
-
     final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
-
     private final TextureAtlas textureAtlas = new TextureAtlas("sprites.txt");
     private final TextureAtlas textureAtlasCards = new TextureAtlas("cardSprites.txt");
     private final TextureAtlas textureAtlasButtons = new TextureAtlas("buttonSprites.txt");
     private final TextureAtlas textureAtlasWinner = new TextureAtlas("winners.txt");
     private final TextureAtlas textureAtlasBackground = new TextureAtlas("background.txt");
     private final TextureAtlas textureAtlasInstructions = new TextureAtlas("instructions.txt");
-
-
     private final HashMap<String, Sprite> cards = new HashMap<String, Sprite>();
     private final HashMap<String, Sprite> buttonSprites = new HashMap<String, Sprite>();
-
+    public Sprite selectedTile_sprite;
+    public Sprite background;
+    public Sprite instructions;
+    public Viewport viewport;
+    BitmapFont font = new BitmapFont();
+    //TODO: maybe add custom font
+    //BitmapFont font = new BitmapFont(Gdx.files.internal("Calibri.fnt"),Gdx.files.internal("Calibri.png"),false);
+    SpriteBatch batch;
+    Sprite winner;
+    float width = (Gdx.graphics.getWidth() / 2);
+    float height = (Gdx.graphics.getHeight());
     // Camera and render
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
-    public Viewport viewport;
-
-    float width = (Gdx.graphics.getWidth() / 2);
-    float height = (Gdx.graphics.getHeight());
-
     private Game_Model gameModel;
 
     private AssetManager manager;
@@ -98,10 +88,8 @@ public class Main_Game_View {
         camera.position.set(width, 0, 0);
         camera.zoom = 2;
 
-
         viewport = new FitViewport(1600, 900, camera);
         viewport.apply();
-
     }
 
     /**
@@ -141,13 +129,11 @@ public class Main_Game_View {
             sprites.put(region.name, sprite);
         }
 
-
         Array<AtlasRegion> regionsCards = textureAtlasCards.getRegions();
         for (AtlasRegion region : regionsCards) {
             Sprite sprite = textureAtlasCards.createSprite(region.name);
             cards.put(region.name, sprite);
         }
-
 
         Array<AtlasRegion> regionsButtons = textureAtlasButtons.getRegions();
         for (AtlasRegion region : regionsButtons) {
@@ -217,9 +203,7 @@ public class Main_Game_View {
                 }
             }
         }
-
         //TODO: Draw UI that help player play
-
 
         camera.update();
         mapRenderer.setView(camera);
@@ -230,7 +214,6 @@ public class Main_Game_View {
         // batch for drawing cards
         batch.begin();
 
-
         if (gameModel.isGameDone()) {
             String strWinner = whoWon(gameModel.whichPlayerIsLeading());
             winner = textureAtlasWinner.createSprite(strWinner);
@@ -239,13 +222,11 @@ public class Main_Game_View {
             winner.draw(batch);
         }
 
-
         displayText();
 
         int spacing = 195;
         int cardsBottomY = 40;
         int xAdjustment = 85;
-
 
         if (!gameModel.isGameDone()) {
             drawButton("emojione-monotone_keycap-1", 1 * spacing + xAdjustment, 10);
@@ -274,7 +255,6 @@ public class Main_Game_View {
                 drawCard(card, i * spacing + 220, cardsBottomY);
             }
         }
-
 
         //TODO: refactor in better way, this was quick just ot get it working
         String startTurnUIForCurrentPlayer;
@@ -319,7 +299,6 @@ public class Main_Game_View {
             String t = turnsLeft + " ";
             font.draw(batch, t, width + 322, height - 382);
         }
-
 
         //TODO: if enter is pressed, show it as feedback?
         //TODO: show active when it is possible to press button to get an effect
