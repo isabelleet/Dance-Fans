@@ -82,7 +82,7 @@ public class Player {
      *
      * @return the coordinates of the mainDancer.
      */
-     Coordinates getCoordinates() {
+     public Coordinates getCoordinates() {
         return mainDancer.getCoordinates();
     }
 
@@ -100,7 +100,7 @@ public class Player {
      *
      * @param coords the coordinates to change to.
      */
-     void setCoordinates(Coordinates coords) {
+     public void setCoordinates(Coordinates coords) {
         mainDancer.setCoordinates(coords);
     }
 

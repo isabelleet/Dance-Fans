@@ -57,7 +57,7 @@ public class Game_Model {
 
         this.players = new Player[2];
 
-        Player player1 = new Player(new MainDancer(Color.RED, new Coordinates(2, 4)), CardDeck.initialDeck(0));
+        Player player1 = new Player(new MainDancer(Color.RED, new Coordinates(8, 5)), CardDeck.initialDeck(0));
         Player player2 = new Player(new MainDancer(Color.GREEN, new Coordinates(0, 0)), CardDeck.initialDeck(1));
 
         this.players[0] = player1;
@@ -148,9 +148,9 @@ public class Game_Model {
     public void moveSelection(int x, int y) {
         int moveLimit = currentPlayer().getSteps(selectedCard);
         Coordinates newCoords = new Coordinates(selectedCoordinates.getX() + x, selectedCoordinates.getY() + y);
-
+        boolean collision = collisionOtherPlayer(newCoords);
         if (danceFloor.insideDanceFloor(newCoords) && (distanceToMainDancer(newCoords) <= moveLimit)
-                && (!(collisionOtherPlayer(newCoords)))) {
+                && (!(collision))) {
             selectedCoordinates = newCoords;
             moveMainDancerOfCurrentPlayerToCoords(newCoords);
         }
@@ -261,10 +261,8 @@ public class Game_Model {
     private boolean collisionOtherPlayer(Coordinates coordinates) {
         for (Player player : players) {
 
-            if (player != currentPlayer() &&
-                    player.getCoordinates().getX() == coordinates.getX()
+            if (player != currentPlayer() && player.getCoordinates().getX() == coordinates.getX()
                     && player.getCoordinates().getY() == coordinates.getY()) {
-                System.out.println("collision!");
                 return true;
             }
         }
