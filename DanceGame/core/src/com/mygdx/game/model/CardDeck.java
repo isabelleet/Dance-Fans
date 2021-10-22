@@ -33,7 +33,7 @@ public class CardDeck {
      *
      * @param deck a list of cards the deck will contain.
      */
-    protected CardDeck(List<Card> deck) {
+    CardDeck(List<Card> deck) {
         this.pile = copyCards(deck);
         shuffleDeck(this.pile);
 
@@ -88,7 +88,7 @@ public class CardDeck {
      *
      * @return the steps from the currently selected card.
      */
-    protected int getSteps(int selected) {
+    int getSteps(int selected) {
         return hand.get(selected).getSteps();
     }
 
@@ -97,7 +97,7 @@ public class CardDeck {
      *
      * @return the dance pattern of the currently selected card.
      */
-    protected PatternOccupant[][] getPattern(int selected) {
+     PatternOccupant[][] getPattern(int selected) {
         return hand.get(selected).getDancePattern();
     }
 

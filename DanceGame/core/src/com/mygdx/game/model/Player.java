@@ -62,7 +62,7 @@ public class Player {
      *
      * @return a copy of the DanceFan.
      */
-    protected DanceFan getTransparentDanceFan() {
+    public DanceFan getTransparentDanceFan() {
         return new DanceFan(transDanceFan.getColor(), transDanceFan.getType(), transDanceFan.getCoordinates());
     }
 
@@ -73,7 +73,7 @@ public class Player {
      *
      * @return the color of the mainDancer.
      */
-    protected Color getColor() {
+    public Color getColor() {
         return mainDancer.getColor();
     }
 
@@ -82,7 +82,7 @@ public class Player {
      *
      * @return the coordinates of the mainDancer.
      */
-    protected Coordinates getCoordinates() {
+     Coordinates getCoordinates() {
         return mainDancer.getCoordinates();
     }
 
@@ -91,7 +91,7 @@ public class Player {
      *
      * @return the coordinates of the mainDancer in the preview.
      */
-    protected Coordinates getPreviewCoordinates() {
+    public Coordinates getPreviewCoordinates() {
         return mainDancer.getPreviewCoordinates();
     }
 
@@ -100,7 +100,7 @@ public class Player {
      *
      * @param coords the coordinates to change to.
      */
-    protected void setCoordinates(Coordinates coords) {
+     void setCoordinates(Coordinates coords) {
         mainDancer.setCoordinates(coords);
     }
 
@@ -109,7 +109,7 @@ public class Player {
      *
      * @param coords the coordinates to change to.
      */
-    protected void setPreviewCoordinates(Coordinates coords) {
+     void setPreviewCoordinates(Coordinates coords) {
         mainDancer.setPreviewCoordinates(coords);
     }
 
@@ -119,7 +119,7 @@ public class Player {
      * @param selected which of the cards on hand one wants to get the steps from
      * @return an int with the amount of steps a player can take.
      */
-    protected int getSteps(int selected) {
+     int getSteps(int selected) {
         return cardDeck.getSteps(selected);
     }
 
@@ -129,7 +129,7 @@ public class Player {
      * @param selected which of the cards on hand one wants to get the dance pattern from
      * @return the dance patter of the selected card
      */
-    protected PatternOccupant[][] getPattern(int selected) {
+     PatternOccupant[][] getPattern(int selected) {
         return cardDeck.getPattern(selected);
     }
 
@@ -138,7 +138,7 @@ public class Player {
      *
      * @return the cards a player can currently use.
      */
-    protected List<Card> getHand() {
+     List<Card> getHand() {
         return cardDeck.getOpen();
     }
 
@@ -147,7 +147,7 @@ public class Player {
      *
      * @param selected which card on hand one wants to use
      */
-    protected void useCard(int selected) {
+     void useCard(int selected) {
         cardDeck.useCard(selected);
     }
 }

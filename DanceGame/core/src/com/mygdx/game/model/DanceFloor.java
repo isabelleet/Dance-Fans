@@ -34,7 +34,7 @@ public class DanceFloor {
     public final int tileSideLength = tileHeight;
 
     // Constructor
-    protected DanceFloor() {
+    DanceFloor() {
         this.dfTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
         initializeDanceFloor();
     }
@@ -47,7 +47,7 @@ public class DanceFloor {
     /**
      * Fills the DanceFloor with empty tiles.
      */
-    protected void initializeDanceFloor() {
+    void initializeDanceFloor() {
         for (int row = 0; row < dfTiles.length; row++) {
             for (int col = 0; col < dfTiles[0].length; col++) {
                 this.dfTiles[row][col] = new DanceFloorTile(Color.NONE, Type.EMPTY);
@@ -60,7 +60,7 @@ public class DanceFloor {
      *
      * @return A copy of the danceFloor.
      */
-    protected DanceFloor copy() {
+    DanceFloor copy() {
         DanceFloorTile[][] copyTiles = new DanceFloorTile[mapHeightInTiles + 1][mapWidthInTiles + 1];
         for (int row = 0; row < dfTiles.length; row++) {
             for (int col = 0; col < dfTiles[0].length; col++) {
@@ -76,7 +76,7 @@ public class DanceFloor {
      *
      * @param coords which tile to update.
      */
-    protected void removeObjectFromTileIndex(Coordinates coords) {
+    void removeObjectFromTileIndex(Coordinates coords) {
         this.dfTiles[coords.getY()][coords.getX()] = new DanceFloorTile(Color.NONE, Type.EMPTY);
     }
 
@@ -86,7 +86,7 @@ public class DanceFloor {
      * @param coords      which tile to change.
      * @param floorObject which object to place on the tile.
      */
-    protected void newObjectOnTile(Coordinates coords, FloorObject floorObject) {
+    void newObjectOnTile(Coordinates coords, FloorObject floorObject) {
         this.dfTiles[coords.getY()][coords.getX()].setOccupant(floorObject);
     }
 
@@ -95,7 +95,7 @@ public class DanceFloor {
      *
      * @param mDancer the dancer to place.
      */
-    protected void newObjectOnTile(MainDancer mDancer) {
+     void newObjectOnTile(MainDancer mDancer) {
         int x = mDancer.getCoordinates().getX();
         int y = mDancer.getCoordinates().getY();
 
@@ -109,7 +109,7 @@ public class DanceFloor {
      * @param transDF  the type of transparent danceFan to draw
      * @param pattern  the pattern which new fans are to be added
      */
-    protected void addDFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern) {
+    public void addDFromPattern(Coordinates mdCoords, DanceFan transDF, PatternOccupant[][] pattern) {
         Coordinates offset = offsetCoordinates(pattern);
 
         for (int row = 0; row < pattern.length; row++) {

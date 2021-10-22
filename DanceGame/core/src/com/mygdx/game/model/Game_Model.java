@@ -173,7 +173,7 @@ public class Game_Model {
      */
     public boolean isGameDone() {
         // return true when game is finish
-        return (danceFloor.countTotalTiles() == 54 || turnNumber == maximumTurns);
+        return (danceFloor.countTotalTiles() == 54 || turnNumber >= maximumTurns);
     }
 
     /**
