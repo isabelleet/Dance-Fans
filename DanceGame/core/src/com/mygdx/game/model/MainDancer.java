@@ -27,7 +27,7 @@ public class MainDancer extends Dancer {
      * @param coords which coordinates it should start on.
      * @
      */
-    protected MainDancer(Color color, Coordinates coords) {
+     MainDancer(Color color, Coordinates coords) {
         super(color, Type.MD, coords);
     }
 
@@ -36,7 +36,7 @@ public class MainDancer extends Dancer {
      *
      * @return the coordinates in the preview.
      */
-    protected Coordinates getPreviewCoordinates() {
+     Coordinates getPreviewCoordinates() {
         return new Coordinates(preCoords);
     }
 
@@ -45,7 +45,7 @@ public class MainDancer extends Dancer {
      *
      * @param coords is the coordinates this has moved to in the preview.
      */
-    protected void setPreviewCoordinates(Coordinates coords) {
+     void setPreviewCoordinates(Coordinates coords) {
         this.preCoords = new Coordinates(coords);
     }
 }

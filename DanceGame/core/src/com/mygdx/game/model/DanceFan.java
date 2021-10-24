@@ -24,12 +24,9 @@ public class DanceFan extends Dancer {
      * @param color
      * @param coords
      */
-    protected DanceFan(Color color, Type type, Coordinates coords) {
+    DanceFan(Color color, Type type, Coordinates coords) {
         super(color, type, coords);
     }
 
-    public DanceFan(DanceFan danceFan) {
-        super(danceFan.getColor(), danceFan.getType(), danceFan.getCoordinates());
-    }
 
 }
