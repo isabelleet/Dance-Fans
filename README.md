@@ -1,5 +1,5 @@
 # TDA367-project
-## Introduction:
+
 The game is played by two players on the same computer. The goal is to have as many dance fans as  possible on the dance floor. When all places are occupied or enough rounds have passed the game ends, and the player with the most fans on the dance floor wins!
 
 ![danceFansRules](https://github.com/isabelleet/Dance-Fans/blob/main/images_readme/instructions_with_rounds_left.png?raw=true)
