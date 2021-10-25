@@ -6,7 +6,7 @@ The game is played by two players on the same computer. The goal is to have as m
 
 
 
-## Getting started:
+## Getting started
 This game is possible to play if you have [Java 12](https://www.oracle.com/java/technologies/javase/jdk12-archive-downloads.html) and [intelliJ](https://www.jetbrains.com/idea/download/#section=windows). 
 
 1. Either clone the repository, or download the project as a zip-file and extract.
@@ -17,11 +17,11 @@ This game is possible to play if you have [Java 12](https://www.oracle.com/java/
 In this repository there should also be a RAD document and a SDD document which can be found under "Documents".
 
 
-## Created by:
+## Created by
 Joar Granström, Hedy Pettersson, Jakob Persson, 
 Johan Berg, David Salmo, Isabelle Ermeryd Tankred
 
-## Other resources:
+## Other resources
 Built on the library [libGDX](https://github.com/libgdx/libgdx)
 Images created using [Figma](https://www.figma.com/)
 and [TexturePacker](https://www.codeandweb.com/texturepacker)
