@@ -2,6 +2,9 @@
 Introduction:
 The game is played by two players on the same computer. The goal is to have as many dance fans as  possible on the dance floor. When all places are occupied or enough rounds have passed the game ends, and the player with the most fans on the dance floor wins!
 
+![danceFansRules](https://github.com/isabelleet/Dance-Fans/blob/main/DanceGame/core/assets/instructions.png?raw=true)
+
+
 
 Getting started:
 This game is possible to play if you have [Java 12](https://www.oracle.com/java/technologies/javase/jdk12-archive-downloads.html) and [intelliJ](https://www.jetbrains.com/idea/download/#section=windows). 
